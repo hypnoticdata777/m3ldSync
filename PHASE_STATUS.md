@@ -114,6 +114,15 @@ Current note:
 
 ### Blocker 1 - Browser Interaction QA
 
+Status: Partially reduced
+
+Completed in this pass:
+
+- Added automated demo QA smoke checks.
+- Added in-app Demo QA status panel.
+- Added `tests/qa.test.mjs`.
+- Updated validation to check `src/qa.js` and QA tests.
+
 Need to verify in an actual browser:
 
 - Demo baseline loads correctly.

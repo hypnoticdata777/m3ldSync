@@ -37,6 +37,7 @@ Built capabilities:
 - Linked-record effective resolution
 - Per-record history
 - Synthetic public demo data
+- In-app demo QA status panel
 
 ## Data Privacy
 
@@ -75,6 +76,12 @@ node --check src/main.js
 node --check src/domain.js
 ```
 
+Run the full local validation helper:
+
+```powershell
+node scripts/validate.mjs
+```
+
 ## Project Structure
 
 ```text
@@ -101,4 +108,3 @@ scripts/serve.mjs       Local static preview server
 ## Current Status
 
 Phase 6 is complete. The next blocker is Phase 7A: browser interaction QA and UX hardening.
-

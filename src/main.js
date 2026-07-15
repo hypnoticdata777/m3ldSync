@@ -12,6 +12,7 @@ import {
   setRecordNote
 } from "./domain.js";
 import { demoBaselineCsv, demoFollowUpCsv } from "./demoData.js";
+import { runDemoQa } from "./qa.js";
 import { clearState, loadState, saveState } from "./storage.js";
 
 const app = document.querySelector("#app");
@@ -108,6 +109,8 @@ function render() {
       ${pendingImport ? renderImportPreview() : ""}
 
       ${renderImportLedger()}
+
+      ${renderQaPanel()}
 
       <section class="main-grid">
         <aside class="property-panel" aria-label="Property overview">
@@ -542,6 +545,31 @@ function renderImportBatch(batch) {
       <span>${formatDate(batch.uploadedAt)}</span>
       <p>${batch.rowCount} rows - ${batch.newCount} new - ${batch.statusChangedCount} changed - ${batch.staleCount} stale</p>
     </article>
+  `;
+}
+
+function renderQaPanel() {
+  const report = runDemoQa();
+  const allPassed = report.passed === report.total;
+  return `
+    <section class="qa-panel" aria-label="Demo QA status">
+      <div class="section-title">
+        <h2>Demo QA</h2>
+        <span class="${allPassed ? "qa-pass" : "qa-fail"}">${report.passed}/${report.total}</span>
+      </div>
+      <div class="qa-grid">
+        ${report.checks.map(renderQaCheck).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderQaCheck(item) {
+  return `
+    <div class="qa-check ${item.passed ? "passed" : "failed"}">
+      <strong>${escapeHtml(item.label)}</strong>
+      <span>${escapeHtml(item.detail)}</span>
+    </div>
   `;
 }
 

@@ -340,3 +340,43 @@ Confirm the GitHub upload succeeded after Carlos ran the Git commands from the n
 ### Outcome
 
 GitHub setup is complete. Phase 7A now moves fully to browser QA and UX hardening.
+
+## 2026-07-15 - Phase 7A QA Hardening
+
+### Goal
+
+Reduce the browser QA blocker by adding automated demo-flow smoke checks and surfacing their status inside the app.
+
+### Built
+
+- `src/qa.js` demo QA scenario.
+- `tests/qa.test.mjs`.
+- In-app Demo QA panel.
+- Validation now checks `src/qa.js` and runs QA tests.
+- QA checklist now separates automated smoke checks from remaining manual browser checks.
+
+### Good
+
+- Core demo workflow now has repeatable smoke coverage.
+- The dashboard can show whether the demo scenario is logically healthy.
+- The QA checks cover baseline parsing, follow-up import counts, commit/cancel assumptions, sticky manual overrides, linked resolution, and backup-shaped state.
+
+### Bad / Risks
+
+- This is not a replacement for real browser interaction QA.
+- Visual layout, click behavior, file picker behavior, download behavior, and responsive checks still require manual browser testing or a working browser automation tool.
+
+### I Did Not Know This Yet
+
+- Whether the public demo should expose the QA panel or keep it only for internal/private mode.
+- Whether future browser automation should be added through Playwright after the npm/PowerShell environment is cleaned up.
+
+### Outcome
+
+Automated QA smoke checks are now part of the app and test suite. Manual browser QA remains the next part of Phase 7A.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Test count increased from 6 to 7.
+- Local preview returned HTTP 200.

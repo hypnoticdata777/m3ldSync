@@ -290,6 +290,69 @@ h1 {
   line-height: 1.35;
 }
 
+.qa-panel {
+  margin-bottom: 14px;
+  border: 1px solid #cdded3;
+  border-radius: 8px;
+  background: #f8fbf8;
+  padding: 12px;
+}
+
+.qa-pass,
+.qa-fail {
+  border-radius: 999px;
+  padding: 4px 9px;
+  font-size: 0.75rem;
+}
+
+.qa-pass {
+  background: #dcece6;
+  color: #28624a;
+}
+
+.qa-fail {
+  background: #f7d3cc;
+  color: #8e2d20;
+}
+
+.qa-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(120px, 1fr));
+  gap: 8px;
+}
+
+.qa-check {
+  min-height: 72px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  padding: 10px;
+}
+
+.qa-check.passed {
+  border-left: 4px solid var(--green);
+}
+
+.qa-check.failed {
+  border-left: 4px solid var(--red);
+}
+
+.qa-check strong,
+.qa-check span {
+  display: block;
+}
+
+.qa-check strong {
+  font-size: 0.86rem;
+}
+
+.qa-check span {
+  margin-top: 6px;
+  color: var(--muted);
+  font-size: 0.8rem;
+  line-height: 1.35;
+}
+
 .metric {
   min-height: 70px;
   border: 1px solid var(--line);
@@ -663,6 +726,10 @@ h1 {
     grid-template-columns: repeat(2, minmax(160px, 1fr));
   }
 
+  .qa-grid {
+    grid-template-columns: repeat(3, minmax(120px, 1fr));
+  }
+
   .main-grid {
     grid-template-columns: 220px minmax(0, 1fr);
   }
@@ -698,6 +765,10 @@ h1 {
   }
 
   .import-ledger-list {
+    grid-template-columns: 1fr;
+  }
+
+  .qa-grid {
     grid-template-columns: 1fr;
   }
 

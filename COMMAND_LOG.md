@@ -77,6 +77,12 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7A | `git remote -v` | Verify GitHub remote after Carlos pushed. | `origin` points to `https://github.com/hypnoticdata777/m3ldSync.git` for fetch and push. |
 | Phase 7A | `git log -1 --oneline --decorate` | Verify latest local/remote commit after push. | `03408e1 (HEAD -> main, origin/main) Initial m3ldSync POC`. |
 | Phase 7A | `git ls-remote --heads origin main` | Try to verify remote head directly from Codex. | Blocked by missing Codex GitHub credentials; local tracking state and user screenshot confirm push succeeded. |
+| Phase 7A | `git status --short --branch` | Verify repo state after Carlos pushed doc update commit. | `main` tracks `origin/main` at `4692d8e Document Github setup completion`. |
+| Phase 7A | `Get-Content -LiteralPath 'src\main.js' -Raw` | Inspect current UI before adding QA hardening. | Confirmed current dashboard structure and demo import flow. |
+| Phase 7A | `Get-Content -LiteralPath 'src\domain.js' -Raw` | Inspect current domain helpers before adding QA smoke tests. | Confirmed parser, reconciliation, manual override, and linked-resolution APIs. |
+| Phase 7A | `node scripts/validate.mjs` | Validate after adding QA panel, QA module, and QA tests. | Passed syntax checks and 7 tests. |
+| Phase 7A | `Invoke-WebRequest -Uri 'http://localhost:4173'` | Confirm local preview still serves after QA hardening. | Returned `200`. |
+| Phase 7A | `git status --short --branch` | Inspect files changed by QA hardening. | Shows QA/source/doc changes pending commit. |
 
 ## Command Logging Rule
 

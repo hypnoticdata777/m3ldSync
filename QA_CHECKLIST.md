@@ -8,6 +8,19 @@ Use this checklist before relying on the private tool day to day or publishing a
 - [ ] Browser console has no uncaught errors on initial load.
 - [ ] App starts in Demo Data mode.
 - [ ] Real CSV file is not part of committed source.
+- [ ] Demo QA panel shows all checks passing.
+
+## Automated Smoke Checks
+
+These are covered by `src/qa.js` and `tests/qa.test.mjs`.
+
+- [x] Demo baseline parses.
+- [x] Demo follow-up identifies new, changed, and stale records.
+- [x] Cancel-safe state remains unchanged before commit.
+- [x] Commit state contains expected follow-up records and imports.
+- [x] Manual override survives a later import.
+- [x] Linked record resolution works.
+- [x] Backup-shaped state remains serializable.
 
 ## Demo Import Flow
 
@@ -87,4 +100,3 @@ Use this checklist before relying on the private tool day to day or publishing a
 - [ ] No real unit identifiers appear in screenshots.
 - [ ] No real descriptions appear in screenshots.
 - [ ] Public demo copy clearly indicates demo data.
-
