@@ -58,6 +58,7 @@ function render() {
   const records = filteredRecords();
   const selectedRecord = model.data.records[selectedRecordId] || records[0] || null;
   selectedRecordId = selectedRecord?.id || "";
+  const modeState = modeBadgeState();
 
   app.innerHTML = `
     <header class="app-header">
@@ -65,8 +66,8 @@ function render() {
         <p class="eyebrow">MeldSync</p>
         <h1>Recurring Work Order Reconciliation</h1>
       </div>
-      <div class="mode-pill ${model.mode === "private" ? "private" : "demo"}">
-        ${model.mode === "private" ? "Private Local Data" : "Demo Data"}
+      <div class="mode-pill ${modeState.className}">
+        ${modeState.label}
       </div>
     </header>
 
@@ -135,6 +136,34 @@ function render() {
   `;
 
   bindEvents();
+}
+
+function modeBadgeState() {
+  if (pendingImport?.mode === "private") {
+    return {
+      className: "private",
+      label: "Private Import Preview"
+    };
+  }
+
+  if (pendingImport?.mode === "demo") {
+    return {
+      className: "demo",
+      label: "Demo Import Preview"
+    };
+  }
+
+  if (model.mode === "private") {
+    return {
+      className: "private",
+      label: "Private Local Data"
+    };
+  }
+
+  return {
+    className: "demo",
+    label: "Demo Data"
+  };
 }
 
 function bindEvents() {

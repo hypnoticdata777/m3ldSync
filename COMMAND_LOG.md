@@ -83,6 +83,10 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7A | `node scripts/validate.mjs` | Validate after adding QA panel, QA module, and QA tests. | Passed syntax checks and 7 tests. |
 | Phase 7A | `Invoke-WebRequest -Uri 'http://localhost:4173'` | Confirm local preview still serves after QA hardening. | Returned `200`. |
 | Phase 7A | `git status --short --branch` | Inspect files changed by QA hardening. | Shows QA/source/doc changes pending commit. |
+| Phase 7A | Manual screenshot review | Verify local browser rendering through user-provided screenshots. | Confirmed local app, real CSV import preview, committed board, property list, detail panel, and Demo QA panel render on desktop. |
+| Phase 7A | `node scripts/validate.mjs` | Validate after mode badge and manual QA documentation updates. | Passed syntax checks and 7 tests. |
+| Phase 7A | `Invoke-WebRequest -Uri 'http://localhost:4173'` | Confirm local preview remains reachable after badge update. | Returned `200`. |
+| Phase 7A | `git status --short --branch` | Inspect files changed by screenshot QA follow-up. | Shows updates to logs, QA docs, phase status, and `src/main.js`. |
 
 ## Command Logging Rule
 

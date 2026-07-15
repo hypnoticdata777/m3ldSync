@@ -4,11 +4,11 @@ Use this checklist before relying on the private tool day to day or publishing a
 
 ## Environment
 
-- [ ] Local preview opens at `http://localhost:4173`.
+- [x] Local preview opens at `http://localhost:4173`.
 - [ ] Browser console has no uncaught errors on initial load.
-- [ ] App starts in Demo Data mode.
+- [x] App starts in Demo Data mode.
 - [ ] Real CSV file is not part of committed source.
-- [ ] Demo QA panel shows all checks passing.
+- [x] Demo QA panel shows all checks passing.
 
 ## Automated Smoke Checks
 
@@ -39,12 +39,12 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 
 ## Private CSV Import Flow
 
-- [ ] Click `Import CSV`.
-- [ ] Select a Property Meld export.
-- [ ] Confirm app switches to Private Local Data only after commit.
-- [ ] Confirm import preview appears before commit.
+- [x] Click `Import CSV`.
+- [x] Select a Property Meld export.
+- [x] Confirm import preview appears before commit.
+- [x] Confirm app switches to Private Local Data after commit.
 - [ ] Confirm canceling does not commit private data.
-- [ ] Confirm committing stores data locally.
+- [x] Confirm committing stores data locally.
 - [ ] Refresh page.
 - [ ] Confirm private data persists locally.
 
@@ -86,12 +86,12 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 
 ## Responsive Layout
 
-- [ ] Check desktop width.
+- [x] Check desktop width.
 - [ ] Check tablet/narrow browser width.
 - [ ] Check mobile-width browser.
-- [ ] Confirm no text overlaps.
-- [ ] Confirm board remains scrollable.
-- [ ] Confirm detail panel remains usable.
+- [x] Confirm no obvious desktop text overlaps from screenshot review.
+- [x] Confirm board remains scrollable.
+- [x] Confirm detail panel remains usable.
 
 ## Public Demo Safety
 
@@ -100,3 +100,15 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [ ] No real unit identifiers appear in screenshots.
 - [ ] No real descriptions appear in screenshots.
 - [ ] Public demo copy clearly indicates demo data.
+
+## Manual QA Evidence
+
+2026-07-15 screenshot review confirmed:
+
+- Local app loads at `localhost:4173`.
+- Private CSV import preview appears with 502 rows.
+- Real CSV commit produces the operational Kanban board.
+- Property list, board columns, and detail panel render on desktop.
+- Demo QA panel shows passing checks.
+
+Important: screenshots from the real CSV import contain real property/unit/work-order details and must not be used for public portfolio materials.

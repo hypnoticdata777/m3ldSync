@@ -380,3 +380,25 @@ Automated QA smoke checks are now part of the app and test suite. Manual browser
 - `node scripts/validate.mjs` passed.
 - Test count increased from 6 to 7.
 - Local preview returned HTTP 200.
+
+### Manual Screenshot Review
+
+User-provided screenshots confirmed:
+
+- The app loads locally at `localhost:4173`.
+- Real CSV import preview renders with 502 rows.
+- The committed private-data board renders with property list, Kanban columns, detail panel, and scrollable regions.
+- Demo QA panel shows passing checks.
+
+Privacy note:
+
+- These screenshots contain real property/unit/work-order data and should not be used as public demo or portfolio screenshots.
+
+### UX Follow-Up
+
+- Header mode badge now distinguishes `Private Import Preview` from regular `Demo Data` while a real CSV import is pending.
+
+### Validation
+
+- `node scripts/validate.mjs` passed after the badge update.
+- Local preview returned HTTP 200.

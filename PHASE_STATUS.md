@@ -122,19 +122,19 @@ Completed in this pass:
 - Added in-app Demo QA status panel.
 - Added `tests/qa.test.mjs`.
 - Updated validation to check `src/qa.js` and QA tests.
+- Manual screenshot review confirms local load, private import preview, committed board, property list, detail panel, and Demo QA panel rendering on desktop.
 
 Need to verify in an actual browser:
 
-- Demo baseline loads correctly.
-- Demo follow-up import preview appears.
-- Commit import updates board, import ledger, and counts.
+- Demo follow-up import preview appears from the synthetic demo flow.
+- Commit demo import updates board, import ledger, and counts.
 - Cancel import leaves state unchanged.
 - Manual status override survives later import.
 - Linked record effective resolution works from the UI.
 - Backup export downloads JSON.
 - Restore backup replaces local state.
 - Reset confirmation behaves correctly.
-- Mobile/narrow layout remains readable.
+- Tablet/mobile/narrow layout remains readable.
 
 ## Important Privacy Rule
 
