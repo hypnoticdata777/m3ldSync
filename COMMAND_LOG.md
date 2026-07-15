@@ -73,6 +73,10 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7A | `node scripts/validate.mjs` | Final validation after GitHub remote handoff doc updates. | Passed syntax checks and 6 tests. |
 | Phase 7A | `git -c safe.directory='C:/Users/hypno/OneDrive/Desktop/m3ldSync' status --short --ignored` | Final safety check after remote attempt. | Public files remain untracked; private CSV remains ignored. |
 | Phase 7A | `git -c safe.directory='C:/Users/hypno/OneDrive/Desktop/m3ldSync' remote -v` | Confirm whether the remote was written despite earlier error. | No remote configured. |
+| Phase 7A | `git status --short --branch` | Verify repo state after Carlos pushed from normal terminal. | `main` is tracking `origin/main` with no uncommitted changes shown. |
+| Phase 7A | `git remote -v` | Verify GitHub remote after Carlos pushed. | `origin` points to `https://github.com/hypnoticdata777/m3ldSync.git` for fetch and push. |
+| Phase 7A | `git log -1 --oneline --decorate` | Verify latest local/remote commit after push. | `03408e1 (HEAD -> main, origin/main) Initial m3ldSync POC`. |
+| Phase 7A | `git ls-remote --heads origin main` | Try to verify remote head directly from Codex. | Blocked by missing Codex GitHub credentials; local tracking state and user screenshot confirm push succeeded. |
 
 ## Command Logging Rule
 

@@ -95,23 +95,37 @@ Need to verify in an actual browser:
 
 ### Blocker 2 - GitHub Repo Setup
 
-Need to:
+Status: Complete
 
-- Reinitialize or continue local Git from Carlos's normal Windows user terminal.
-- Commit safe public files only.
-- Create empty GitHub repo.
-- Add GitHub remote.
-- Push initial commit.
-- Confirm private CSV remains untracked/ignored.
+Completed:
+
+- Local Git repository was initialized from Carlos's normal Windows terminal.
+- Safe public files were committed.
+- GitHub repo was created.
+- Remote `origin` was added.
+- `main` was pushed and set to track `origin/main`.
 
 Current note:
 
-- Codex initialized `.git`.
-- Codex confirmed the private CSV is ignored.
-- Codex could not stage files because Windows ACLs blocked `.git/index.lock`.
-- Codex could not add the remote because Windows ACLs blocked `.git/config`.
 - GitHub repo exists at `https://github.com/hypnoticdata777/m3ldSync.git`.
-- Recommended next action: run the Git commands in `GITHUB_HANDOFF.md` from Carlos's normal terminal.
+- Latest verified local commit: `03408e1 Initial m3ldSync POC`.
+
+## Next Active Blocker
+
+### Blocker 1 - Browser Interaction QA
+
+Need to verify in an actual browser:
+
+- Demo baseline loads correctly.
+- Demo follow-up import preview appears.
+- Commit import updates board, import ledger, and counts.
+- Cancel import leaves state unchanged.
+- Manual status override survives later import.
+- Linked record effective resolution works from the UI.
+- Backup export downloads JSON.
+- Restore backup replaces local state.
+- Reset confirmation behaves correctly.
+- Mobile/narrow layout remains readable.
 
 ## Important Privacy Rule
 

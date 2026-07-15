@@ -74,7 +74,19 @@ When you run Git directly in your own terminal, you may not need this override.
 
 ## Current Local Git Note
 
-Codex initialized `.git`, but Windows ACLs blocked Codex from creating `.git/index.lock` and later blocked writing `.git/config`, so Codex could not stage, commit, or add the remote.
+Status: Complete.
+
+Carlos ran the Git commands from the normal Windows terminal and pushed the initial commit.
+
+Verified locally:
+
+```text
+main tracks origin/main
+origin https://github.com/hypnoticdata777/m3ldSync.git
+03408e1 Initial m3ldSync POC
+```
+
+Historical note: Codex initialized `.git`, but Windows ACLs blocked Codex from creating `.git/index.lock` and later blocked writing `.git/config`, so Codex could not stage, commit, or add the remote.
 
 Recommended fix from your normal Windows user terminal:
 
