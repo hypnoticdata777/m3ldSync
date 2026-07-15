@@ -353,6 +353,71 @@ h1 {
   line-height: 1.35;
 }
 
+.walkthrough-panel {
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 12px;
+}
+
+.walkthrough-grid {
+  display: grid;
+  grid-template-columns: repeat(7, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.walkthrough-step {
+  display: grid;
+  align-content: start;
+  gap: 8px;
+  min-height: 150px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fbfcfa;
+  padding: 10px;
+}
+
+.walkthrough-step.passed {
+  border-top: 4px solid var(--green);
+}
+
+.walkthrough-step.failed {
+  border-top: 4px solid var(--red);
+}
+
+.step-topline {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.step-topline strong {
+  line-height: 1.25;
+}
+
+.step-topline span {
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: #e4efe9;
+  color: #285c42;
+  padding: 3px 7px;
+  font-size: 0.7rem;
+  font-weight: 800;
+}
+
+.walkthrough-step p {
+  color: var(--text);
+  font-size: 0.82rem;
+  line-height: 1.35;
+}
+
+.walkthrough-step small {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .metric {
   min-height: 70px;
   border: 1px solid var(--line);
@@ -730,6 +795,10 @@ h1 {
     grid-template-columns: repeat(3, minmax(120px, 1fr));
   }
 
+  .walkthrough-grid {
+    grid-template-columns: repeat(2, minmax(180px, 1fr));
+  }
+
   .main-grid {
     grid-template-columns: 220px minmax(0, 1fr);
   }
@@ -769,6 +838,10 @@ h1 {
   }
 
   .qa-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .walkthrough-grid {
     grid-template-columns: 1fr;
   }
 

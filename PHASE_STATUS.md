@@ -123,9 +123,11 @@ Completed in this pass:
 - Added `tests/qa.test.mjs`.
 - Updated validation to check `src/qa.js` and QA tests.
 - Manual screenshot review confirms local load, private import preview, committed board, property list, detail panel, and Demo QA panel rendering on desktop.
+- Added guided Demo Walkthrough panel mapped to automated QA checks.
 
 Need to verify in an actual browser:
 
+- Demo Walkthrough panel shows seven ready steps.
 - Demo follow-up import preview appears from the synthetic demo flow.
 - Commit demo import updates board, import ledger, and counts.
 - Cancel import leaves state unchanged.

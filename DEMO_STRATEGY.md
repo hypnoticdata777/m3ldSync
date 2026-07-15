@@ -30,6 +30,7 @@ Default mode:
 
 - Start in Demo Data mode.
 - Show a synthetic portfolio already loaded.
+- Show a guided walkthrough of the demo flow.
 - Provide a button to run a follow-up import.
 - Show new, changed, and stale counts immediately after the follow-up import.
 - Let visitors manually mark a record complete.
@@ -78,4 +79,3 @@ The most important proof points to show:
 - Too much fake data would make the app feel noisy instead of sharp.
 - Real data in screenshots or fixtures would create privacy risk.
 - Login-first design would hide the core workflow from portfolio visitors.
-

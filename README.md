@@ -38,6 +38,7 @@ Built capabilities:
 - Per-record history
 - Synthetic public demo data
 - In-app demo QA status panel
+- Guided demo walkthrough
 
 ## Data Privacy
 
@@ -89,6 +90,7 @@ index.html              Browser app entry
 src/domain.js           CSV parser and reconciliation engine
 src/main.js             UI rendering and local interactions
 src/demoData.js         Synthetic demo CSV snapshots
+src/qa.js               Demo QA and walkthrough scenario
 src/storage.js          Browser localStorage helpers
 tests/reconcile.test.mjs Core reconciliation tests
 scripts/serve.mjs       Local static preview server
@@ -107,4 +109,4 @@ scripts/serve.mjs       Local static preview server
 
 ## Current Status
 
-Phase 6 is complete. The next blocker is Phase 7A: browser interaction QA and UX hardening.
+Phase 7A is in progress. Automated demo QA and the guided walkthrough are complete; manual browser interaction and responsive checks remain.

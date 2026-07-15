@@ -87,6 +87,13 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7A | `node scripts/validate.mjs` | Validate after mode badge and manual QA documentation updates. | Passed syntax checks and 7 tests. |
 | Phase 7A | `Invoke-WebRequest -Uri 'http://localhost:4173'` | Confirm local preview remains reachable after badge update. | Returned `200`. |
 | Phase 7A | `git status --short --branch` | Inspect files changed by screenshot QA follow-up. | Shows updates to logs, QA docs, phase status, and `src/main.js`. |
+| Phase 7A | `git status --short --branch` | Confirm repo was clean before adding the walkthrough. | `main` was tracking `origin/main` with no pending changes. |
+| Phase 7A | `Get-Content -LiteralPath 'src\main.js' -Raw` | Inspect current UI before adding walkthrough. | Confirmed QA panel location and dashboard render flow. |
+| Phase 7A | `Get-Content -LiteralPath 'src\qa.js' -Raw` | Inspect current QA helper before adding walkthrough data. | Confirmed existing seven-check QA scenario. |
+| Phase 7A | `Get-Content -LiteralPath 'src\styles.css' -Raw` | Inspect current layout styles before adding walkthrough styles. | Confirmed responsive sections for QA and dashboard panels. |
+| Phase 7A | `node scripts/validate.mjs` | Validate after adding guided walkthrough. | Passed syntax checks and 8 tests. |
+| Phase 7A | `Invoke-WebRequest -Uri 'http://localhost:4173'` | Confirm local preview remains reachable after walkthrough. | Returned `200`. |
+| Phase 7A | `git status --short --branch` | Inspect files changed by walkthrough batch. | Shows walkthrough source, styles, test, and documentation updates pending commit. |
 
 ## Command Logging Rule
 

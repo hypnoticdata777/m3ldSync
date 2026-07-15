@@ -9,6 +9,7 @@ Use this checklist before relying on the private tool day to day or publishing a
 - [x] App starts in Demo Data mode.
 - [ ] Real CSV file is not part of committed source.
 - [x] Demo QA panel shows all checks passing.
+- [ ] Demo Walkthrough panel shows seven ready steps.
 
 ## Automated Smoke Checks
 
@@ -21,6 +22,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Manual override survives a later import.
 - [x] Linked record resolution works.
 - [x] Backup-shaped state remains serializable.
+- [x] Walkthrough steps map to automated QA checks.
 
 ## Demo Import Flow
 

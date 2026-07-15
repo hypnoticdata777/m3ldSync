@@ -402,3 +402,44 @@ Privacy note:
 
 - `node scripts/validate.mjs` passed after the badge update.
 - Local preview returned HTTP 200.
+
+## 2026-07-15 - Phase 7A Demo Walkthrough
+
+### Goal
+
+Make the manual QA and public demo path easier to follow by adding a guided walkthrough tied to the automated QA checks.
+
+### Built
+
+- Demo walkthrough data in `src/qa.js`.
+- `getDemoWalkthrough()` helper.
+- Walkthrough coverage in `tests/qa.test.mjs`.
+- In-app Demo Walkthrough panel.
+- Responsive walkthrough card styling.
+- README, QA checklist, phase status, and demo strategy updates.
+
+### Good
+
+- The dashboard now explains the intended demo flow without relying on external instructions.
+- Each walkthrough step maps to an automated QA check.
+- This helps both manual QA and eventual portfolio visitors.
+
+### Bad / Risks
+
+- The walkthrough is currently informational; it does not drive the UI or mark user-clicked steps complete.
+- Manual browser QA is still needed to verify click behavior and responsive layout.
+
+### I Did Not Know This Yet
+
+- Whether the walkthrough should remain visible in the private real-data mode.
+- Whether the public version should hide advanced private controls such as restore backup.
+
+### Outcome
+
+Phase 7A now has a guided demo walkthrough connected to automated smoke checks.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Test count increased from 7 to 8.
+- Local preview returned HTTP 200.

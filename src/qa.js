@@ -9,6 +9,58 @@ import {
 } from "./domain.js";
 import { demoBaselineCsv, demoFollowUpCsv } from "./demoData.js";
 
+export const DEMO_WALKTHROUGH_STEPS = [
+  {
+    id: "baseline",
+    title: "Start with demo data",
+    action: "Load Demo Baseline",
+    expected: "Six synthetic work orders appear with open, completed, and property-level context.",
+    qaCheck: "Demo baseline"
+  },
+  {
+    id: "preview",
+    title: "Preview a follow-up import",
+    action: "Run Demo Follow-Up Import",
+    expected: "The import preview shows one new record, two changed records, and one stale record.",
+    qaCheck: "Follow-up preview"
+  },
+  {
+    id: "cancel",
+    title: "Cancel safely",
+    action: "Cancel",
+    expected: "The board remains on the baseline dataset because the preview was not committed.",
+    qaCheck: "Cancel-safe state"
+  },
+  {
+    id: "commit",
+    title: "Commit the follow-up",
+    action: "Run follow-up again, then Commit Import",
+    expected: "The board updates to seven records and the import ledger records the batch.",
+    qaCheck: "Commit state"
+  },
+  {
+    id: "manual",
+    title: "Protect a manual correction",
+    action: "Change a record status manually",
+    expected: "The manual status remains authoritative when a later import disagrees.",
+    qaCheck: "Sticky manual override"
+  },
+  {
+    id: "linked",
+    title: "Resolve through a follow-up",
+    action: "Link MS-1001 to MS-1002",
+    expected: "The original pending ticket is treated as effectively resolved by the completed follow-up.",
+    qaCheck: "Linked resolution"
+  },
+  {
+    id: "backup",
+    title: "Preserve local work",
+    action: "Export Backup",
+    expected: "Records, history, and import batches are saved as a local JSON backup.",
+    qaCheck: "Backup shape"
+  }
+];
+
 export function runDemoQa() {
   const checks = [];
 
@@ -88,6 +140,20 @@ export function runDemoQa() {
   };
 }
 
+export function getDemoWalkthrough(qaReport = runDemoQa()) {
+  const checksByLabel = new Map(qaReport.checks.map((item) => [item.label, item]));
+
+  return DEMO_WALKTHROUGH_STEPS.map((step, index) => {
+    const checkResult = checksByLabel.get(step.qaCheck);
+    return {
+      ...step,
+      number: index + 1,
+      passed: Boolean(checkResult?.passed),
+      detail: checkResult?.detail || "Not checked"
+    };
+  });
+}
+
 function check(label, passed, detail) {
   return {
     label,
@@ -95,4 +161,3 @@ function check(label, passed, detail) {
     detail
   };
 }
-

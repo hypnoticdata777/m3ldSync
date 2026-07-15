@@ -12,7 +12,7 @@ import {
   setRecordNote
 } from "./domain.js";
 import { demoBaselineCsv, demoFollowUpCsv } from "./demoData.js";
-import { runDemoQa } from "./qa.js";
+import { getDemoWalkthrough, runDemoQa } from "./qa.js";
 import { clearState, loadState, saveState } from "./storage.js";
 
 const app = document.querySelector("#app");
@@ -112,6 +112,8 @@ function render() {
       ${renderImportLedger()}
 
       ${renderQaPanel()}
+
+      ${renderWalkthroughPanel()}
 
       <section class="main-grid">
         <aside class="property-panel" aria-label="Property overview">
@@ -599,6 +601,36 @@ function renderQaCheck(item) {
       <strong>${escapeHtml(item.label)}</strong>
       <span>${escapeHtml(item.detail)}</span>
     </div>
+  `;
+}
+
+function renderWalkthroughPanel() {
+  const report = runDemoQa();
+  const steps = getDemoWalkthrough(report);
+  return `
+    <section class="walkthrough-panel" aria-label="Demo walkthrough">
+      <div class="section-title">
+        <h2>Demo Walkthrough</h2>
+        <span>${steps.filter((step) => step.passed).length}/${steps.length}</span>
+      </div>
+      <div class="walkthrough-grid">
+        ${steps.map(renderWalkthroughStep).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderWalkthroughStep(step) {
+  return `
+    <article class="walkthrough-step ${step.passed ? "passed" : "failed"}">
+      <div class="step-topline">
+        <strong>${step.number}. ${escapeHtml(step.title)}</strong>
+        <span>${step.passed ? "Ready" : "Check"}</span>
+      </div>
+      <p><b>Action:</b> ${escapeHtml(step.action)}</p>
+      <p><b>Expected:</b> ${escapeHtml(step.expected)}</p>
+      <small>${escapeHtml(step.detail)}</small>
+    </article>
   `;
 }
 

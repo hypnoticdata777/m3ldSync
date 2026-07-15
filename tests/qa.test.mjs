@@ -1,6 +1,6 @@
 import assert from "node:assert/strict";
 import test from "node:test";
-import { runDemoQa } from "../src/qa.js";
+import { DEMO_WALKTHROUGH_STEPS, getDemoWalkthrough, runDemoQa } from "../src/qa.js";
 
 test("demo QA scenario passes all checks", () => {
   const result = runDemoQa();
@@ -21,3 +21,14 @@ test("demo QA scenario passes all checks", () => {
   );
 });
 
+test("demo walkthrough maps to QA checks", () => {
+  const report = runDemoQa();
+  const walkthrough = getDemoWalkthrough(report);
+
+  assert.equal(walkthrough.length, DEMO_WALKTHROUGH_STEPS.length);
+  assert.equal(walkthrough.every((step) => step.passed), true);
+  assert.deepEqual(
+    walkthrough.map((step) => step.number),
+    [1, 2, 3, 4, 5, 6, 7]
+  );
+});
