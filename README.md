@@ -1,0 +1,104 @@
+# MeldSync
+
+Recurring work order reconciliation and Kanban triage for Property Meld-style CSV exports.
+
+## What It Does
+
+MeldSync turns repeated maintenance CSV exports into operational memory.
+
+It helps answer:
+
+- Which work orders are new since the last export?
+- Which records changed status?
+- Which records disappeared from the latest export and need verification?
+- Which manual corrections should survive future imports?
+- Which properties have the oldest unresolved work?
+- Which original tickets are effectively resolved by linked follow-up tickets?
+
+## Current POC
+
+This repository currently contains a local browser-based proof of concept.
+
+Built capabilities:
+
+- Strict CSV schema validation
+- Property Meld export parsing
+- Reconciliation engine
+- Idempotent re-import behavior
+- Sticky manual status overrides
+- Stale record detection
+- Import preview before commit
+- Recent import history
+- Local browser persistence
+- JSON backup and restore
+- Kanban board by effective status
+- Property-level triage panel
+- Record notes
+- Linked-record effective resolution
+- Per-record history
+- Synthetic public demo data
+
+## Data Privacy
+
+The real Property Meld CSV export is private and must not be committed or published.
+
+The public demo uses synthetic data only. The real export filename pattern is ignored by `.gitignore`.
+
+## Run Locally
+
+Requirements:
+
+- Node.js 24 or newer
+
+Start the local preview:
+
+```powershell
+node scripts/serve.mjs
+```
+
+Open:
+
+```text
+http://localhost:4173
+```
+
+Run tests:
+
+```powershell
+node --test tests/*.test.mjs
+```
+
+Run syntax checks:
+
+```powershell
+node --check src/main.js
+node --check src/domain.js
+```
+
+## Project Structure
+
+```text
+index.html              Browser app entry
+src/domain.js           CSV parser and reconciliation engine
+src/main.js             UI rendering and local interactions
+src/demoData.js         Synthetic demo CSV snapshots
+src/storage.js          Browser localStorage helpers
+tests/reconcile.test.mjs Core reconciliation tests
+scripts/serve.mjs       Local static preview server
+```
+
+## Documentation
+
+- `ROADMAP.md` - build phases and product direction
+- `PHASE_STATUS.md` - current completed phase and next blockers
+- `ARCHITECTURE.md` - data flow and domain model notes
+- `DEMO_STRATEGY.md` - public demo positioning
+- `QA_CHECKLIST.md` - browser/manual QA checklist
+- `GITHUB_HANDOFF.md` - instructions for creating and connecting a GitHub repo
+- `BUILD_LOG.md` - detailed phase-by-phase build notes
+- `COMMAND_LOG.md` - command, purpose, and outcome tracker
+
+## Current Status
+
+Phase 6 is complete. The next blocker is Phase 7A: browser interaction QA and UX hardening.
+

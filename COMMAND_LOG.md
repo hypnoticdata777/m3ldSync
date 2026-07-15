@@ -1,0 +1,84 @@
+# MeldSync Command Log
+
+This log records terminal commands used during the build, why they were run, and what came out of them.
+
+## 2026-07-15
+
+| Phase | Command | Purpose | Outcome |
+| --- | --- | --- | --- |
+| Discovery | `Get-ChildItem -LiteralPath 'C:\Users\hypno\OneDrive\Desktop\m3ldSync' -Force` | Check the project folder contents. | Confirmed the folder contained the product spec, then later the CSV export. |
+| Discovery | `git -C 'C:\Users\hypno\OneDrive\Desktop\m3ldSync' status --short --branch` | Check whether the folder was already a Git repository. | It was not a Git repository. |
+| CSV Analysis | `Import-Csv -LiteralPath '<csv path>'` | Inspect the real Property Meld export schema. | Confirmed 502 rows and 11 columns. |
+| CSV Analysis | `Group-Object 'Meld Status'` | Identify available status values. | Found completed, canceled, and pending status values. |
+| CSV Analysis | `Group-Object Priority` | Identify available priority values. | Found Low, Medium, High, and Emergency. |
+| CSV Analysis | Date parsing with PowerShell `[datetime]::Parse(...)` | Verify export date format. | Confirmed dates parse consistently as `MM/dd/yyyy HH:mm`. |
+| Phase 0 | `Get-ChildItem -LiteralPath 'C:\Users\hypno\OneDrive\Desktop\m3ldSync' -Force` | Inspect current project files before scaffolding. | Confirmed docs and the private CSV export are present. |
+| Phase 0 | `node --version` | Check whether local JavaScript runtime exists. | Node is available as `v24.16.0`. |
+| Phase 0 | `npm --version` | Check package manager availability. | PowerShell blocked `npm.ps1` because script execution is disabled. |
+| Phase 0 | `Test-Path -LiteralPath 'C:\Users\hypno\OneDrive\Desktop\m3ldSync\.openai\hosting.json'` | Check whether this is already a Sites-hosted project. | No hosting config exists; project remains local-only. |
+| Phase 1-2 | `node --test tests/*.test.mjs` | Validate CSV parsing and reconciliation behavior. | Passed 5 tests covering parser contract, idempotent re-imports, follow-up diffs, sticky manual overrides, and missing-column errors. |
+| Phase 0-4 | `node scripts/serve.mjs` | Start the local MeldSync preview server. | Server started at `http://localhost:4173`. |
+| Validation | `(Invoke-WebRequest -Uri 'http://localhost:4173' -UseBasicParsing).StatusCode` | Check that the local app shell is reachable. | Returned `200`. |
+| Validation | `(Invoke-WebRequest -Uri 'http://localhost:4173/src/main.js' -UseBasicParsing).StatusCode` | Check that the browser app module is reachable. | Returned `200`. |
+| Validation | `node --check src/main.js` | Check main UI module syntax. | Passed with no syntax errors. |
+| Validation | `node --check src/domain.js` | Check domain module syntax. | Passed with no syntax errors. |
+| Validation | `node --test tests/*.test.mjs` | Re-run core test suite after docs and UI wiring. | Passed 5 tests. |
+| Phase 5 | `Get-ChildItem -LiteralPath 'C:\Users\hypno\OneDrive\Desktop\m3ldSync' -Force` | Inspect current project files before continuing. | Confirmed app files, docs, tests, and the private CSV are present. |
+| Phase 5 | `Invoke-WebRequest -Uri 'http://localhost:4173'` | Check whether the existing local preview server is still running. | Returned `200`. |
+| Phase 5 | `git status --short --branch` | Check whether the project is already under Git. | Not a Git repository yet. |
+| Phase 5 | `node --check src/main.js` | Validate syntax after adding import preview, backup, and restore. | Passed with no syntax errors. |
+| Phase 5 | `node --check src/domain.js` | Validate domain syntax after UI changes. | Passed with no syntax errors. |
+| Phase 5 | `node --test tests/*.test.mjs` | Re-run reconciliation tests after app changes. | Passed 5 tests. |
+| Phase 5 | `Invoke-WebRequest -Uri 'http://localhost:4173'` | Confirm app shell remains reachable. | Returned `200`. |
+| Phase 5 | `Invoke-WebRequest -Uri 'http://localhost:4173/src/main.js'` | Confirm main app module remains reachable. | Returned `200`. |
+| Phase 5 | `Invoke-WebRequest -Uri 'http://localhost:4173/src/styles.css'` | Confirm stylesheet remains reachable. | Returned `200`. |
+| Phase 5 | `node -e "...parsePropertyMeldCsv(...real csv...)"` | Verify the JavaScript parser handles the real copied export without exposing row details. | Parsed 502 rows, 502 unique IDs, and 164 blank completion dates. |
+| Phase 5b | `node --check src/main.js` | Validate syntax after adding row-level import preview lists. | Passed with no syntax errors. |
+| Phase 5b | `node --check src/domain.js` | Validate syntax after adding preview ID arrays to reconciliation output. | Passed with no syntax errors. |
+| Phase 5b | `node --test tests/*.test.mjs` | Confirm preview ID arrays are covered by reconciliation tests. | Passed 5 tests. |
+| Phase 5b | `node -e "...parsePropertyMeldCsv(...real csv...)"` | Re-check real export parsing after reconciliation output changes. | Parsed 502 rows, 502 unique IDs, and 164 blank completion dates. |
+| Phase 5b | `Invoke-WebRequest -Uri 'http://localhost:4173'` | Confirm local app shell remains reachable. | Returned `200`. |
+| Phase 5b | `Invoke-WebRequest -Uri 'http://localhost:4173/src/main.js'` | Confirm main app module remains reachable. | Returned `200`. |
+| Phase 5b | `Invoke-WebRequest -Uri 'http://localhost:4173/src/styles.css'` | Confirm stylesheet remains reachable. | Returned `200`. |
+| Phase 6 | `Get-Content -LiteralPath '<sites-building SKILL.md>' -Raw` | Re-read the local website-building guidance for the next app phase. | Confirmed this remains local-only capability work, not a hosted Sites deployment. |
+| Phase 6 | `Invoke-WebRequest -Uri 'http://localhost:4173'` | Check whether the local preview server is still running before editing. | Returned `200`. |
+| Phase 6 | `Select-String -LiteralPath 'src\main.js' -Pattern ...` | Locate exact UI functions before patching linked-record and audit UI. | Found render, preview, board, card, detail, history, and batch summary sections. |
+| Phase 6 | `node --check src/main.js` | Validate syntax after linked-resolution, import ledger, and preview UI changes. | Passed with no syntax errors. |
+| Phase 6 | `node --check src/domain.js` | Validate syntax after effective-status and linked-record history changes. | Passed with no syntax errors. |
+| Phase 6 | `node --test tests/*.test.mjs` | Validate parser, reconciliation, sticky manual overrides, preview details, and linked-resolution behavior. | Passed 6 tests. |
+| Phase 6 | `Select-String -LiteralPath 'src\main.js','src\styles.css','src\domain.js' -Pattern '·|→|Â|—'` | Check for non-ASCII separators that had previously appeared in UI strings. | No matches found. |
+| Phase 6 | `Invoke-WebRequest -Uri 'http://localhost:4173'` | Confirm local app shell remains reachable. | Returned `200`. |
+| Phase 6 | `Invoke-WebRequest -Uri 'http://localhost:4173/src/main.js'` | Confirm main app module remains reachable. | Returned `200`. |
+| Phase 6 | `Invoke-WebRequest -Uri 'http://localhost:4173/src/styles.css'` | Confirm stylesheet remains reachable. | Returned `200`. |
+| Phase 6 | `node -e "...parsePropertyMeldCsv(...real csv...)"` | Re-check real copied export parsing after linked-record changes. | Parsed 502 rows, 502 unique IDs, and 164 blank completion dates. |
+| Phase 7A | `Get-Content -LiteralPath '<sites-building SKILL.md>' -Raw` | Re-read local website guidance before QA/handoff work. | Confirmed local-only workflow remains appropriate. |
+| Phase 7A | `Get-ChildItem -LiteralPath 'C:\Users\hypno\OneDrive\Desktop\m3ldSync' -Force` | Inspect project contents before GitHub preparation. | Confirmed source, tests, docs, and private CSV are present. |
+| Phase 7A | `Get-Content -LiteralPath '.gitignore' -Raw` | Confirm privacy ignore rules before Git initialization. | Confirmed real Meld export pattern is ignored; then expanded backup/env ignores. |
+| Phase 7A | `git status --short --branch` | Check whether the project already had Git initialized. | Not a Git repository yet. |
+| Phase 7A | `node scripts/validate.mjs` | Run consolidated syntax/test validation. | Passed after fixing a Node spawn warning in the helper script. |
+| Phase 7A | `Invoke-WebRequest -Uri 'http://localhost:4173'` | Confirm local preview remains reachable. | Returned `200`. |
+| Phase 7A | `node -e "...parsePropertyMeldCsv(...real csv...)"` | Re-check real export parser compatibility. | Parsed 502 rows, 502 unique IDs, and 164 blank completion dates. |
+| Phase 7A | `git init` | Initialize local Git repository for GitHub upload readiness. | Initialized `.git` in the project folder. |
+| Phase 7A | `git check-ignore -v 'melds_report__2551_1784126250342145 (1).csv'` | Confirm private CSV is ignored. | Initial command hit Git safe-directory ownership warning. |
+| Phase 7A | `git -c safe.directory='C:/Users/hypno/OneDrive/Desktop/m3ldSync' check-ignore -v 'melds_report__2551_1784126250342145 (1).csv'` | Confirm private CSV ignore rule with safe-directory override. | Confirmed `.gitignore` ignores the private CSV via `melds_report__*.csv`. |
+| Phase 7A | `git -c safe.directory='C:/Users/hypno/OneDrive/Desktop/m3ldSync' status --short --ignored` | Inspect stageable files and ignored private files before staging. | Source/docs are untracked; private CSV is ignored. |
+| Phase 7A | `git -c safe.directory='C:/Users/hypno/OneDrive/Desktop/m3ldSync' add .` | Stage public-safe files for initial commit. | Blocked: Git could not create `.git/index.lock` due filesystem permission denial. |
+| Phase 7A | `Get-ChildItem -LiteralPath '.git' -Force` | Inspect initialized Git folder after staging failure. | `.git` exists with standard Git directories and files. |
+| Phase 7A | `Get-Acl -LiteralPath '.git'` | Inspect permissions after staging failure. | Confirmed ACL/ownership mismatch; handoff docs now recommend running Git from Carlos's normal terminal. |
+| Phase 7A | `node scripts/validate.mjs` | Final validation after documentation and Git handoff updates. | Passed syntax checks and 6 tests. |
+| Phase 7A | `git -c safe.directory='C:/Users/hypno/OneDrive/Desktop/m3ldSync' status --short --ignored` | Final Git status check. | Public files are untracked; private CSV is ignored. |
+| Phase 7A | `Invoke-WebRequest -Uri 'http://localhost:4173'` | Confirm local preview remains reachable after docs updates. | Returned `200`. |
+| Phase 7A | `git -c safe.directory='C:/Users/hypno/OneDrive/Desktop/m3ldSync' remote -v` | Check whether a GitHub remote was already configured. | No remote was configured. |
+| Phase 7A | `git -c safe.directory='C:/Users/hypno/OneDrive/Desktop/m3ldSync' remote add origin https://github.com/hypnoticdata777/m3ldSync.git` | Add the provided GitHub repository as `origin`. | Blocked: Git could not lock `.git/config` due permission denial. |
+| Phase 7A | `node scripts/validate.mjs` | Final validation after GitHub remote handoff doc updates. | Passed syntax checks and 6 tests. |
+| Phase 7A | `git -c safe.directory='C:/Users/hypno/OneDrive/Desktop/m3ldSync' status --short --ignored` | Final safety check after remote attempt. | Public files remain untracked; private CSV remains ignored. |
+| Phase 7A | `git -c safe.directory='C:/Users/hypno/OneDrive/Desktop/m3ldSync' remote -v` | Confirm whether the remote was written despite earlier error. | No remote configured. |
+
+## Command Logging Rule
+
+For future commands, add a row with:
+
+- Phase
+- Exact command
+- Purpose
+- Outcome

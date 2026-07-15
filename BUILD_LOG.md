@@ -1,0 +1,315 @@
+# MeldSync Build Log
+
+This log tracks what was built, what worked, what did not, and what we learned.
+
+## 2026-07-15 - Phase 0 Start: Local POC Foundation
+
+### Goal
+
+Start the local proof of concept for MeldSync as both:
+
+- A private operations tool for real CSV reconciliation.
+- A public portfolio demo that uses synthetic data only.
+
+### Decisions
+
+- Build locally first.
+- Keep real CSV data out of public demo assets.
+- Use a calm, scan-friendly operational UI.
+- Avoid purple-heavy styling.
+- Maintain detailed documentation from the beginning.
+
+### Good
+
+- Product spec is detailed enough to start implementation.
+- Real CSV schema has been inspected and maps cleanly to the product model.
+- `Meld Number` is unique and stable in the sample export.
+- Status values are finite and easy to classify as open or closed.
+
+### Bad / Risks
+
+- Public demo must not include the real CSV or real property/unit data.
+- Authentication should not be treated as the first milestone; the core reconciliation logic must be proven first.
+- Future CSV schema drift could silently corrupt data unless validation is strict.
+
+### I Did Not Know This Yet
+
+- Whether the final private version will remain browser-local or move to Supabase.
+- Whether future exports always contain the same 11 columns.
+- Whether Property Meld exports ever duplicate `Meld Number` across cloned/follow-up tickets.
+
+### Outcome
+
+Phase 0 documentation started. Next step is scaffolding the local app and core reconciliation code.
+
+## 2026-07-15 - Phase 0-4 First Working Slice
+
+### Goal
+
+Create the first local MeldSync POC slice with a working browser interface, synthetic demo data, CSV parsing, reconciliation logic, and tests.
+
+### Built
+
+- Local dependency-free browser app shell.
+- Privacy-focused `.gitignore` that excludes private Property Meld exports.
+- Strict Property Meld CSV parser.
+- Reconciliation engine with:
+  - New record detection
+  - Status change detection
+  - Stale record detection
+  - Idempotent re-import behavior
+  - Sticky manual status overrides
+  - Import summaries
+  - Status history entries
+- Synthetic demo baseline CSV.
+- Synthetic demo follow-up CSV.
+- Kanban-style board grouped by current status.
+- Property overview panel.
+- Search, property, priority, and closed-status filters.
+- Record detail panel with manual status, note, linked record, and history.
+- Local static server.
+- Node test suite.
+
+### Good
+
+- The first test suite passed: 5 passing tests.
+- The app runs locally at `http://localhost:4173`.
+- The app starts with synthetic demo data, which is safe for portfolio use.
+- Importing a real CSV switches the app into private local data mode.
+- The visual direction is operational and solid-color based, with no purple-heavy palette.
+
+### Bad / Risks
+
+- PowerShell blocks the `npm.ps1` shim on this machine, so this first slice avoids npm dependencies.
+- This first UI is dependency-free JavaScript, not React yet.
+- Browser-level visual QA has not been performed yet.
+- Local persistence currently uses browser `localStorage`, which is fine for POC but not the long-term private data layer.
+
+### I Did Not Know This Yet
+
+- Whether local browser persistence will be enough for Carlos's daily private use.
+- Whether the future public demo should allow visitors to upload arbitrary CSVs or only synthetic CSVs.
+- Whether Auth/SuperAdmin should be implemented with Supabase, a static password gate, or a separate private build first.
+
+### Outcome
+
+First working local POC slice created and validated with automated tests plus basic local page checks.
+
+### Validation
+
+- `node --check src/main.js` passed.
+- `node --check src/domain.js` passed.
+- `node --test tests/*.test.mjs` passed with 5 tests.
+- Local app shell returned HTTP 200.
+- Main browser module returned HTTP 200.
+
+## 2026-07-15 - Phase 5: Safer Imports and Local Backups
+
+### Goal
+
+Make imports safer and make private local data easier to preserve.
+
+### Built
+
+- Import preview panel before committing a CSV or demo follow-up import.
+- Commit/cancel controls for pending imports.
+- Preview metrics:
+  - Rows
+  - New records
+  - Changed records
+  - Stale records
+  - Manual conflicts
+  - Total records after import
+- Local JSON backup export.
+- Local JSON backup restore.
+- Confirmation before resetting local data.
+- Smoother note editing that saves without re-rendering the detail panel on every keystroke.
+- Visual styling for the import preview panel.
+
+### Good
+
+- The import flow is less risky now because parsed data is previewed before it is committed.
+- Backup/restore gives Carlos a way to preserve private local browser data.
+- The real copied CSV successfully parsed through the JavaScript parser.
+- Automated tests still pass.
+- The app shell, JavaScript module, and stylesheet all return HTTP 200 locally.
+
+### Bad / Risks
+
+- Backup restore currently trusts the internal state shape after shallow validation; deeper validation should be added before daily reliance.
+- Import preview currently shows aggregate counts only, not row-level examples of what changed.
+- Browser-level visual QA still has not been completed with screenshots or interaction automation.
+- Git has not been initialized yet.
+
+### I Did Not Know This Yet
+
+- Whether Carlos wants backup files to include demo/private mode metadata in a more formal manifest.
+- Whether import preview should list changed records before commit.
+- Whether reset should support separate "reset demo" and "clear private data" actions.
+
+### Outcome
+
+Phase 5 completed with safer import handling, backup/restore controls, passing tests, and successful parser validation against the real copied CSV.
+
+## 2026-07-15 - Phase 5b: Import Preview Details
+
+### Goal
+
+Make the import preview more auditable by showing which records are affected, not only aggregate counts.
+
+### Built
+
+- Reconciliation output now includes:
+  - `newIds`
+  - `changedIds`
+  - `staleIds`
+  - `discrepancyIds`
+- Import preview now shows compact ID lists for new, changed, stale, and manual-conflict records.
+- Tests now assert preview ID arrays for follow-up imports.
+
+### Good
+
+- Import review is more trustworthy because the user can see sample affected IDs before committing.
+- The preview stays compact by showing the first few IDs and a remaining count.
+- Tests still pass.
+- Real CSV parsing still succeeds.
+
+### Bad / Risks
+
+- Preview details show IDs only; a richer preview should eventually include status transitions and property names.
+- The UI does not yet allow drilling into a pending import before commit.
+
+### I Did Not Know This Yet
+
+- Whether Carlos would prefer import preview sorted by property, status, or severity.
+- Whether manual conflicts should block commit or simply warn before commit.
+
+### Outcome
+
+Import previews now include auditable affected-record lists while keeping the UI compact.
+
+## 2026-07-15 - Phase 6: Auditability and Linked Resolution
+
+### Goal
+
+Make the tool more trustworthy for recurring operations by improving audit visibility and implementing linked-record resolution behavior from the product spec.
+
+### Built
+
+- Effective status logic:
+  - A record keeps its actual current status.
+  - If it links to a closed record, the UI can treat it as effectively closed.
+  - This supports original/follow-up ticket workflows.
+- Linked-resolution helpers:
+  - `effectiveStatus`
+  - `isEffectivelyClosed`
+  - `isLinkedResolved`
+- Linked record edits now create manual history entries.
+- Kanban grouping now uses effective status.
+- Hide-closed filtering now uses effective status.
+- Open counts and property open counts now use effective status.
+- Cards show a `Linked resolved` badge.
+- Record detail now shows:
+  - Import status
+  - Effective status
+  - Linked record summary
+- Import preview rows now include ID, property, and destination/effective status.
+- Added a compact import history ledger showing recent import batches.
+- Removed non-ASCII separators from source UI strings.
+
+### Good
+
+- A linked follow-up ticket can now resolve an otherwise open original record in the board and property counts.
+- Linked record edits are auditable in history.
+- The import history ledger makes repeated imports easier to trust.
+- Automated tests increased from 5 to 6 and all pass.
+- Real copied CSV parsing still succeeds.
+
+### Bad / Risks
+
+- Linked resolution is currently one-directional: the original record must link to the follow-up record.
+- The import history ledger is summary-only; it does not yet open a full import detail drawer.
+- Browser screenshot/interaction QA was not completed because browser-control tooling was not available in this session.
+- There is still no Git repository initialized for version control.
+
+### I Did Not Know This Yet
+
+- Whether linked resolution should treat all closed statuses as resolved or only `Completed`.
+- Whether linking should become bidirectional automatically.
+- Whether linked records should have a dedicated relationship table in the future backend.
+
+### Outcome
+
+Phase 6 completed with effective linked-record resolution, stronger audit history, recent import visibility, passing tests, and local endpoint validation.
+
+## 2026-07-15 - Phase 7A Start: QA and GitHub Handoff Prep
+
+### Goal
+
+Reduce the next blockers by documenting browser QA, preparing the project for GitHub upload, and initializing local Git without exposing private CSV data.
+
+### Built
+
+- GitHub-ready `README.md`.
+- Current phase tracker: `PHASE_STATUS.md`.
+- Browser/manual QA checklist: `QA_CHECKLIST.md`.
+- GitHub upload guide: `GITHUB_HANDOFF.md`.
+- Consolidated validation helper: `scripts/validate.mjs`.
+- Expanded `.gitignore` for backup JSON and env files.
+- Updated roadmap current progress section.
+- Initialized local Git repository.
+
+### Good
+
+- The private real CSV is confirmed ignored by Git.
+- Validation passes through a single helper command.
+- The repo now has enough documentation to be understandable on GitHub.
+- Browser QA has a concrete checklist instead of being a vague blocker.
+
+### Bad / Risks
+
+- Automated browser interaction QA is still not completed.
+- Playwright/browser probing through the Node REPL failed due a local permission issue before package resolution.
+- Git commands from Codex need a per-command safe-directory override because of Windows folder ownership.
+
+### I Did Not Know This Yet
+
+- Whether the GitHub repo will be public immediately or stay private until browser QA is complete.
+- Whether Carlos will use HTTPS or SSH remote for GitHub.
+- Whether the public repository should include the original product spec or keep that private.
+
+### Outcome
+
+Phase 7A documentation and local Git preparation are underway. Private data remains ignored and validation passes.
+
+### Git Staging Blocker
+
+Codex initialized the local Git repository and confirmed the private CSV is ignored. Staging was blocked because Git could not create `.git/index.lock` due Windows filesystem permissions on the `.git` folder.
+
+Resolution path:
+
+- Run the Git setup commands from Carlos's normal Windows terminal.
+- If Git complains about ownership, delete `.git` and re-run `git init` as Carlos's normal Windows user.
+- Follow `GITHUB_HANDOFF.md`.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Local preview returned HTTP 200.
+- Git status confirms the private CSV is ignored.
+
+### GitHub Remote Attempt
+
+The GitHub repo now exists at:
+
+```text
+https://github.com/hypnoticdata777/m3ldSync.git
+```
+
+Codex attempted to add it as `origin`, but Windows permissions blocked writing `.git/config`. The handoff doc now contains the exact commands to run from Carlos's normal Windows terminal.
+
+Final check:
+
+- Validation still passes.
+- Private CSV remains ignored.
+- No remote is configured locally yet because `.git/config` could not be written by Codex.

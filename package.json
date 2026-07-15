@@ -1,0 +1,12 @@
+{
+  "name": "meldsync-poc",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local proof of concept for recurring Property Meld CSV reconciliation.",
+  "scripts": {
+    "start": "node scripts/serve.mjs",
+    "test": "node --test tests/*.test.mjs",
+    "validate": "node scripts/validate.mjs"
+  }
+}
