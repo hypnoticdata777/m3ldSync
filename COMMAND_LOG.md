@@ -94,6 +94,40 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7A | `node scripts/validate.mjs` | Validate after adding guided walkthrough. | Passed syntax checks and 8 tests. |
 | Phase 7A | `Invoke-WebRequest -Uri 'http://localhost:4173'` | Confirm local preview remains reachable after walkthrough. | Returned `200`. |
 | Phase 7A | `git status --short --branch` | Inspect files changed by walkthrough batch. | Shows walkthrough source, styles, test, and documentation updates pending commit. |
+| Phase 7A | `git status --short --branch` | Confirm repo state before browser QA continuation. | `main` tracks `origin/main` with no pending changes. |
+| Phase 7A | `rg --files` | List current project files before QA/hardening work. | Confirmed source, tests, scripts, and documentation files. |
+| Phase 7A | `Invoke-WebRequest http://localhost:4173/` | Check whether the local preview server was already running. | Unable to connect; local server needed to be started. |
+| Phase 7A | `node scripts/serve.mjs` | Start local preview for browser QA. | Server started at `http://localhost:4173`. |
+| Phase 7A | Browser automation: open `http://localhost:4173/` | Verify app loads in the actual browser surface. | Confirmed title, heading, Demo Data badge, import ledger, Demo QA `7/7`, and Demo Walkthrough `7/7`. |
+| Phase 7A | Browser automation: click `Run Demo Follow-Up Import`, then `Cancel` | Verify preview appears and cancel is non-destructive. | Preview showed expected counts; cancel returned to Demo Data with only the baseline ledger entry. |
+| Phase 7A | Browser automation: click `Run Demo Follow-Up Import`, then `Commit Import` | Verify committed follow-up state. | Import ledger showed two imports and detail panel reflected follow-up status changes. |
+| Phase 7A | Browser automation: edit `manualStatus` and `noteInput`, then reload | Verify manual edits persist locally. | Manual status and note persisted after refresh. |
+| Phase 7A | Browser automation: edit `linkInput`, then reload | Verify linked-record draft persistence. | Found the linked field could appear filled without persisting in the automated path; prompted a hardening fix. |
+| Phase 7A | `rg -n "linkInput|linked|manualStatus|noteInput" src\main.js src\domain.js tests\reconcile.test.mjs tests\qa.test.mjs` | Inspect link/manual edit code paths before patching. | Found link input persisted on `change` only and domain linked-record helpers. |
+| Phase 7A | `Get-Content src\main.js` | Read UI code before patching link input behavior. | Confirmed detail-panel event wiring. |
+| Phase 7A | `Get-Content src\domain.js` | Read domain code before adding draft helper. | Confirmed `setLinkedRecord()` also writes audit history. |
+| Phase 7A | `Get-Content tests\reconcile.test.mjs` | Read reconciliation tests before adding coverage. | Confirmed linked-resolution test coverage already exists. |
+| Phase 7A | `node scripts/validate.mjs` | Validate after linked-record draft persistence hardening. | Passed syntax checks and 9 tests. |
+| Phase 7A | Browser automation: edit linked record to `MS-1002`, then reload | Verify linked-resolution story from UI. | Effective status became `Completed`, open count dropped to 4, and linked resolved count became 1. |
+| Phase 7A | Browser automation: uncheck `Hide closed` after linked resolution | Verify the original card displays its linked-resolution badge when visible. | Selected card showed `Linked resolved`. |
+| Phase 7A | Browser automation: measure page layout widths | Check for visual overflow in the actual browser. | Found page-level horizontal overflow before CSS fix. |
+| Phase 7A | `Get-Content src\styles.css` | Read stylesheet before fixing overflow. | Confirmed grid/board sizing rules. |
+| Phase 7A | `rg -n "main-grid|board|column|metrics|workspace|overflow|@media" src\styles.css` | Locate layout rules related to overflow. | Found board and main-grid rules to patch. |
+| Phase 7A | `node scripts/validate.mjs` | Validate after desktop overflow CSS fix. | Passed syntax checks and 9 tests. |
+| Phase 7A | Browser automation: remeasure page layout widths | Confirm desktop overflow fix. | Page-level horizontal overflow is gone; board still scrolls internally as intended. |
+| Phase 7A | Browser automation: screenshot current demo state | Capture visual QA evidence using synthetic demo data only. | Screenshot confirmed linked-resolution demo state and usable desktop layout. |
+| Phase 7B | `Get-Content src\storage.js` | Read current local storage helper before adding access-mode persistence. | Confirmed only app state was persisted before this slice. |
+| Phase 7B | `Get-Content src\main.js` | Read UI structure before adding public/owner mode controls. | Confirmed toolbar, QA panel, walkthrough, and local persistence wiring. |
+| Phase 7B | `Get-Content README.md` | Read project overview before documenting access modes. | Confirmed current status still described Phase 7A. |
+| Phase 7B | `Get-Content DEMO_STRATEGY.md` | Read demo-positioning notes before updating public/owner behavior. | Confirmed SuperAdmin was planned but not yet implemented. |
+| Phase 7B | `node scripts/validate.mjs` | Validate after adding the public demo / owner workspace access boundary. | Passed syntax checks and 9 tests. |
+| Phase 7B | Browser automation: reload in Public Demo mode | Verify default public surface. | Public Demo showed only demo buttons, hid private controls and QA, and showed a `6/6` walkthrough. |
+| Phase 7B | Browser automation: click `Owner` | Verify owner workspace surface. | Owner showed import, export, restore, reset, QA panel, and the full `7/7` walkthrough. |
+| Phase 7B | Browser automation: recheck public walkthrough text | Verify hidden owner actions are not referenced publicly. | Public walkthrough no longer mentioned `Export Backup`. |
+| Phase 7B | Browser automation: click `Public Demo` | Leave the browser in the visitor-safe public mode after QA. | Public Demo showed only demo buttons, no QA panel, and a `6/6` walkthrough. |
+| Phase 7B | `node scripts/validate.mjs` | Final validation after storage fallback and documentation updates. | Passed syntax checks and 9 tests. |
+| Phase 7B | `git status --short --branch` | Check final changed files before handoff. | Shows 11 modified files ready to commit. |
+| Phase 7B | `git diff --stat` | Summarize final change size before handoff. | Shows updates across source, tests, styles, and documentation. |
 
 ## Command Logging Rule
 

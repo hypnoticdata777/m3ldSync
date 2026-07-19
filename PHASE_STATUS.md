@@ -1,12 +1,12 @@
 # MeldSync Phase Status
 
-Last updated: 2026-07-15
+Last updated: 2026-07-18
 
 ## Current Phase
 
-Current completed phase: Phase 6 - Auditability and Linked Resolution.
+Current completed phase: Phase 7B - Public Demo Packaging and Access Modes, first slice complete.
 
-Next phase: Phase 7A - Browser QA and UX Hardening.
+Next phase: Finish Phase 7A file-picker QA, then continue Phase 7B portfolio packaging.
 
 ## Completed
 
@@ -80,14 +80,22 @@ Status: Complete
 
 ### Blocker 1 - Browser Interaction QA
 
-Need to verify in an actual browser:
+Status: Mostly complete
+
+Verified in an actual browser:
 
 - Demo baseline loads correctly.
+- Demo QA panel shows `7/7`.
+- Demo Walkthrough panel shows `7/7`.
 - Demo follow-up import preview appears.
 - Commit import updates board, import ledger, and counts.
 - Cancel import leaves state unchanged.
-- Manual status override survives later import.
+- Manual status and note edits persist after reload.
 - Linked record effective resolution works from the UI.
+- Desktop page-level horizontal overflow is fixed.
+
+Still needs browser confirmation:
+
 - Backup export downloads JSON.
 - Restore backup replaces local state.
 - Reset confirmation behaves correctly.
@@ -112,9 +120,9 @@ Current note:
 
 ## Next Active Blocker
 
-### Blocker 1 - Browser Interaction QA
+### Blocker 1 - Finish Remaining Phase 7A Browser QA
 
-Status: Partially reduced
+Status: Narrowed
 
 Completed in this pass:
 
@@ -124,19 +132,39 @@ Completed in this pass:
 - Updated validation to check `src/qa.js` and QA tests.
 - Manual screenshot review confirms local load, private import preview, committed board, property list, detail panel, and Demo QA panel rendering on desktop.
 - Added guided Demo Walkthrough panel mapped to automated QA checks.
+- Verified demo baseline, demo preview/cancel, demo commit, manual edit persistence, linked-record resolution, and desktop overflow behavior through browser automation.
+- Hardened linked-record draft persistence.
+- Added linked-record draft regression coverage.
 
 Need to verify in an actual browser:
 
-- Demo Walkthrough panel shows seven ready steps.
-- Demo follow-up import preview appears from the synthetic demo flow.
-- Commit demo import updates board, import ledger, and counts.
-- Cancel import leaves state unchanged.
-- Manual status override survives later import.
-- Linked record effective resolution works from the UI.
 - Backup export downloads JSON.
 - Restore backup replaces local state.
 - Reset confirmation behaves correctly.
 - Tablet/mobile/narrow layout remains readable.
+
+## Phase 7B Preview - Public Demo Packaging and Access Modes
+
+Status: Started
+
+Completed:
+
+- Added a clear public demo/owner workspace mode boundary.
+- Public Demo starts with synthetic data only.
+- Public Demo hides private import, backup, restore, reset, and internal QA controls.
+- Public Demo shows a visitor-safe `6/6` walkthrough.
+- Owner mode exposes CSV import, backup, restore, reset, and internal QA.
+- Owner mode shows the full `7/7` walkthrough.
+
+Important limitation:
+
+- Owner mode is not production authentication. It is a local static POC boundary.
+
+Recommended next build:
+
+- Prepare portfolio-safe screenshots and copy using synthetic data only.
+- Decide whether hosted auth should be mocked visually or deferred until a backend exists.
+- Add a production-auth design note before any real deployment.
 
 ## Important Privacy Rule
 

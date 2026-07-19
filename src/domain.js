@@ -272,6 +272,14 @@ export function setRecordNote(previousState, recordId, note) {
   return state;
 }
 
+export function setLinkedRecordDraft(previousState, recordId, linkedRecordId) {
+  const state = cloneState(previousState);
+  if (state.records[recordId]) {
+    state.records[recordId] = { ...state.records[recordId], linkedRecordId: linkedRecordId.trim() };
+  }
+  return state;
+}
+
 export function setLinkedRecord(previousState, recordId, linkedRecordId) {
   const state = cloneState(previousState);
   const record = state.records[recordId];

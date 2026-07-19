@@ -8,6 +8,7 @@ import {
   parsePropertyMeldCsv,
   reconcile,
   setLinkedRecord,
+  setLinkedRecordDraft,
   setManualStatus
 } from "../src/domain.js";
 import { demoBaselineCsv, demoFollowUpCsv } from "../src/demoData.js";
@@ -97,6 +98,19 @@ test("linked records can resolve an otherwise open original record", () => {
   assert.equal(isEffectivelyClosed(record, linked.records), true);
   assert.equal(isLinkedResolved(record, linked.records), true);
   assert.equal(linked.history.at(-1).note, "Linked record updated");
+});
+
+test("linked record drafts persist without writing audit history on every keystroke", () => {
+  const rows = parsePropertyMeldCsv(demoBaselineCsv);
+  const first = reconcile(createEmptyState(), rows, {
+    uploadedAt: "2026-07-10T12:00:00.000Z",
+    batchId: "batch-1"
+  });
+  const previousHistoryCount = first.state.history.length;
+  const drafted = setLinkedRecordDraft(first.state, "MS-1001", " MS-1002 ");
+
+  assert.equal(drafted.records["MS-1001"].linkedRecordId, "MS-1002");
+  assert.equal(drafted.history.length, previousHistoryCount);
 });
 
 test("missing required columns fail clearly", () => {

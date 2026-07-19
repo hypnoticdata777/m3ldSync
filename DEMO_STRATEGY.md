@@ -35,12 +35,19 @@ Default mode:
 - Show new, changed, and stale counts immediately after the follow-up import.
 - Let visitors manually mark a record complete.
 - Let visitors rerun the follow-up import and see that the manual correction survives.
+- Hide private import, backup, restore, reset, and internal QA controls.
 
-Optional mode:
+Owner mode:
 
 - Allow uploading a CSV with the same schema.
 - Treat uploaded data as local browser-only data.
 - Display a clear Private Local Data indicator.
+- Show backup, restore, reset, and internal QA controls.
+
+Important POC note:
+
+- The current Owner mode is a local static-app workspace boundary, not secure authentication.
+- A hosted version needs real backend auth before storing private workspaces or multi-user data.
 
 ## SuperAdmin Experience
 
@@ -79,3 +86,4 @@ The most important proof points to show:
 - Too much fake data would make the app feel noisy instead of sharp.
 - Real data in screenshots or fixtures would create privacy risk.
 - Login-first design would hide the core workflow from portfolio visitors.
+- A fake login could overstate the security model; until backend auth exists, owner mode should be described as a local POC boundary.

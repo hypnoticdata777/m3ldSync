@@ -9,7 +9,7 @@ Use this checklist before relying on the private tool day to day or publishing a
 - [x] App starts in Demo Data mode.
 - [ ] Real CSV file is not part of committed source.
 - [x] Demo QA panel shows all checks passing.
-- [ ] Demo Walkthrough panel shows seven ready steps.
+- [x] Owner Demo Walkthrough panel shows seven ready steps.
 
 ## Automated Smoke Checks
 
@@ -26,18 +26,18 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 
 ## Demo Import Flow
 
-- [ ] Click `Load Demo Baseline`.
-- [ ] Confirm board shows synthetic records only.
-- [ ] Click `Run Demo Follow-Up Import`.
-- [ ] Confirm an Import Preview panel appears.
-- [ ] Confirm preview shows rows, new, changed, stale, manual conflicts, and total after.
-- [ ] Confirm preview lists affected record IDs with property and status context.
-- [ ] Click `Cancel`.
-- [ ] Confirm no import is committed.
-- [ ] Run follow-up import again.
-- [ ] Click `Commit Import`.
-- [ ] Confirm board counts update.
-- [ ] Confirm recent import history ledger updates.
+- [x] Click `Load Demo Baseline`.
+- [x] Confirm board shows synthetic records only.
+- [x] Click `Run Demo Follow-Up Import`.
+- [x] Confirm an Import Preview panel appears.
+- [x] Confirm preview shows rows, new, changed, stale, manual conflicts, and total after.
+- [x] Confirm preview lists affected record IDs with property and status context.
+- [x] Click `Cancel`.
+- [x] Confirm no import is committed.
+- [x] Run follow-up import again.
+- [x] Click `Commit Import`.
+- [x] Confirm board counts update.
+- [x] Confirm recent import history ledger updates.
 
 ## Private CSV Import Flow
 
@@ -61,21 +61,21 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 
 ## Manual Override Behavior
 
-- [ ] Select a pending card.
-- [ ] Change status manually to `Completed`.
-- [ ] Confirm Manual badge appears.
+- [x] Select a pending card.
+- [x] Change status manually.
+- [x] Confirm Manual badge/count appears.
 - [ ] Re-import a CSV where the source still shows the item pending.
 - [ ] Confirm manual status survives.
 - [ ] Confirm discrepancy is visible through history or preview.
 
 ## Linked Record Behavior
 
-- [ ] Import or use data containing one pending original and one closed follow-up.
-- [ ] Enter the follow-up Meld Number in the original record's linked-record field.
-- [ ] Confirm linked record summary appears.
-- [ ] Confirm effective status changes to the linked closed status.
-- [ ] Confirm original card shows `Linked resolved`.
-- [ ] Confirm open counts and property counts no longer treat the original as open.
+- [x] Import or use data containing one pending original and one closed follow-up.
+- [x] Enter the follow-up Meld Number in the original record's linked-record field.
+- [x] Confirm linked record summary appears.
+- [x] Confirm effective status changes to the linked closed status.
+- [x] Confirm original card shows `Linked resolved`.
+- [x] Confirm open counts and property counts no longer treat the original as open.
 
 ## Backup and Restore
 
@@ -92,12 +92,17 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [ ] Check tablet/narrow browser width.
 - [ ] Check mobile-width browser.
 - [x] Confirm no obvious desktop text overlaps from screenshot review.
+- [x] Confirm no page-level horizontal desktop overflow.
 - [x] Confirm board remains scrollable.
 - [x] Confirm detail panel remains usable.
 
 ## Public Demo Safety
 
-- [ ] Demo mode contains synthetic data only.
+- [x] Demo mode contains synthetic data only.
+- [x] Public Demo hides private CSV import.
+- [x] Public Demo hides backup, restore, and reset controls.
+- [x] Public Demo hides internal QA panel.
+- [x] Public Demo shows visitor-safe walkthrough steps only.
 - [ ] No real property names appear in screenshots.
 - [ ] No real unit identifiers appear in screenshots.
 - [ ] No real descriptions appear in screenshots.
@@ -114,3 +119,19 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - Demo QA panel shows passing checks.
 
 Important: screenshots from the real CSV import contain real property/unit/work-order details and must not be used for public portfolio materials.
+
+2026-07-18 browser automation confirmed:
+
+- Synthetic demo baseline loads at `localhost:4173`.
+- Demo QA and Demo Walkthrough panels both show `7/7`.
+- Demo follow-up preview/cancel/commit flow works.
+- Manual status and note edits persist after reload.
+- Linked-record resolution works with synthetic IDs and updates effective status/counts/card badge.
+- Desktop page-level horizontal overflow was found and fixed.
+
+Remaining manual browser QA:
+
+- Backup export download.
+- Backup restore file picker.
+- Reset confirmation dialog.
+- True tablet/mobile viewport review.

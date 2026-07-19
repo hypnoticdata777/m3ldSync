@@ -8,17 +8,19 @@ import {
   parsePropertyMeldCsv,
   reconcile,
   setLinkedRecord,
+  setLinkedRecordDraft,
   setManualStatus,
   setRecordNote
 } from "./domain.js";
 import { demoBaselineCsv, demoFollowUpCsv } from "./demoData.js";
 import { getDemoWalkthrough, runDemoQa } from "./qa.js";
-import { clearState, loadState, saveState } from "./storage.js";
+import { clearState, loadAccessMode, loadState, saveAccessMode, saveState } from "./storage.js";
 
 const app = document.querySelector("#app");
 const now = new Date("2026-07-15T12:00:00");
 
-let model = loadState() || createDemoModel();
+let accessMode = loadAccessMode();
+let model = accessMode === "owner" ? loadState() || createDemoModel() : createDemoModel();
 let selectedRecordId = Object.keys(model.data.records)[0] || "";
 let pendingImport = null;
 let filters = {
@@ -47,10 +49,25 @@ function createDemoModel() {
 
 function setModel(nextModel) {
   model = nextModel;
-  saveState(model);
+  persistModel();
   if (selectedRecordId && !model.data.records[selectedRecordId]) {
     selectedRecordId = Object.keys(model.data.records)[0] || "";
   }
+  render();
+}
+
+function persistModel() {
+  if (accessMode === "owner") {
+    saveState(model);
+  }
+}
+
+function switchAccessMode(nextAccessMode) {
+  accessMode = nextAccessMode;
+  saveAccessMode(accessMode);
+  pendingImport = null;
+  selectedRecordId = "";
+  model = accessMode === "owner" ? loadState() || createDemoModel() : createDemoModel();
   render();
 }
 
@@ -66,8 +83,14 @@ function render() {
         <p class="eyebrow">MeldSync</p>
         <h1>Recurring Work Order Reconciliation</h1>
       </div>
-      <div class="mode-pill ${modeState.className}">
-        ${modeState.label}
+      <div class="header-actions">
+        <div class="access-switch" aria-label="Access mode">
+          <button id="publicAccess" class="${accessMode === "public" ? "active" : ""}">Public Demo</button>
+          <button id="ownerAccess" class="${accessMode === "owner" ? "active" : ""}">Owner</button>
+        </div>
+        <div class="mode-pill ${modeState.className}">
+          ${modeState.label}
+        </div>
       </div>
     </header>
 
@@ -76,16 +99,7 @@ function render() {
         <div class="button-row">
           <button id="demoBaseline">Load Demo Baseline</button>
           <button id="demoFollowUp">Run Demo Follow-Up Import</button>
-          <label class="file-button">
-            Import CSV
-            <input id="csvInput" type="file" accept=".csv,text/csv" />
-          </label>
-          <button class="ghost" id="exportBackup">Export Backup</button>
-          <label class="file-button ghost-file">
-            Restore Backup
-            <input id="restoreInput" type="file" accept=".json,application/json" />
-          </label>
-          <button class="ghost" id="resetData">Reset Local Data</button>
+          ${accessMode === "owner" ? renderOwnerControls() : ""}
         </div>
         <div class="filter-row">
           <input id="search" type="search" value="${escapeAttr(filters.search)}" placeholder="Search ID, property, unit, description" />
@@ -111,7 +125,7 @@ function render() {
 
       ${renderImportLedger()}
 
-      ${renderQaPanel()}
+      ${accessMode === "owner" ? renderQaPanel() : ""}
 
       ${renderWalkthroughPanel()}
 
@@ -141,6 +155,13 @@ function render() {
 }
 
 function modeBadgeState() {
+  if (accessMode === "public") {
+    return {
+      className: "demo",
+      label: pendingImport ? "Demo Import Preview" : "Public Demo"
+    };
+  }
+
   if (pendingImport?.mode === "private") {
     return {
       className: "private",
@@ -169,6 +190,18 @@ function modeBadgeState() {
 }
 
 function bindEvents() {
+  document.querySelector("#publicAccess").addEventListener("click", () => {
+    if (accessMode !== "public") {
+      switchAccessMode("public");
+    }
+  });
+
+  document.querySelector("#ownerAccess").addEventListener("click", () => {
+    if (accessMode !== "owner") {
+      switchAccessMode("owner");
+    }
+  });
+
   document.querySelector("#demoBaseline").addEventListener("click", () => {
     selectedRecordId = "";
     setModel(createDemoModel());
@@ -192,7 +225,7 @@ function bindEvents() {
     render();
   });
 
-  document.querySelector("#resetData").addEventListener("click", () => {
+  document.querySelector("#resetData")?.addEventListener("click", () => {
     if (confirm("Reset local MeldSync data and reload the synthetic demo baseline?")) {
       pendingImport = null;
       clearState();
@@ -201,7 +234,7 @@ function bindEvents() {
     }
   });
 
-  document.querySelector("#csvInput").addEventListener("change", async (event) => {
+  document.querySelector("#csvInput")?.addEventListener("change", async (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -229,11 +262,11 @@ function bindEvents() {
     }
   });
 
-  document.querySelector("#exportBackup").addEventListener("click", () => {
+  document.querySelector("#exportBackup")?.addEventListener("click", () => {
     exportBackup();
   });
 
-  document.querySelector("#restoreInput").addEventListener("change", async (event) => {
+  document.querySelector("#restoreInput")?.addEventListener("change", async (event) => {
     const file = event.target.files?.[0];
     if (!file) return;
 
@@ -315,17 +348,38 @@ function bindEvents() {
   if (noteInput) {
     noteInput.addEventListener("input", (event) => {
       model = { ...model, data: setRecordNote(model.data, selectedRecordId, event.target.value) };
-      saveState(model);
+      persistModel();
     });
   }
 
   const linkInput = document.querySelector("#linkInput");
   if (linkInput) {
+    linkInput.addEventListener("input", (event) => {
+      model = { ...model, data: setLinkedRecordDraft(model.data, selectedRecordId, event.target.value) };
+      persistModel();
+    });
+
     linkInput.addEventListener("change", (event) => {
       const state = setLinkedRecord(model.data, selectedRecordId, event.target.value);
       setModel({ ...model, data: state });
     });
   }
+}
+
+function renderOwnerControls() {
+  return `
+    <span class="owner-divider"></span>
+    <label class="file-button">
+      Import CSV
+      <input id="csvInput" type="file" accept=".csv,text/csv" />
+    </label>
+    <button class="ghost" id="exportBackup">Export Backup</button>
+    <label class="file-button ghost-file">
+      Restore Backup
+      <input id="restoreInput" type="file" accept=".json,application/json" />
+    </label>
+    <button class="ghost" id="resetData">Reset Local Data</button>
+  `;
 }
 
 function renderImportPreview() {
@@ -606,7 +660,7 @@ function renderQaCheck(item) {
 
 function renderWalkthroughPanel() {
   const report = runDemoQa();
-  const steps = getDemoWalkthrough(report);
+  const steps = getDemoWalkthrough(report).filter((step) => accessMode === "owner" || step.action !== "Export Backup");
   return `
     <section class="walkthrough-panel" aria-label="Demo walkthrough">
       <div class="section-title">

@@ -443,3 +443,93 @@ Phase 7A now has a guided demo walkthrough connected to automated smoke checks.
 - `node scripts/validate.mjs` passed.
 - Test count increased from 7 to 8.
 - Local preview returned HTTP 200.
+
+## 2026-07-18 - Phase 7A Browser QA and UX Hardening
+
+### Goal
+
+Finish the hands-on browser QA pass for the demo reconciliation flow and harden any issues found before moving into public demo packaging.
+
+### Built
+
+- Added `setLinkedRecordDraft()` so linked-record text entered in the detail panel is saved as local draft state immediately.
+- Wired `#linkInput` to save draft values on input, reducing the chance that a filled linked-record field disappears after refresh.
+- Added regression coverage for linked-record draft persistence without noisy audit-history entries.
+- Fixed desktop horizontal page overflow by allowing grid children and the Kanban board to shrink while keeping the board's internal horizontal scroll.
+
+### Good
+
+- Browser QA confirmed the synthetic demo loads cleanly at `http://localhost:4173`.
+- Demo QA shows `7/7` and Demo Walkthrough shows `7/7`.
+- Demo follow-up preview shows the expected import summary and cancel leaves baseline data unchanged.
+- Commit adds the follow-up import ledger entry and updates record count/state.
+- Manual status and note edits persist after reload.
+- Linking an open record to a closed follow-up record changes effective status to `Completed`, lowers open count, and increments `Linked resolved`.
+- Desktop page-level horizontal overflow is gone after the CSS fix.
+
+### Bad / Risks
+
+- Backup export and restore still need a manual browser download/file-picker pass.
+- Reset confirmation still needs a manual browser confirmation pass.
+- True tablet/mobile viewport QA still needs a resizable browser or dedicated Playwright setup.
+- Linked-record draft persistence updates stored state before the detail summary rerenders; reload confirms persistence, but immediate summary refresh can be improved later.
+
+### I Did Not Know This Yet
+
+- The browser automation surface available in Codex does not expose a direct viewport resize helper in this session.
+- The linked-record field could appear filled in automation without persisting if only the DOM value changed and no committed event reached app state.
+- CSS grid children can force page-level horizontal overflow unless the board/grid children are explicitly allowed to shrink with `min-width: 0`.
+
+### Outcome
+
+Phase 7A browser QA is mostly complete for the public demo's core reconciliation story. Remaining items are file download/restore, reset confirmation, and true narrow/mobile viewport QA.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Test count increased from 8 to 9.
+- Browser QA confirmed demo load, preview/cancel, commit, manual persistence, linked resolution, and desktop overflow fix.
+
+## 2026-07-18 - Phase 7B Public Demo / Owner Workspace Boundary
+
+### Goal
+
+Create the first public-demo packaging slice so portfolio visitors see synthetic demo data only, while Carlos can still use local owner tools for private CSV work.
+
+### Built
+
+- Added session-based access mode persistence with `Public Demo` as the default.
+- Added a header access switch for `Public Demo` and `Owner`.
+- Public Demo starts from a fresh synthetic demo model and does not persist visitor interactions to private local storage.
+- Owner mode loads/saves the local workspace and exposes CSV import, export backup, restore backup, reset, and internal QA controls.
+- Public Demo hides the internal QA panel.
+- Public Demo filters the walkthrough to visitor-safe actions only, showing `6/6`; Owner keeps the full `7/7` walkthrough including backup.
+- README, demo strategy, phase status, and QA checklist now describe the access-mode boundary and its POC limitation.
+
+### Good
+
+- Public visitors get a cleaner first impression with only demo-safe controls.
+- Private tools are still available locally without adding backend complexity yet.
+- The app no longer asks public visitors to follow a walkthrough step for a hidden owner-only backup action.
+- Browser QA confirmed the mode split works from the actual UI.
+
+### Bad / Risks
+
+- This is not secure authentication; it is a static-app workspace boundary.
+- Owner mode is discoverable because all code is client-side.
+- Real hosted multi-user use still needs backend auth and server-side authorization.
+
+### I Did Not Know This Yet
+
+- The first public-mode pass still exposed the words `Export Backup` through the walkthrough even though the button was hidden.
+- Filtering walkthrough steps by access mode gives a cleaner public demo without duplicating QA scenario data.
+
+### Outcome
+
+Phase 7B has its first working slice: a public synthetic demo surface plus a local owner workspace surface.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed Public Demo shows only demo buttons and a `6/6` walkthrough.
+- Browser QA confirmed Owner mode shows private controls, internal QA, and the full `7/7` walkthrough.

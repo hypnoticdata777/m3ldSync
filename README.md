@@ -37,6 +37,7 @@ Built capabilities:
 - Linked-record effective resolution
 - Per-record history
 - Synthetic public demo data
+- Public demo and owner workspace modes
 - In-app demo QA status panel
 - Guided demo walkthrough
 
@@ -45,6 +46,15 @@ Built capabilities:
 The real Property Meld CSV export is private and must not be committed or published.
 
 The public demo uses synthetic data only. The real export filename pattern is ignored by `.gitignore`.
+
+## Access Modes
+
+MeldSync currently has two local POC modes:
+
+- `Public Demo` starts with synthetic data, hides private import/backup/reset controls, and shows only the visitor-safe walkthrough.
+- `Owner` uses local browser storage and exposes CSV import, backup, restore, reset, and internal QA checks.
+
+This is a static POC boundary, not production authentication. A hosted product would need backend auth before storing or syncing private data.
 
 ## Run Locally
 
@@ -109,4 +119,4 @@ scripts/serve.mjs       Local static preview server
 
 ## Current Status
 
-Phase 7A is in progress. Automated demo QA and the guided walkthrough are complete; manual browser interaction and responsive checks remain.
+Phase 7B has started. The public demo / owner workspace boundary is in place; remaining work includes download/restore QA, reset confirmation QA, responsive viewport QA, and eventual hosted auth design.
