@@ -82,15 +82,16 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [ ] Click `Export Backup`.
 - [ ] Confirm JSON file downloads.
 - [x] Reset local data.
-- [ ] Click `Restore Backup`.
-- [ ] Select downloaded JSON backup.
-- [ ] Confirm restored state matches the prior state.
+- [x] Click `Restore Backup`.
+- [x] Select a JSON backup.
+- [x] Confirm restored state matches the selected backup.
+- [ ] Confirm a downloaded export backup can be restored round-trip.
 
 ## Responsive Layout
 
 - [x] Check desktop width.
-- [ ] Check tablet/narrow browser width.
-- [ ] Check mobile-width browser.
+- [x] Check tablet/narrow browser width.
+- [x] Check mobile-width browser.
 - [x] Confirm no obvious desktop text overlaps from screenshot review.
 - [x] Confirm no page-level horizontal desktop overflow.
 - [x] Confirm board remains scrollable.
@@ -132,11 +133,13 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 Remaining manual browser QA:
 
 - Backup export download.
-- Backup restore file picker.
-- True tablet/mobile viewport review.
+- Exported backup restore round-trip.
 
 2026-07-20 browser automation confirmed:
 
 - `Reset Local Data` opens an inline reset confirmation panel instead of a native dialog.
 - `Keep Current Data` closes the panel and preserves the committed 7-record demo follow-up state.
 - `Confirm Reset` clears local owner storage and reloads the 6-record synthetic demo baseline.
+- Restore Backup opens the file picker and accepts a synthetic JSON backup.
+- Restore replaced local state with the selected synthetic backup and produced no console errors.
+- Tablet and mobile checks passed at `820x900` and `390x844` with no page-level horizontal overflow.

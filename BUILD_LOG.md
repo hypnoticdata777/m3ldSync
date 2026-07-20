@@ -568,3 +568,41 @@ Reset confirmation is no longer a Phase 7A browser blocker.
 
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed reset cancel/confirm behavior in Owner mode.
+
+## 2026-07-20 - Phase 7A Backup Restore and Responsive QA
+
+### Goal
+
+Continue the remaining Phase 7A browser QA after the inline reset confirmation commit.
+
+### Built
+
+- Hardened backup export by delaying `URL.revokeObjectURL()` until after the click stack, reducing the chance that browsers cancel a Blob download too early.
+
+### Good
+
+- Restore Backup opened the file picker through browser automation.
+- A synthetic JSON backup restored successfully and replaced local state with the selected backup.
+- Restore produced no console errors.
+- Tablet checks passed at `820x900` in Public Demo and Owner mode.
+- Mobile checks passed at `390x844` in Public Demo and Owner mode.
+- Public Demo remained visitor-safe at narrow widths.
+- Owner controls wrapped without text overflow.
+- The page had no document-level horizontal overflow; the board retained its intended internal horizontal scroll.
+- Validation remains green with 9 tests passing.
+
+### Bad / Risks
+
+- The in-app browser still did not observe the Blob download event after clicking `Export Backup`.
+- Export produced no console errors and left app state intact, but the actual downloaded JSON still needs manual confirmation from Windows/Chrome.
+- A true export-to-restore round trip remains pending until the downloaded file is manually confirmed.
+
+### Outcome
+
+Restore file-picker QA and responsive layout QA are complete for Phase 7A. Backup export download remains the only browser QA blocker.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed restore with synthetic backup.
+- Browser QA confirmed tablet/mobile layout at `820x900` and `390x844`.

@@ -93,12 +93,13 @@ Verified in an actual browser:
 - Manual status and note edits persist after reload.
 - Linked record effective resolution works from the UI.
 - Desktop page-level horizontal overflow is fixed.
+- Reset confirmation uses an inline panel and behaves correctly.
+- Restore backup file-picker flow replaces local state from a synthetic JSON backup.
+- Tablet/mobile viewport checks pass without page-level horizontal overflow.
 
 Still needs browser confirmation:
 
 - Backup export downloads JSON.
-- Restore backup replaces local state.
-- Mobile/narrow layout remains readable.
 
 ### Blocker 2 - GitHub Repo Setup
 
@@ -115,7 +116,7 @@ Completed:
 Current note:
 
 - GitHub repo exists at `https://github.com/hypnoticdata777/m3ldSync.git`.
-- Latest verified local commit: `03408e1 Initial m3ldSync POC`.
+- Latest verified local commit: `4ab774a Add inline reset confirmation`.
 
 ## Next Active Blocker
 
@@ -138,14 +139,14 @@ Completed in this pass:
 Need to verify in an actual browser:
 
 - Backup export downloads JSON.
-- Restore backup replaces local state.
-- Tablet/mobile/narrow layout remains readable.
 
 Recently completed:
 
 - Reset confirmation now uses an in-app warning panel.
 - Browser QA confirmed `Keep Current Data` preserves the current owner/demo state.
 - Browser QA confirmed `Confirm Reset` clears owner storage and reloads the synthetic demo baseline.
+- Restore file-picker QA replaced local state from a synthetic JSON backup.
+- Tablet/mobile checks passed at `820x900` and `390x844` with no page-level horizontal overflow.
 
 ## Phase 7B Preview - Public Demo Packaging and Access Modes
 

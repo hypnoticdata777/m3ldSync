@@ -137,6 +137,14 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7A | `node scripts/validate.mjs` | Final validation after reset confirmation and documentation updates. | Passed syntax checks and 9 tests. |
 | Phase 7A | `git status --short --branch` | Check final changed files after reset confirmation hardening. | Shows six modified files pending commit. |
 | Phase 7A | `git diff --stat` | Summarize final change size after reset confirmation hardening. | Shows updates across app code, styles, build log, command log, phase status, and QA checklist. |
+| Phase 7A | `git status --short --branch` | Verify repo state after Carlos pushed inline reset confirmation. | `main` is tracking `origin/main` at `4ab774a Add inline reset confirmation`. |
+| Phase 7A | `Invoke-WebRequest -UseBasicParsing http://localhost:4173/` | Confirm local preview is reachable before backup/restore QA. | Returned `200`. |
+| Phase 7A | Browser automation: Owner mode demo follow-up commit, click `Export Backup` | Test backup export download event and app stability. | Download event was not observed; no console errors occurred and state remained intact. |
+| Phase 7A | `rg -n "function exportBackup|function validateBackup|exportBackup\(|URL.createObjectURL|download" src/main.js ...` | Inspect backup export implementation after download event was not observed. | Found Blob URL export pattern with immediate object URL revocation. |
+| Phase 7A | `node scripts/validate.mjs` | Validate after delaying Blob URL revocation in backup export. | Passed syntax checks and 9 tests. |
+| Phase 7A | Browser automation: retest `Export Backup` after delayed revocation | Check whether export download event becomes observable. | Download event still timed out; no console errors occurred and state remained intact. |
+| Phase 7A | Browser automation: `Restore Backup` with synthetic JSON backup | Verify restore file-picker flow and state replacement. | File picker opened; selected synthetic backup restored successfully to 0 records with no console errors. |
+| Phase 7A | Browser automation: viewport `820x900` and `390x844` in Public Demo and Owner mode | Verify tablet/mobile layout and access boundary. | No page-level horizontal overflow; controls fit; board scrolls internally; public mode remains visitor-safe. |
 
 ## Command Logging Rule
 

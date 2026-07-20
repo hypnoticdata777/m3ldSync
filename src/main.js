@@ -795,12 +795,13 @@ function exportBackup() {
   const blob = new Blob([JSON.stringify(backup, null, 2)], { type: "application/json" });
   const link = document.createElement("a");
   const date = new Date().toISOString().slice(0, 10);
-  link.href = URL.createObjectURL(blob);
+  const url = URL.createObjectURL(blob);
+  link.href = url;
   link.download = `meldsync-backup-${date}.json`;
   document.body.append(link);
   link.click();
   link.remove();
-  URL.revokeObjectURL(link.href);
+  setTimeout(() => URL.revokeObjectURL(url), 0);
 }
 
 function validateBackup(backup) {
