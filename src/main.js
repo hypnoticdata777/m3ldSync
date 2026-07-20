@@ -125,6 +125,8 @@ function render() {
         ${batchSummary()}
       </section>
 
+      ${accessMode === "public" ? renderPublicSnapshot() : ""}
+
       ${pendingImport ? renderImportPreview() : ""}
 
       ${resetConfirmOpen ? renderResetConfirmation() : ""}
@@ -644,6 +646,42 @@ function summaryMetric(label, value) {
       <span>${label}</span>
       <strong>${value}</strong>
     </div>
+  `;
+}
+
+function renderPublicSnapshot() {
+  const records = allRecords();
+  const properties = propertyStats();
+  const openRecords = records.filter((record) => !isEffectivelyClosed(record, model.data.records));
+  const staleRecords = records.filter((record) => record.stale);
+  const batch = model.lastBatch || model.data.imports[0];
+  const latestImport = batch
+    ? `${batch.newCount} new / ${batch.statusChangedCount} changed / ${batch.staleCount} stale`
+    : "No import yet";
+
+  return `
+    <section class="public-snapshot" aria-label="Public demo snapshot">
+      <div class="section-title">
+        <h2>Public Demo Snapshot</h2>
+        <span>Synthetic</span>
+      </div>
+      <div class="snapshot-grid">
+        ${snapshotItem("Portfolio", `${properties.length} properties`, `${records.length} synthetic records`)}
+        ${snapshotItem("Open Work", `${openRecords.length} active`, `${staleRecords.length} stale records`)}
+        ${snapshotItem("Latest Import", latestImport, batch ? batch.filename : "Synthetic baseline")}
+        ${snapshotItem("Private Surface", "Hidden", "Owner tools stay out of Public Demo")}
+      </div>
+    </section>
+  `;
+}
+
+function snapshotItem(label, value, detail) {
+  return `
+    <article class="snapshot-item">
+      <span>${escapeHtml(label)}</span>
+      <strong>${escapeHtml(value)}</strong>
+      <small>${escapeHtml(detail)}</small>
+    </article>
   `;
 }
 

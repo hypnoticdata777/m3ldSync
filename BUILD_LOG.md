@@ -661,3 +661,41 @@ Phase 7A browser QA and UX hardening are complete for the local POC.
 ### Remaining Work
 
 - Continue Phase 7B portfolio-safe public demo packaging using synthetic data only.
+
+## 2026-07-20 - Phase 7B Public Demo Snapshot
+
+### Goal
+
+Give investors and portfolio reviewers a fast synthetic portfolio read before they inspect the board.
+
+### Built
+
+- Added a Public Demo Snapshot panel that appears only in Public Demo mode.
+- Snapshot shows synthetic portfolio scope, open work, latest import summary, and private-surface status.
+- Owner mode omits the Public Demo Snapshot so the private workspace stays operationally focused.
+- Added responsive snapshot styling.
+- Updated README, demo strategy, phase status, and QA checklist.
+
+### Good
+
+- Public Demo now has a stronger investor-facing first scan without becoming a landing page.
+- Public Demo still hides private owner controls.
+- Owner mode still exposes local private tools without the public-facing snapshot.
+- Desktop and mobile browser QA confirmed no page-level horizontal overflow.
+- Browser console remained clean.
+- Validation remains green with 9 tests passing.
+
+### Bad / Risks
+
+- Portfolio-safe screenshots still need to be captured from synthetic data only.
+- Hosted deployment/auth remains a future design step.
+
+### Outcome
+
+Phase 7B now has a clearer public-facing snapshot for reviewers and investor conversations.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed Public Demo Snapshot visibility in Public Demo only.
+- Browser QA confirmed desktop and `390x844` mobile layout.

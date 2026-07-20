@@ -542,6 +542,52 @@ h1 {
   min-width: 0;
 }
 
+.public-snapshot {
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 12px;
+}
+
+.snapshot-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.snapshot-item {
+  min-height: 86px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fbfcfa;
+  padding: 10px;
+}
+
+.snapshot-item span,
+.snapshot-item strong,
+.snapshot-item small {
+  display: block;
+}
+
+.snapshot-item span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.snapshot-item strong {
+  margin-top: 7px;
+  font-size: 1rem;
+}
+
+.snapshot-item small {
+  margin-top: 6px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .main-grid {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr) 340px;
@@ -896,6 +942,10 @@ h1 {
     grid-template-columns: repeat(2, minmax(160px, 1fr));
   }
 
+  .snapshot-grid {
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+  }
+
   .qa-grid {
     grid-template-columns: repeat(3, minmax(120px, 1fr));
   }
@@ -958,6 +1008,10 @@ h1 {
   }
 
   .import-ledger-list {
+    grid-template-columns: 1fr;
+  }
+
+  .snapshot-grid {
     grid-template-columns: 1fr;
   }
 

@@ -105,6 +105,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Public Demo hides internal QA panel.
 - [x] Public Demo shows visitor-safe walkthrough steps only.
 - [x] Public demo copy clearly indicates demo data.
+- [x] Public Demo shows a synthetic portfolio snapshot.
 - [ ] No real property names appear in screenshots.
 - [ ] No real unit identifiers appear in screenshots.
 - [ ] No real descriptions appear in screenshots.
@@ -145,3 +146,9 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Public Demo shows a synthetic-data notice and continues to hide private owner controls.
 - Owner mode shows a local-browser storage notice next to owner controls.
 - Desktop and mobile checks for the notices produced no page-level overflow and no console errors.
+
+2026-07-20 Phase 7B investor snapshot confirmed:
+
+- Public Demo shows a synthetic portfolio snapshot with portfolio scope, open work, latest import, and private-surface status.
+- Owner mode does not show the Public Demo Snapshot.
+- Desktop and mobile checks for the snapshot produced no page-level overflow and no console errors.

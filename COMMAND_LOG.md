@@ -153,6 +153,12 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7B | `git status --short --branch` | Check final changed files before handoff. | Shows eight modified files pending commit. |
 | Phase 7B | `git diff --stat` | Summarize final change size before handoff. | Shows app, style, README, demo strategy, phase, QA, build log, and command log updates. |
 | Phase 7A | Manual Windows browser download check | Confirm `Export Backup` downloads a JSON file outside the in-app browser automation surface. | Downloads panel showed `meldsync-backup-2026-07-20*.json`; Phase 7A browser QA is complete. |
+| Phase 7B | `git status --short --branch` | Verify repo state after Carlos pushed Phase 7A completion and public data-boundary notice. | `main` is tracking `origin/main` at `7294f27 Complete Phase 7A and add public data boundary notice`. |
+| Phase 7B | `node scripts/validate.mjs` | Validate after adding Public Demo Snapshot. | Passed syntax checks and 9 tests. |
+| Phase 7B | Browser automation: verify Public Demo Snapshot at desktop and `390x844` | Confirm snapshot appears only in Public Demo and does not create overflow. | Snapshot showed synthetic portfolio scope, open work, latest import, and private-surface status; Owner mode hid it; no console errors. |
+| Phase 7B | `node scripts/validate.mjs` | Final validation after Public Demo Snapshot docs/log updates. | Passed syntax checks and 9 tests. |
+| Phase 7B | `git status --short --branch` | Check final changed files before handoff. | Shows eight modified files pending commit. |
+| Phase 7B | `git diff --stat` | Summarize final change size before handoff. | Shows app, style, README, demo strategy, phase, QA, build log, and command log updates. |
 
 ## Command Logging Rule
 

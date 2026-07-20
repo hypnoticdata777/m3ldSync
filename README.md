@@ -41,6 +41,7 @@ Built capabilities:
 - In-app demo QA status panel
 - Guided demo walkthrough
 - Public demo data-boundary notice
+- Public demo portfolio snapshot
 
 ## Data Privacy
 
@@ -120,4 +121,4 @@ scripts/serve.mjs       Local static preview server
 
 ## Current Status
 
-Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B has started: the public demo / owner workspace boundary is in place, and Public Demo now clearly labels the workspace as synthetic and private-data-free.
+Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B has started: the public demo / owner workspace boundary is in place, and Public Demo now clearly labels the workspace as synthetic, private-data-free, and ready for portfolio-safe review.
