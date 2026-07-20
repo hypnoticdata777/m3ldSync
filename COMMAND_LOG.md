@@ -187,6 +187,8 @@ This log records terminal commands used during the build, why they were run, and
 | Hardening | Browser automation: Owner restore preview cancel, commit, reset cleanup, and mobile restore preview | Verify restore is previewed before replacing local state. | Synthetic backup opened Restore Preview, cancel preserved current state, commit restored the 0-record backup, reset returned to 6-record demo baseline, and mobile had no overflow. |
 | Hardening | `node scripts/validate.mjs` | Validate after adding manual conflict visibility. | Passed syntax checks and 9 tests. |
 | Hardening | Browser automation: Sticky Manual Proof, show closed cards, mobile detail | Verify manual/import conflict UI. | Detail panel showed Verification Conflict for `MS-1001`; showing closed cards displayed the `Conflict` badge; mobile had no overflow. |
+| Hardening | `node scripts/validate.mjs` | Validate after adding import preview drill-down. | Passed syntax checks and 9 tests. |
+| Hardening | Browser automation: demo follow-up import preview, affected-ID clicks, mobile preview | Verify import preview drill-down before commit. | Preview auto-selected `MS-1007`, clicking `MS-1001` showed changed committed/import status, clicking `MS-1004` showed stale context, and mobile had no overflow. |
 
 ## Command Logging Rule
 

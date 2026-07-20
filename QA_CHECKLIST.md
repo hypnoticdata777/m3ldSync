@@ -32,6 +32,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Confirm an Import Preview panel appears.
 - [x] Confirm preview shows rows, new, changed, stale, manual conflicts, and total after.
 - [x] Confirm preview lists affected record IDs with property and status context.
+- [x] Confirm affected record IDs can be clicked to inspect current committed status versus pending import status.
 - [x] Click `Cancel`.
 - [x] Confirm no import is committed.
 - [x] Run follow-up import again.
@@ -243,3 +244,10 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - The panel explains that the latest import reports `Pending completion` while the owner-verified status remains `Completed`.
 - Showing closed cards displays the `Conflict` badge on the affected card.
 - Mobile conflict detail has no page-level horizontal overflow.
+
+2026-07-20 import preview drill-down confirmed:
+
+- Synthetic follow-up import auto-selects the first affected record, `MS-1007`, and shows it as `New`.
+- Clicking `MS-1001` updates the inspector to `Changed`, with committed status `Pending vendor acceptance` and import status `Pending completion`.
+- Clicking `MS-1004` updates the inspector to `Stale`.
+- Desktop and `390x844` mobile checks showed no page-level horizontal overflow.

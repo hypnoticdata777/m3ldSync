@@ -29,6 +29,7 @@ Built capabilities:
 - Manual/import conflict visibility
 - Stale record detection
 - Import preview before commit
+- Clickable import preview drill-down
 - Restore backup preview before commit
 - Recent import history
 - Local browser persistence
@@ -134,4 +135,4 @@ docs/portfolio          Synthetic portfolio screenshot assets
 
 ## Current Status
 
-Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B has started: the public demo / owner workspace boundary is in place, and Public Demo now clearly labels the workspace as synthetic, private-data-free, and ready for portfolio-safe review.
+Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B has started: the public demo / owner workspace boundary is in place, Public Demo clearly labels the workspace as synthetic and private-data-free, and owner import previews now support drill-down review before commit.

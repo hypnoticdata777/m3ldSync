@@ -115,7 +115,7 @@ Completed:
 Current note:
 
 - GitHub repo exists at `https://github.com/hypnoticdata777/m3ldSync.git`.
-- Latest verified local commit: `789f4bf Harden backup export and finish restore responsive QA`.
+- Latest verified local commit: `f09a27d Add manual conflict visibility`.
 
 ## Next Active Blocker
 
@@ -155,6 +155,7 @@ Recently completed:
 - Portfolio-safe screenshot files have been captured from synthetic Public Demo Portfolio View.
 - Owner mode now shows a Production Gate for hosted-auth readiness.
 - Owner mode now shows a compact local-browser storage notice.
+- Owner import previews now allow affected-record drill-down before commit.
 
 ## Phase 7B Preview - Public Demo Packaging and Access Modes
 
@@ -181,6 +182,7 @@ Completed:
 - Owner mode states that CSV imports and backup restores stay in this browser unless exported.
 - Owner mode shows a Production Gate that states hosted auth is deferred and private owner data must remain local.
 - Owner mode previews backup restores before replacing local state.
+- Owner mode previews affected import records before committing CSV/demo imports.
 - Owner mode shows the full `7/7` walkthrough.
 
 Important limitation:

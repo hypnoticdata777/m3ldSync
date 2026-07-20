@@ -22,6 +22,7 @@ const now = new Date("2026-07-15T12:00:00");
 let accessMode = loadAccessMode();
 let model = accessMode === "owner" ? loadState() || createDemoModel() : createDemoModel();
 let selectedRecordId = Object.keys(model.data.records)[0] || "";
+let selectedPreviewRecordId = "";
 let pendingImport = null;
 let pendingRestore = null;
 let resetConfirmOpen = false;
@@ -117,6 +118,7 @@ function switchAccessMode(nextAccessMode) {
   accessMode = nextAccessMode;
   saveAccessMode(accessMode);
   pendingImport = null;
+  selectedPreviewRecordId = "";
   pendingRestore = null;
   resetConfirmOpen = false;
   portfolioView = false;
@@ -374,6 +376,7 @@ function bindEvents() {
 
   document.querySelector("#demoBaseline")?.addEventListener("click", () => {
     pendingImport = null;
+    selectedPreviewRecordId = "";
     pendingRestore = null;
     resetConfirmOpen = false;
     portfolioView = false;
@@ -402,11 +405,13 @@ function bindEvents() {
       filename: "demo-follow-up.csv",
       note: "Synthetic follow-up import. Safe for public demo."
     };
+    selectedPreviewRecordId = firstPreviewRecordId(batch);
     render();
   });
 
   document.querySelector("#stickyProof")?.addEventListener("click", () => {
     pendingImport = null;
+    selectedPreviewRecordId = "";
     pendingRestore = null;
     resetConfirmOpen = false;
     capturePresetId = "sticky";
@@ -415,6 +420,7 @@ function bindEvents() {
 
   document.querySelector("#linkedProof")?.addEventListener("click", () => {
     pendingImport = null;
+    selectedPreviewRecordId = "";
     pendingRestore = null;
     resetConfirmOpen = false;
     capturePresetId = "linked";
@@ -423,6 +429,7 @@ function bindEvents() {
 
   document.querySelector("#resetData")?.addEventListener("click", () => {
     pendingImport = null;
+    selectedPreviewRecordId = "";
     pendingRestore = null;
     resetConfirmOpen = true;
     render();
@@ -435,6 +442,7 @@ function bindEvents() {
     try {
       resetConfirmOpen = false;
       pendingRestore = null;
+      selectedPreviewRecordId = "";
       const text = await file.text();
       const rows = parsePropertyMeldCsv(text);
       const startingState = model.mode === "private" ? model.data : createEmptyState();
@@ -450,6 +458,7 @@ function bindEvents() {
         filename: file.name,
         note: "This import will be stored only in this browser on this machine."
       };
+      selectedPreviewRecordId = firstPreviewRecordId(batch);
       render();
     } catch (error) {
       alert(error.message);
@@ -469,6 +478,7 @@ function bindEvents() {
     try {
       resetConfirmOpen = false;
       pendingImport = null;
+      selectedPreviewRecordId = "";
       const backup = JSON.parse(await file.text());
       validateBackup(backup);
       pendingRestore = {
@@ -494,11 +504,13 @@ function bindEvents() {
       lastBatch: pendingImport.batch
     };
     pendingImport = null;
+    selectedPreviewRecordId = "";
     setModel(nextModel);
   });
 
   document.querySelector("#cancelImport")?.addEventListener("click", () => {
     pendingImport = null;
+    selectedPreviewRecordId = "";
     pendingRestore = null;
     resetConfirmOpen = false;
     copiedCopyId = "";
@@ -508,6 +520,7 @@ function bindEvents() {
 
   document.querySelector("#confirmReset")?.addEventListener("click", () => {
     pendingImport = null;
+    selectedPreviewRecordId = "";
     pendingRestore = null;
     resetConfirmOpen = false;
     clearState();
@@ -524,6 +537,7 @@ function bindEvents() {
     if (!pendingRestore) return;
     resetConfirmOpen = false;
     pendingImport = null;
+    selectedPreviewRecordId = "";
     selectedRecordId = "";
     const backup = pendingRestore.backup;
     pendingRestore = null;
@@ -532,6 +546,7 @@ function bindEvents() {
 
   document.querySelector("#cancelRestore")?.addEventListener("click", () => {
     pendingRestore = null;
+    selectedPreviewRecordId = "";
     resetConfirmOpen = false;
     render();
   });
@@ -559,6 +574,13 @@ function bindEvents() {
   document.querySelectorAll("[data-record-id]").forEach((element) => {
     element.addEventListener("click", () => {
       selectedRecordId = element.dataset.recordId;
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-preview-record-id]").forEach((element) => {
+    element.addEventListener("click", () => {
+      selectedPreviewRecordId = element.dataset.previewRecordId;
       render();
     });
   });
@@ -619,6 +641,7 @@ function renderOwnerControls() {
 function renderImportPreview() {
   const batch = pendingImport.batch;
   const totalAfterImport = Object.keys(pendingImport.state.records).length;
+  const previewRecord = selectedPreviewRecordId ? pendingImport.state.records[selectedPreviewRecordId] : null;
   return `
     <section class="import-preview" aria-label="Import preview">
       <div>
@@ -640,12 +663,43 @@ function renderImportPreview() {
         ${previewList("Stale", batch.staleIds, pendingImport.state.records)}
         ${previewList("Manual conflicts", batch.discrepancyIds, pendingImport.state.records)}
       </div>
+      ${previewRecord ? renderPreviewInspector(previewRecord) : ""}
       <div class="button-row">
         <button id="commitImport">Commit Import</button>
         <button class="ghost" id="cancelImport">Cancel</button>
       </div>
     </section>
   `;
+}
+
+function renderPreviewInspector(record) {
+  const committedRecord = model.data.records[record.id];
+  const changeType = previewChangeType(record.id);
+  return `
+    <div class="preview-inspector">
+      <div>
+        <span>Preview record</span>
+        <strong>${escapeHtml(record.id)} - ${escapeHtml(changeType)}</strong>
+        <p>${escapeHtml(record.property)}${record.unit ? ` - ${escapeHtml(record.unit)}` : ""}</p>
+      </div>
+      <div class="preview-inspector-grid">
+        ${detailItem("Current committed", committedRecord ? effectiveStatus(committedRecord, model.data.records) : "Not in workspace")}
+        ${detailItem("Import status", record.importStatus)}
+        ${detailItem("Priority", record.priority)}
+        ${detailItem("Last seen", formatDate(record.lastSeenAt))}
+      </div>
+      <p>${escapeHtml(record.description)}</p>
+    </div>
+  `;
+}
+
+function previewChangeType(recordId) {
+  const batch = pendingImport.batch;
+  if (batch.newIds.includes(recordId)) return "New";
+  if (batch.discrepancyIds.includes(recordId)) return "Manual conflict";
+  if (batch.changedIds.includes(recordId)) return "Changed";
+  if (batch.staleIds.includes(recordId)) return "Stale";
+  return "Affected";
 }
 
 function renderRestorePreview() {
@@ -718,6 +772,10 @@ function restoreDetail(label, value) {
       <span>${escapeHtml(value)}</span>
     </div>
   `;
+}
+
+function firstPreviewRecordId(batch) {
+  return [...batch.newIds, ...batch.changedIds, ...batch.staleIds, ...batch.discrepancyIds][0] || "";
 }
 
 function allRecords() {
@@ -1478,14 +1536,16 @@ function previewList(label, ids = [], records = {}) {
     .slice(0, 5)
     .map((id) => {
       const record = records[id];
-      return record ? `${id} (${record.property}, ${effectiveStatus(record, records)})` : id;
+      const labelText = record ? `${id} (${record.property}, ${effectiveStatus(record, records)})` : id;
+      const selected = selectedPreviewRecordId === id ? "active" : "";
+      return `<button class="preview-record ${selected}" data-preview-record-id="${escapeAttr(id)}">${escapeHtml(labelText)}</button>`;
     })
-    .join("; ");
+    .join("");
   const extra = ids.length > 5 ? ` +${ids.length - 5} more` : "";
   return `
     <div>
       <strong>${label}</strong>
-      <span>${escapeHtml(visible)}${extra}</span>
+      <span>${visible}${extra ? `<em>${escapeHtml(extra)}</em>` : ""}</span>
     </div>
   `;
 }

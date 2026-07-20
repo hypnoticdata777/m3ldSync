@@ -533,6 +533,41 @@ Manual override protection is now easier to understand during owner QA and publi
 
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed Sticky Manual Proof detail conflict, card badge when closed cards are shown, and mobile layout.
+
+## 2026-07-20 - Import Preview Drill-Down
+
+### Goal
+
+Close the import-preview gap where affected IDs were visible but could not be inspected before commit.
+
+### Built
+
+- Import previews now auto-select the first affected record.
+- Affected IDs in new, changed, stale, and manual-conflict groups are clickable.
+- The read-only preview inspector shows current committed status, pending import status, priority, last-seen timestamp, property/unit, and description.
+- Manual conflicts are labeled ahead of regular changed records when an ID appears in both buckets.
+- Tablet and mobile layouts collapse the inspector to avoid cramped columns.
+
+### Good
+
+- Synthetic follow-up preview selects `MS-1007 - New` automatically.
+- Clicking `MS-1001` shows the committed status versus pending import status before commit.
+- Clicking `MS-1004` shows the stale record context.
+- Desktop and mobile browser QA showed no page-level horizontal overflow.
+- Validation remains green with 9 tests passing.
+
+### Bad / Risks
+
+- The drill-down is still read-only; deeper row-by-row diffing can come later if the CSV review workflow needs it.
+
+### Outcome
+
+Owner import review is now more auditable before commit, directly strengthening the safer-import workflow from Phase 5 while keeping hosting/auth work deferred.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed desktop and `390x844` mobile preview drill-down behavior.
 - Local preview returned HTTP 200.
 - Git status confirms the private CSV is ignored.
 
