@@ -106,6 +106,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Public Demo shows visitor-safe walkthrough steps only.
 - [x] Public demo copy clearly indicates demo data.
 - [x] Public Demo shows a synthetic portfolio snapshot.
+- [x] Public Demo shows an operational brief.
 - [ ] No real property names appear in screenshots.
 - [ ] No real unit identifiers appear in screenshots.
 - [ ] No real descriptions appear in screenshots.
@@ -152,3 +153,9 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Public Demo shows a synthetic portfolio snapshot with portfolio scope, open work, latest import, and private-surface status.
 - Owner mode does not show the Public Demo Snapshot.
 - Desktop and mobile checks for the snapshot produced no page-level overflow and no console errors.
+
+2026-07-20 Phase 7B operational brief confirmed:
+
+- Public Demo shows import signal, triage focus, verification queue, and human-correction counts.
+- The brief updates to `1 new, 2 changed, 1 stale` during synthetic follow-up import preview and stays consistent after commit.
+- Owner mode does not show the public Operational Brief.

@@ -127,6 +127,8 @@ function render() {
 
       ${accessMode === "public" ? renderPublicSnapshot() : ""}
 
+      ${accessMode === "public" ? renderOperationalBrief() : ""}
+
       ${pendingImport ? renderImportPreview() : ""}
 
       ${resetConfirmOpen ? renderResetConfirmation() : ""}
@@ -672,6 +674,70 @@ function renderPublicSnapshot() {
         ${snapshotItem("Private Surface", "Hidden", "Owner tools stay out of Public Demo")}
       </div>
     </section>
+  `;
+}
+
+function renderOperationalBrief() {
+  const briefState = pendingImport?.mode === "demo" ? pendingImport.state : model.data;
+  const records = Object.values(briefState.records);
+  const staleRecords = records.filter((record) => record.stale);
+  const manualRecords = records.filter((record) => record.statusSource === "manual");
+  const linkedResolvedRecords = records.filter((record) => isLinkedResolved(record, briefState.records));
+  const oldestProperty = propertyStatsFor(records, briefState.records)[0];
+  const batch = pendingImport?.mode === "demo" ? pendingImport.batch : model.lastBatch || model.data.imports[0];
+  const importSignal = batch
+    ? `${batch.newCount} new, ${batch.statusChangedCount} changed, ${batch.staleCount} stale`
+    : "No import signal yet";
+
+  return `
+    <section class="operational-brief" aria-label="Operational brief">
+      <div class="section-title">
+        <h2>Operational Brief</h2>
+        <span>Public proof</span>
+      </div>
+      <div class="brief-grid">
+        ${briefItem("Import Signal", importSignal, batch ? batch.filename : "Synthetic baseline")}
+        ${briefItem(
+          "Triage Focus",
+          oldestProperty ? oldestProperty.property : "No property selected",
+          oldestProperty ? `${oldestProperty.open} open / ${oldestProperty.oldestOpen}d oldest` : "No active work"
+        )}
+        ${briefItem("Verification Queue", `${staleRecords.length} stale`, "Absent records are flagged, not deleted")}
+        ${briefItem(
+          "Human Corrections",
+          `${manualRecords.length} manual / ${linkedResolvedRecords.length} linked`,
+          "Manual and linked resolution stay durable"
+        )}
+      </div>
+    </section>
+  `;
+}
+
+function propertyStatsFor(records, recordMap) {
+  const stats = new Map();
+  for (const record of records) {
+    const current = stats.get(record.property) || {
+      property: record.property,
+      open: 0,
+      oldestOpen: 0
+    };
+    if (!isEffectivelyClosed(record, recordMap)) {
+      current.open += 1;
+      current.oldestOpen = Math.max(current.oldestOpen, daysOpen(record, now));
+    }
+    stats.set(record.property, current);
+  }
+
+  return [...stats.values()].sort((a, b) => b.open - a.open || b.oldestOpen - a.oldestOpen);
+}
+
+function briefItem(label, value, detail) {
+  return `
+    <article class="brief-item">
+      <span>${escapeHtml(label)}</span>
+      <strong>${escapeHtml(value)}</strong>
+      <small>${escapeHtml(detail)}</small>
+    </article>
   `;
 }
 

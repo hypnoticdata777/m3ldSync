@@ -699,3 +699,37 @@ Phase 7B now has a clearer public-facing snapshot for reviewers and investor con
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed Public Demo Snapshot visibility in Public Demo only.
 - Browser QA confirmed desktop and `390x844` mobile layout.
+
+## 2026-07-20 - Phase 7B Operational Brief
+
+### Goal
+
+Make the public investor demo communicate reconciliation impact immediately while staying aligned to the POC's FR/NFR: synthetic data only, no hosting yet, and no private owner controls exposed.
+
+### Built
+
+- Added a Public Demo-only Operational Brief.
+- The brief shows import signal, triage focus, verification queue, and human-correction counts.
+- During a synthetic follow-up import preview, the brief reads from the pending import state so reviewers see proposed impact before committing.
+- Owner mode does not show the Operational Brief.
+
+### Good
+
+- Public Demo now demonstrates RF-4 post-import summary and RF-12 stale-record handling faster.
+- The brief updates from baseline to `1 new, 2 changed, 1 stale` during preview and remains consistent after commit.
+- Public Demo still hides private controls.
+- Browser console remained clean.
+- Validation remains green with 9 tests passing.
+
+### Bad / Risks
+
+- This is still a local/static POC surface; hosting and portfolio websuite connection remain intentionally deferred.
+
+### Outcome
+
+The public investor demo now has a dynamic operational signal layer, not just static documentation or a generic dashboard view.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed baseline, preview, and committed brief states.

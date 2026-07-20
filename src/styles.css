@@ -588,6 +588,54 @@ h1 {
   line-height: 1.35;
 }
 
+.operational-brief {
+  margin-bottom: 14px;
+  border: 1px solid #cdded3;
+  border-radius: 8px;
+  background: #f8fbf8;
+  padding: 12px;
+}
+
+.brief-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.brief-item {
+  min-height: 92px;
+  border: 1px solid #dce6df;
+  border-left: 4px solid var(--green);
+  border-radius: 7px;
+  background: var(--surface);
+  padding: 10px;
+}
+
+.brief-item span,
+.brief-item strong,
+.brief-item small {
+  display: block;
+}
+
+.brief-item span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.brief-item strong {
+  margin-top: 7px;
+  font-size: 1rem;
+  overflow-wrap: anywhere;
+}
+
+.brief-item small {
+  margin-top: 6px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .main-grid {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr) 340px;
@@ -946,6 +994,10 @@ h1 {
     grid-template-columns: repeat(2, minmax(150px, 1fr));
   }
 
+  .brief-grid {
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+  }
+
   .qa-grid {
     grid-template-columns: repeat(3, minmax(120px, 1fr));
   }
@@ -1012,6 +1064,10 @@ h1 {
   }
 
   .snapshot-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .brief-grid {
     grid-template-columns: 1fr;
   }
 

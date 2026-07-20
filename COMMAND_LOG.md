@@ -159,6 +159,12 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7B | `node scripts/validate.mjs` | Final validation after Public Demo Snapshot docs/log updates. | Passed syntax checks and 9 tests. |
 | Phase 7B | `git status --short --branch` | Check final changed files before handoff. | Shows eight modified files pending commit. |
 | Phase 7B | `git diff --stat` | Summarize final change size before handoff. | Shows app, style, README, demo strategy, phase, QA, build log, and command log updates. |
+| Phase 7B | `git status --short --branch` | Verify repo state after Carlos pushed Public Demo Snapshot. | `main` is tracking `origin/main` at `b022fa3 Add public demo portfolio snapshot`. |
+| Phase 7B | `node scripts/validate.mjs` | Validate after adding Public Demo Operational Brief. | Passed syntax checks and 9 tests. |
+| Phase 7B | Browser automation: baseline, follow-up preview, commit, owner mode | Confirm Operational Brief visibility and dynamic import signal. | Public brief updated from baseline to `1 new, 2 changed, 1 stale` during preview and after commit; Owner mode hides it; no console errors. |
+| Phase 7B | `node scripts/validate.mjs` | Final validation after Operational Brief docs/log updates. | Passed syntax checks and 9 tests. |
+| Phase 7B | `git status --short --branch` | Check final changed files before handoff. | Shows eight modified files pending commit. |
+| Phase 7B | `git diff --stat` | Summarize final change size before handoff. | Shows app, style, README, demo strategy, phase, QA, build log, and command log updates. |
 
 ## Command Logging Rule
 

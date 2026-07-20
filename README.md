@@ -42,6 +42,7 @@ Built capabilities:
 - Guided demo walkthrough
 - Public demo data-boundary notice
 - Public demo portfolio snapshot
+- Public demo operational brief
 
 ## Data Privacy
 

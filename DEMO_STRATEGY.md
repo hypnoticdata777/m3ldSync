@@ -33,6 +33,7 @@ Default mode:
 - Show a guided walkthrough of the demo flow.
 - Show a compact notice that the public workspace is synthetic and excludes private data/tools.
 - Show a compact portfolio snapshot with synthetic scope, open work, latest import, and private-surface state.
+- Show an operational brief that updates when a synthetic follow-up import is previewed and committed.
 - Provide a button to run a follow-up import.
 - Show new, changed, and stale counts immediately after the follow-up import.
 - Let visitors manually mark a record complete.
@@ -84,6 +85,7 @@ The most important proof points to show:
 - Safe synthetic demo data
 - Clear public/owner data boundary
 - Portfolio-level snapshot for fast reviewer orientation
+- Dynamic import-impact brief for investor demos
 
 ## Demo Risks
 
