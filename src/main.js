@@ -114,6 +114,8 @@ function render() {
         </div>
       </section>
 
+      ${renderAccessNotice()}
+
       <section class="metrics" aria-label="Reconciliation summary">
         ${summaryMetric("Records", Object.keys(model.data.records).length)}
         ${summaryMetric("Open", allRecords().filter((record) => !isEffectivelyClosed(record, model.data.records)).length)}
@@ -191,6 +193,24 @@ function modeBadgeState() {
     className: "demo",
     label: "Demo Data"
   };
+}
+
+function renderAccessNotice() {
+  if (accessMode === "public") {
+    return `
+      <section class="access-notice public" aria-label="Public demo data notice">
+        <strong>Synthetic demo workspace</strong>
+        <span>No real properties, units, descriptions, CSV uploads, backups, or owner storage are shown in Public Demo.</span>
+      </section>
+    `;
+  }
+
+  return `
+    <section class="access-notice owner" aria-label="Owner workspace data notice">
+      <strong>Local owner workspace</strong>
+      <span>CSV imports and backup restores stay in this browser on this machine unless you export a backup file.</span>
+    </section>
+  `;
 }
 
 function bindEvents() {

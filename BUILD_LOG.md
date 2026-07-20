@@ -606,3 +606,58 @@ Restore file-picker QA and responsive layout QA are complete for Phase 7A. Backu
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed restore with synthetic backup.
 - Browser QA confirmed tablet/mobile layout at `820x900` and `390x844`.
+
+## 2026-07-20 - Phase 7B Public Demo Data-Boundary Polish
+
+### Goal
+
+Make the public demo safer and clearer for portfolio review by labeling the data boundary directly in the app.
+
+### Built
+
+- Added a compact Public Demo notice that states the workspace is synthetic and excludes real properties, units, descriptions, CSV uploads, backups, and owner storage.
+- Added a compact Owner notice that states CSV imports and backup restores stay local to the browser unless exported.
+- Styled the notices as quiet operational status strips that work on desktop and mobile.
+- Updated README, demo strategy, phase status, and QA checklist.
+
+### Good
+
+- Public Demo still hides private owner controls.
+- Owner mode still exposes import, export, restore, reset, and QA controls.
+- Desktop and mobile browser QA confirmed the notices do not create page-level horizontal overflow.
+- Browser console remained clean.
+- Validation remains green with 9 tests passing.
+
+### Bad / Risks
+
+- Public screenshots still need to be captured from synthetic data only.
+- Manual Windows confirmation of the backup export download remains open.
+
+### Outcome
+
+Phase 7B public demo polish now has a clearer in-app data-boundary signal for reviewers and screenshots.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed Public Demo and Owner notices at desktop width and `390x844`.
+
+## 2026-07-20 - Phase 7A Browser QA Complete
+
+### Goal
+
+Close the final manual Phase 7A browser QA item by confirming backup export download behavior outside the in-app automation surface.
+
+### Good
+
+- Manual Windows browser check confirmed `Export Backup` downloads `meldsync-backup-2026-07-20*.json` files.
+- The browser downloads panel showed multiple MeldSync backup JSON files from local owner mode.
+- This confirms the export path that in-app browser automation could click but could not observe as a download event.
+
+### Outcome
+
+Phase 7A browser QA and UX hardening are complete for the local POC.
+
+### Remaining Work
+
+- Continue Phase 7B portfolio-safe public demo packaging using synthetic data only.

@@ -79,8 +79,8 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 
 ## Backup and Restore
 
-- [ ] Click `Export Backup`.
-- [ ] Confirm JSON file downloads.
+- [x] Click `Export Backup`.
+- [x] Confirm JSON file downloads.
 - [x] Reset local data.
 - [x] Click `Restore Backup`.
 - [x] Select a JSON backup.
@@ -104,10 +104,10 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Public Demo hides backup, restore, and reset controls.
 - [x] Public Demo hides internal QA panel.
 - [x] Public Demo shows visitor-safe walkthrough steps only.
+- [x] Public demo copy clearly indicates demo data.
 - [ ] No real property names appear in screenshots.
 - [ ] No real unit identifiers appear in screenshots.
 - [ ] No real descriptions appear in screenshots.
-- [ ] Public demo copy clearly indicates demo data.
 
 ## Manual QA Evidence
 
@@ -130,11 +130,6 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Linked-record resolution works with synthetic IDs and updates effective status/counts/card badge.
 - Desktop page-level horizontal overflow was found and fixed.
 
-Remaining manual browser QA:
-
-- Backup export download.
-- Exported backup restore round-trip.
-
 2026-07-20 browser automation confirmed:
 
 - `Reset Local Data` opens an inline reset confirmation panel instead of a native dialog.
@@ -143,3 +138,10 @@ Remaining manual browser QA:
 - Restore Backup opens the file picker and accepts a synthetic JSON backup.
 - Restore replaced local state with the selected synthetic backup and produced no console errors.
 - Tablet and mobile checks passed at `820x900` and `390x844` with no page-level horizontal overflow.
+- Manual Windows check confirmed `Export Backup` downloads JSON files.
+
+2026-07-20 Phase 7B polish confirmed:
+
+- Public Demo shows a synthetic-data notice and continues to hide private owner controls.
+- Owner mode shows a local-browser storage notice next to owner controls.
+- Desktop and mobile checks for the notices produced no page-level overflow and no console errors.

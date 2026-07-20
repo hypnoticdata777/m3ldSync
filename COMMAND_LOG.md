@@ -145,6 +145,14 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7A | Browser automation: retest `Export Backup` after delayed revocation | Check whether export download event becomes observable. | Download event still timed out; no console errors occurred and state remained intact. |
 | Phase 7A | Browser automation: `Restore Backup` with synthetic JSON backup | Verify restore file-picker flow and state replacement. | File picker opened; selected synthetic backup restored successfully to 0 records with no console errors. |
 | Phase 7A | Browser automation: viewport `820x900` and `390x844` in Public Demo and Owner mode | Verify tablet/mobile layout and access boundary. | No page-level horizontal overflow; controls fit; board scrolls internally; public mode remains visitor-safe. |
+| Phase 7B | `git status --short --branch` | Verify repo state after Carlos pushed backup/restore/responsive QA work. | `main` is tracking `origin/main` at `789f4bf Harden backup export and finish restore responsive QA`. |
+| Phase 7B | `Get-Content README.md`, `DEMO_STRATEGY.md`, `src/main.js`, `src/styles.css`, `QA_CHECKLIST.md` | Inspect public-demo docs and app structure before adding data-boundary polish. | Confirmed public/owner mode exists but public copy needed a stronger synthetic-data signal. |
+| Phase 7B | `node scripts/validate.mjs` | Validate after adding Public Demo and Owner workspace notices. | Passed syntax checks and 9 tests. |
+| Phase 7B | Browser automation: verify Public Demo and Owner notices at desktop and `390x844` | Confirm data-boundary copy, private-control visibility, and responsive layout. | Public notice and owner notice rendered without overflow or console errors; Public Demo still hid private controls. |
+| Phase 7B | `node scripts/validate.mjs` | Final validation after Phase 7B data-boundary docs/log updates. | Passed syntax checks and 9 tests. |
+| Phase 7B | `git status --short --branch` | Check final changed files before handoff. | Shows eight modified files pending commit. |
+| Phase 7B | `git diff --stat` | Summarize final change size before handoff. | Shows app, style, README, demo strategy, phase, QA, build log, and command log updates. |
+| Phase 7A | Manual Windows browser download check | Confirm `Export Backup` downloads a JSON file outside the in-app browser automation surface. | Downloads panel showed `meldsync-backup-2026-07-20*.json`; Phase 7A browser QA is complete. |
 
 ## Command Logging Rule
 

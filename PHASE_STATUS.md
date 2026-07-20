@@ -4,9 +4,9 @@ Last updated: 2026-07-20
 
 ## Current Phase
 
-Current completed phase: Phase 7B - Public Demo Packaging and Access Modes, first slice complete.
+Current completed phase: Phase 7A - Browser QA and UX Hardening complete; Phase 7B first polish slices complete.
 
-Next phase: Finish Phase 7A file-picker QA, then continue Phase 7B portfolio packaging.
+Next phase: Continue Phase 7B portfolio packaging.
 
 ## Completed
 
@@ -80,7 +80,7 @@ Status: Complete
 
 ### Blocker 1 - Browser Interaction QA
 
-Status: Mostly complete
+Status: Complete
 
 Verified in an actual browser:
 
@@ -95,11 +95,10 @@ Verified in an actual browser:
 - Desktop page-level horizontal overflow is fixed.
 - Reset confirmation uses an inline panel and behaves correctly.
 - Restore backup file-picker flow replaces local state from a synthetic JSON backup.
+- Backup export downloads JSON in the user's browser.
 - Tablet/mobile viewport checks pass without page-level horizontal overflow.
 
-Still needs browser confirmation:
-
-- Backup export downloads JSON.
+No remaining Phase 7A browser QA blockers.
 
 ### Blocker 2 - GitHub Repo Setup
 
@@ -116,13 +115,13 @@ Completed:
 Current note:
 
 - GitHub repo exists at `https://github.com/hypnoticdata777/m3ldSync.git`.
-- Latest verified local commit: `4ab774a Add inline reset confirmation`.
+- Latest verified local commit: `789f4bf Harden backup export and finish restore responsive QA`.
 
 ## Next Active Blocker
 
-### Blocker 1 - Finish Remaining Phase 7A Browser QA
+### Blocker 1 - Phase 7A Browser QA
 
-Status: Narrowed
+Status: Complete
 
 Completed in this pass:
 
@@ -136,10 +135,6 @@ Completed in this pass:
 - Hardened linked-record draft persistence.
 - Added linked-record draft regression coverage.
 
-Need to verify in an actual browser:
-
-- Backup export downloads JSON.
-
 Recently completed:
 
 - Reset confirmation now uses an in-app warning panel.
@@ -147,6 +142,9 @@ Recently completed:
 - Browser QA confirmed `Confirm Reset` clears owner storage and reloads the synthetic demo baseline.
 - Restore file-picker QA replaced local state from a synthetic JSON backup.
 - Tablet/mobile checks passed at `820x900` and `390x844` with no page-level horizontal overflow.
+- Manual Windows browser check confirmed `Export Backup` downloads JSON files.
+- Public Demo now shows a compact synthetic-data notice.
+- Owner mode now shows a compact local-browser storage notice.
 
 ## Phase 7B Preview - Public Demo Packaging and Access Modes
 
@@ -157,8 +155,10 @@ Completed:
 - Added a clear public demo/owner workspace mode boundary.
 - Public Demo starts with synthetic data only.
 - Public Demo hides private import, backup, restore, reset, and internal QA controls.
+- Public Demo clearly states that no real properties, units, descriptions, CSV uploads, backups, or owner storage are shown.
 - Public Demo shows a visitor-safe `6/6` walkthrough.
 - Owner mode exposes CSV import, backup, restore, reset, and internal QA.
+- Owner mode states that CSV imports and backup restores stay in this browser unless exported.
 - Owner mode shows the full `7/7` walkthrough.
 
 Important limitation:

@@ -31,6 +31,7 @@ Default mode:
 - Start in Demo Data mode.
 - Show a synthetic portfolio already loaded.
 - Show a guided walkthrough of the demo flow.
+- Show a compact notice that the public workspace is synthetic and excludes private data/tools.
 - Provide a button to run a follow-up import.
 - Show new, changed, and stale counts immediately after the follow-up import.
 - Let visitors manually mark a record complete.
@@ -41,6 +42,7 @@ Owner mode:
 
 - Allow uploading a CSV with the same schema.
 - Treat uploaded data as local browser-only data.
+- Show a compact notice that owner data stays local to the browser unless exported.
 - Display a clear Private Local Data indicator.
 - Show backup, restore, reset, and internal QA controls.
 
@@ -79,6 +81,7 @@ The most important proof points to show:
 - Status change history
 - Property-level open work summary
 - Safe synthetic demo data
+- Clear public/owner data boundary
 
 ## Demo Risks
 
