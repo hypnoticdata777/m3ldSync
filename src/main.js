@@ -10,7 +10,8 @@ import {
   setLinkedRecord,
   setLinkedRecordDraft,
   setManualStatus,
-  setRecordNote
+  setRecordNote,
+  validateBackup
 } from "./domain.js";
 import { demoBaselineCsv, demoFollowUpCsv } from "./demoData.js";
 import { getDemoWalkthrough, runDemoQa } from "./qa.js";
@@ -1728,25 +1729,6 @@ function exportBackup() {
   link.click();
   link.remove();
   setTimeout(() => URL.revokeObjectURL(url), 0);
-}
-
-function validateBackup(backup) {
-  if (!backup || typeof backup !== "object") {
-    throw new Error("Backup file is not a JSON object.");
-  }
-
-  if (!["demo", "private"].includes(backup.mode)) {
-    throw new Error("Backup mode must be demo or private.");
-  }
-
-  if (
-    !backup.data ||
-    typeof backup.data.records !== "object" ||
-    !Array.isArray(backup.data.history) ||
-    !Array.isArray(backup.data.imports)
-  ) {
-    throw new Error("Backup is missing MeldSync data.");
-  }
 }
 
 function statusIndex(status) {

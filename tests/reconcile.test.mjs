@@ -9,7 +9,8 @@ import {
   reconcile,
   setLinkedRecord,
   setLinkedRecordDraft,
-  setManualStatus
+  setManualStatus,
+  validateBackup
 } from "../src/domain.js";
 import { demoBaselineCsv, demoFollowUpCsv } from "../src/demoData.js";
 
@@ -122,4 +123,49 @@ test("linked record drafts persist without writing audit history on every keystr
 test("missing required columns fail clearly", () => {
   const badCsv = `Meld Number,Unit\nMS-1,101`;
   assert.throws(() => parsePropertyMeldCsv(badCsv), /missing required column/);
+});
+
+test("validates MeldSync backup shape deeply", () => {
+  const rows = parsePropertyMeldCsv(demoBaselineCsv);
+  const { state, batch } = reconcile(createEmptyState(), rows, {
+    uploadedAt: "2026-07-10T12:00:00.000Z",
+    batchId: "batch-1",
+    filename: "demo-baseline.csv"
+  });
+  const backup = {
+    mode: "demo",
+    data: state,
+    lastBatch: batch,
+    exportedAt: "2026-07-20T12:00:00.000Z",
+    product: "MeldSync POC",
+    version: 1
+  };
+
+  assert.doesNotThrow(() => validateBackup(backup));
+});
+
+test("rejects backup records with mismatched ids", () => {
+  const rows = parsePropertyMeldCsv(demoBaselineCsv);
+  const { state, batch } = reconcile(createEmptyState(), rows, {
+    uploadedAt: "2026-07-10T12:00:00.000Z",
+    batchId: "batch-1",
+    filename: "demo-baseline.csv"
+  });
+  const backup = JSON.parse(JSON.stringify({ mode: "demo", data: state, lastBatch: batch }));
+  backup.data.records["MS-1001"].id = "MS-9999";
+
+  assert.throws(() => validateBackup(backup), /mismatched id/);
+});
+
+test("rejects backup import batches with corrupted affected id lists", () => {
+  const rows = parsePropertyMeldCsv(demoBaselineCsv);
+  const { state, batch } = reconcile(createEmptyState(), rows, {
+    uploadedAt: "2026-07-10T12:00:00.000Z",
+    batchId: "batch-1",
+    filename: "demo-baseline.csv"
+  });
+  const backup = JSON.parse(JSON.stringify({ mode: "demo", data: state, lastBatch: batch }));
+  backup.data.imports[0].newIds = "MS-1001";
+
+  assert.throws(() => validateBackup(backup), /newIds must be a string array/);
 });

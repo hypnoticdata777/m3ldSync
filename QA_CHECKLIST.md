@@ -90,6 +90,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Click `Restore Backup`.
 - [x] Select a JSON backup.
 - [x] Confirm Restore Preview appears before local state is replaced.
+- [x] Confirm malformed backup internals are rejected by validation.
 - [x] Confirm canceling Restore Preview preserves current local state.
 - [x] Confirm committing Restore Preview replaces local state.
 - [x] Confirm restored state matches the selected backup.
@@ -270,3 +271,10 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Clicking `MS-1001` in the queue selects the record and shows the detail conflict panel.
 - Owner workflow with manual `Completed` status plus committed follow-up import shows the same queue.
 - Desktop and `390x844` mobile checks showed no page-level horizontal overflow.
+
+2026-07-20 deep backup validation confirmed:
+
+- Unit tests accept a valid MeldSync backup shape.
+- Unit tests reject mismatched backup record IDs.
+- Unit tests reject corrupted import batch affected-ID lists.
+- Browser restore QA confirmed a valid synthetic backup still opens Restore Preview with no console errors.

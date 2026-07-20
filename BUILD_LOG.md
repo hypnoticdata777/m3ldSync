@@ -136,7 +136,7 @@ Make imports safer and make private local data easier to preserve.
 
 ### Bad / Risks
 
-- Backup restore currently trusts the internal state shape after shallow validation; deeper validation should be added before daily reliance.
+- Backup restore validation was shallow at this point; deeper validation was added later on 2026-07-20.
 - Import preview currently shows aggregate counts only, not row-level examples of what changed.
 - Browser-level visual QA still has not been completed with screenshots or interaction automation.
 - Git has not been initialized yet.
@@ -638,6 +638,40 @@ Manual/import conflict review is now a first-class owner workflow and a clearer 
 
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed public baseline, sticky manual queue, owner workflow queue, and `390x844` mobile layout.
+
+## 2026-07-20 - Deep Backup Validation
+
+### Goal
+
+Reduce owner-data risk by validating backup internals before a restore preview can replace local state.
+
+### Built
+
+- Moved backup validation into the domain layer so it can be covered by tests.
+- Backup validation now checks mode, data container, records object, history array, imports array, and optional `lastBatch`.
+- Record validation checks matched IDs, required status/property/timestamp fields, status source, stale boolean, and labor-hours number.
+- Import batch validation checks counts and affected-ID arrays.
+- History validation checks required audit fields and allowed source types.
+
+### Good
+
+- Malformed backups fail before Restore Preview opens.
+- Valid synthetic backup restore preview still works in the browser.
+- Validation coverage increased from 9 tests to 12 tests.
+- Browser console remained clean.
+
+### Bad / Risks
+
+- This is still local-file validation, not a production backup/restore policy with signed exports or server-side storage.
+
+### Outcome
+
+Owner backup restore is safer for local POC use, and malformed internal backup shapes are caught before they can replace the workspace.
+
+### Validation
+
+- `node scripts/validate.mjs` passed with 12 tests.
+- Browser QA confirmed valid synthetic backup restore preview still opens.
 - Local preview returned HTTP 200.
 - Git status confirms the private CSV is ignored.
 

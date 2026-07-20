@@ -336,6 +336,40 @@ export function daysOpen(record, now = new Date()) {
   return Math.max(0, Math.ceil((end.getTime() - start.getTime()) / 86400000));
 }
 
+export function validateBackup(backup) {
+  if (!isPlainObject(backup)) {
+    throw new Error("Backup file is not a JSON object.");
+  }
+
+  if (!["demo", "private"].includes(backup.mode)) {
+    throw new Error("Backup mode must be demo or private.");
+  }
+
+  if (!isPlainObject(backup.data)) {
+    throw new Error("Backup is missing MeldSync data.");
+  }
+
+  if (!isPlainObject(backup.data.records)) {
+    throw new Error("Backup records must be an object.");
+  }
+
+  if (!Array.isArray(backup.data.history)) {
+    throw new Error("Backup history must be an array.");
+  }
+
+  if (!Array.isArray(backup.data.imports)) {
+    throw new Error("Backup imports must be an array.");
+  }
+
+  Object.entries(backup.data.records).forEach(([recordId, record]) => validateBackupRecord(recordId, record));
+  backup.data.history.forEach((entry, index) => validateBackupHistoryEntry(entry, index));
+  backup.data.imports.forEach((batch, index) => validateBackupImportBatch(batch, index));
+
+  if (backup.lastBatch) {
+    validateBackupImportBatch(backup.lastBatch, "lastBatch");
+  }
+}
+
 function clean(value) {
   return String(value ?? "").trim();
 }
@@ -391,6 +425,87 @@ function historyEntry(recordId, timestamp, fromStatus, toStatus, source, importB
     importBatchId,
     note
   };
+}
+
+function validateBackupRecord(recordId, record) {
+  if (!isPlainObject(record)) {
+    throw new Error(`Backup record ${recordId} must be an object.`);
+  }
+
+  if (record.id !== recordId) {
+    throw new Error(`Backup record ${recordId} has a mismatched id.`);
+  }
+
+  requireString(record.id, `Backup record ${recordId} id`);
+  requireString(record.property, `Backup record ${recordId} property`);
+  requireString(record.priority, `Backup record ${recordId} priority`);
+  requireString(record.currentStatus, `Backup record ${recordId} current status`);
+  requireString(record.importStatus, `Backup record ${recordId} import status`);
+  requireString(record.statusSource, `Backup record ${recordId} status source`);
+  requireString(record.createdDate, `Backup record ${recordId} created date`);
+  requireString(record.firstSeenAt, `Backup record ${recordId} first seen`);
+  requireString(record.lastSeenAt, `Backup record ${recordId} last seen`);
+
+  if (!["import", "manual"].includes(record.statusSource)) {
+    throw new Error(`Backup record ${recordId} status source must be import or manual.`);
+  }
+
+  if (typeof record.stale !== "boolean") {
+    throw new Error(`Backup record ${recordId} stale flag must be boolean.`);
+  }
+
+  if (!Number.isFinite(record.totalLaborHours)) {
+    throw new Error(`Backup record ${recordId} labor hours must be a number.`);
+  }
+}
+
+function validateBackupHistoryEntry(entry, index) {
+  if (!isPlainObject(entry)) {
+    throw new Error(`Backup history entry ${index} must be an object.`);
+  }
+
+  requireString(entry.id, `Backup history entry ${index} id`);
+  requireString(entry.recordId, `Backup history entry ${index} record id`);
+  requireString(entry.timestamp, `Backup history entry ${index} timestamp`);
+  requireString(entry.toStatus, `Backup history entry ${index} destination status`);
+  requireString(entry.source, `Backup history entry ${index} source`);
+  requireString(entry.note, `Backup history entry ${index} note`);
+
+  if (!["import", "manual"].includes(entry.source)) {
+    throw new Error(`Backup history entry ${index} source must be import or manual.`);
+  }
+}
+
+function validateBackupImportBatch(batch, index) {
+  if (!isPlainObject(batch)) {
+    throw new Error(`Backup import batch ${index} must be an object.`);
+  }
+
+  requireString(batch.id, `Backup import batch ${index} id`);
+  requireString(batch.uploadedAt, `Backup import batch ${index} uploaded timestamp`);
+  requireString(batch.filename, `Backup import batch ${index} filename`);
+
+  ["rowCount", "newCount", "statusChangedCount", "staleCount", "unchangedCount", "discrepancyCount"].forEach((field) => {
+    if (!Number.isFinite(batch[field])) {
+      throw new Error(`Backup import batch ${index} ${field} must be a number.`);
+    }
+  });
+
+  ["newIds", "changedIds", "staleIds", "discrepancyIds"].forEach((field) => {
+    if (!Array.isArray(batch[field]) || batch[field].some((id) => typeof id !== "string")) {
+      throw new Error(`Backup import batch ${index} ${field} must be a string array.`);
+    }
+  });
+}
+
+function requireString(value, label) {
+  if (typeof value !== "string" || !value.trim()) {
+    throw new Error(`${label} is required.`);
+  }
+}
+
+function isPlainObject(value) {
+  return Boolean(value) && typeof value === "object" && !Array.isArray(value);
 }
 
 function cloneState(state) {
