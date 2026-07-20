@@ -399,6 +399,40 @@ Phase 7B now has a complete public-safe screenshot staging flow for the eventual
 
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed all presets, Owner hiding, and mobile layout.
+
+## 2026-07-20 - Phase 7B Portfolio Screenshot Assets
+
+### Goal
+
+Capture final portfolio-safe screenshot files from synthetic Public Demo state.
+
+### Built
+
+- Added `docs/portfolio`.
+- Captured `meldsync-portfolio-hero.png`.
+- Captured Portfolio View proof-state screenshots for Baseline, Follow-Up Signal, Sticky Manual, and Linked Resolution.
+- Added `docs/portfolio/README.md` as the screenshot manifest.
+
+### Good
+
+- Screenshot assets are generated from Public Demo Portfolio View only.
+- Capture checks confirmed the synthetic notice was visible.
+- Capture checks confirmed owner controls were hidden.
+- Capture checks confirmed no page-level horizontal overflow.
+- The hero screenshot gives a cleaner viewport asset for portfolio/websuite use.
+
+### Bad / Risks
+
+- Full-page screenshots can appear compressed in preview tools; the viewport hero capture is the cleaner first-use asset.
+
+### Outcome
+
+Phase 7B now has public-safe screenshot files and copy snippets ready for the later portfolio websuite integration.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser capture checks confirmed Public Demo, Portfolio View, hidden owner controls, synthetic notice, and no overflow.
 - Local preview returned HTTP 200.
 - Git status confirms the private CSV is ignored.
 

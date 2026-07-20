@@ -98,6 +98,7 @@ The most important proof points to show:
 - Portfolio View for clean public screenshots
 - Portfolio Copy for reusable public-safe snippets
 - Capture Presets for public screenshot states
+- Portfolio screenshot assets captured from synthetic Public Demo state
 
 ## Demo Risks
 

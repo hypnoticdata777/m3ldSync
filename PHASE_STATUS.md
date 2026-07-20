@@ -152,6 +152,7 @@ Recently completed:
 - Public Demo now has a Portfolio View toggle for clean synthetic screenshots.
 - Public Demo now has a Portfolio Copy pack for reusable synthetic-safe snippets.
 - Public Demo now has Capture Presets for clean screenshot proof states.
+- Portfolio-safe screenshot files have been captured from synthetic Public Demo Portfolio View.
 - Owner mode now shows a compact local-browser storage notice.
 
 ## Phase 7B Preview - Public Demo Packaging and Access Modes
@@ -172,6 +173,7 @@ Completed:
 - Public Demo has a Portfolio View toggle that hides workflow chrome and keeps the public proof surfaces visible.
 - Public Demo has a Portfolio Copy pack with summary, proof bullets, and privacy caption copy.
 - Public Demo has Capture Presets for baseline, follow-up signal, sticky manual, and linked-resolution screenshot states.
+- Portfolio screenshot assets are stored under `docs/portfolio`.
 - Public Demo shows a visitor-safe `6/6` walkthrough.
 - Owner mode exposes CSV import, backup, restore, reset, and internal QA.
 - Owner mode states that CSV imports and backup restores stay in this browser unless exported.
@@ -183,7 +185,6 @@ Important limitation:
 
 Recommended next build:
 
-- Capture final portfolio-safe screenshot files using synthetic data only.
 - Decide whether hosted auth should be mocked visually or deferred until a backend exists.
 - Add a production-auth design note before any real deployment.
 

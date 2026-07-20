@@ -49,6 +49,7 @@ Built capabilities:
 - Public demo portfolio view
 - Public demo portfolio copy pack
 - Public demo capture presets
+- Portfolio-safe screenshot assets
 
 ## Data Privacy
 
@@ -113,6 +114,7 @@ src/qa.js               Demo QA and walkthrough scenario
 src/storage.js          Browser localStorage helpers
 tests/reconcile.test.mjs Core reconciliation tests
 scripts/serve.mjs       Local static preview server
+docs/portfolio          Synthetic portfolio screenshot assets
 ```
 
 ## Documentation

@@ -113,9 +113,10 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Public Demo Portfolio View shows clean screenshot surfaces.
 - [x] Public Demo Portfolio Copy shows reusable synthetic-safe snippets.
 - [x] Public Demo Capture Presets stage screenshot proof states.
-- [ ] No real property names appear in screenshots.
-- [ ] No real unit identifiers appear in screenshots.
-- [ ] No real descriptions appear in screenshots.
+- [x] Portfolio-safe screenshots are captured from synthetic Public Demo only.
+- [x] No real property names appear in captured public screenshots.
+- [x] No real unit identifiers appear in captured public screenshots.
+- [x] No real descriptions appear in captured public screenshots.
 
 ## Manual QA Evidence
 
@@ -209,3 +210,10 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Linked Resolution updates public proof surfaces to `1 resolved`.
 - Owner mode does not show Capture Presets.
 - Mobile Capture Presets have no page-level horizontal overflow.
+
+2026-07-20 Phase 7B screenshot assets confirmed:
+
+- Captured `docs/portfolio/meldsync-portfolio-hero.png`.
+- Captured baseline, follow-up signal, sticky manual, and linked-resolution Portfolio View screenshots.
+- Capture checks confirmed Public Demo mode, Portfolio View, synthetic notice, hidden owner controls, and no page-level horizontal overflow.
+- Screenshot manifest is stored at `docs/portfolio/README.md`.
