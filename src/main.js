@@ -26,6 +26,7 @@ let pendingImport = null;
 let resetConfirmOpen = false;
 let portfolioView = false;
 let copiedCopyId = "";
+let capturePresetId = "baseline";
 let filters = {
   search: "",
   property: "All",
@@ -118,6 +119,7 @@ function switchAccessMode(nextAccessMode) {
   resetConfirmOpen = false;
   portfolioView = false;
   copiedCopyId = "";
+  capturePresetId = "baseline";
   selectedRecordId = "";
   model = accessMode === "owner" ? loadState() || createDemoModel() : createDemoModel();
   render();
@@ -188,6 +190,8 @@ function render() {
       ${accessMode === "public" ? renderPublicProofPack() : ""}
 
       ${accessMode === "public" ? renderPortfolioCopyPack() : ""}
+
+      ${isPortfolioView ? renderCapturePresets() : ""}
 
       ${pendingImport && !isPortfolioView ? renderImportPreview() : ""}
 
@@ -309,11 +313,18 @@ function bindEvents() {
     });
   });
 
+  document.querySelectorAll("[data-capture-preset]").forEach((element) => {
+    element.addEventListener("click", () => {
+      applyCapturePreset(element.dataset.capturePreset);
+    });
+  });
+
   document.querySelector("#demoBaseline")?.addEventListener("click", () => {
     pendingImport = null;
     resetConfirmOpen = false;
     portfolioView = false;
     copiedCopyId = "";
+    capturePresetId = "baseline";
     selectedRecordId = "";
     setModel(createDemoModel());
   });
@@ -321,6 +332,7 @@ function bindEvents() {
   document.querySelector("#demoFollowUp")?.addEventListener("click", () => {
     resetConfirmOpen = false;
     copiedCopyId = "";
+    capturePresetId = "followup";
     const base = model.mode === "demo" ? model.data : createDemoModel().data;
     const rows = parsePropertyMeldCsv(demoFollowUpCsv);
     const { state, batch } = reconcile(base, rows, {
@@ -341,12 +353,14 @@ function bindEvents() {
   document.querySelector("#stickyProof")?.addEventListener("click", () => {
     pendingImport = null;
     resetConfirmOpen = false;
+    capturePresetId = "sticky";
     setModel(createStickyManualProofModel());
   });
 
   document.querySelector("#linkedProof")?.addEventListener("click", () => {
     pendingImport = null;
     resetConfirmOpen = false;
+    capturePresetId = "linked";
     setModel(createLinkedResolutionProofModel());
   });
 
@@ -426,6 +440,7 @@ function bindEvents() {
     pendingImport = null;
     resetConfirmOpen = false;
     copiedCopyId = "";
+    capturePresetId = "baseline";
     render();
   });
 
@@ -949,6 +964,100 @@ function renderPortfolioCopyPack() {
       </div>
     </section>
   `;
+}
+
+function renderCapturePresets() {
+  const presets = getCapturePresets();
+  const activePreset = presets.find((preset) => preset.id === capturePresetId) || presets[0];
+  return `
+    <section class="capture-presets" aria-label="Portfolio capture presets">
+      <div class="section-title">
+        <h2>Capture Presets</h2>
+        <span>${escapeHtml(activePreset.label)}</span>
+      </div>
+      <div class="capture-grid">
+        ${presets.map(renderCapturePreset).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function getCapturePresets() {
+  return [
+    {
+      id: "baseline",
+      label: "Baseline",
+      detail: "Clean synthetic portfolio"
+    },
+    {
+      id: "followup",
+      label: "Follow-Up Signal",
+      detail: "Preview import impact"
+    },
+    {
+      id: "sticky",
+      label: "Sticky Manual",
+      detail: "Manual truth survives"
+    },
+    {
+      id: "linked",
+      label: "Linked Resolution",
+      detail: "Follow-up closes original"
+    }
+  ];
+}
+
+function renderCapturePreset(preset) {
+  const active = capturePresetId === preset.id ? "active" : "";
+  return `
+    <button class="capture-preset ${active}" data-capture-preset="${escapeAttr(preset.id)}">
+      <span>${escapeHtml(preset.label)}</span>
+      <small>${escapeHtml(preset.detail)}</small>
+    </button>
+  `;
+}
+
+function applyCapturePreset(presetId) {
+  copiedCopyId = "";
+  resetConfirmOpen = false;
+  portfolioView = true;
+  capturePresetId = presetId || "baseline";
+
+  if (capturePresetId === "followup") {
+    model = createDemoModel();
+    selectedRecordId = Object.keys(model.data.records)[0] || "";
+    const rows = parsePropertyMeldCsv(demoFollowUpCsv);
+    const { state, batch } = reconcile(model.data, rows, {
+      uploadedAt: "2026-07-11T12:00:00.000Z",
+      batchId: "demo-follow-up-capture",
+      filename: "demo-follow-up.csv"
+    });
+    pendingImport = {
+      mode: "demo",
+      state,
+      batch,
+      filename: "demo-follow-up.csv",
+      note: "Synthetic follow-up import. Safe for public demo."
+    };
+    render();
+    return;
+  }
+
+  pendingImport = null;
+
+  if (capturePresetId === "sticky") {
+    setModel(createStickyManualProofModel());
+    return;
+  }
+
+  if (capturePresetId === "linked") {
+    setModel(createLinkedResolutionProofModel());
+    return;
+  }
+
+  capturePresetId = "baseline";
+  selectedRecordId = "";
+  setModel(createDemoModel());
 }
 
 function getPortfolioCopyItems() {

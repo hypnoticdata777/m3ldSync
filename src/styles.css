@@ -861,6 +861,51 @@ h1 {
   color: #285c42;
 }
 
+.capture-presets {
+  margin-bottom: 14px;
+  border: 1px solid #d6dedb;
+  border-radius: 8px;
+  background: #f8fbf9;
+  padding: 12px;
+}
+
+.capture-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.capture-preset {
+  min-height: 74px;
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: var(--surface);
+  color: var(--text);
+  padding: 10px;
+  text-align: left;
+}
+
+.capture-preset.active {
+  border-color: var(--teal);
+  background: #eaf3ef;
+  box-shadow: 0 0 0 3px rgba(46, 125, 111, 0.14);
+}
+
+.capture-preset span,
+.capture-preset small {
+  display: block;
+}
+
+.capture-preset span {
+  font-weight: 850;
+}
+
+.capture-preset small {
+  margin-top: 6px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .main-grid {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr) 340px;
@@ -1239,6 +1284,10 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .capture-grid {
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+  }
+
   .qa-grid {
     grid-template-columns: repeat(3, minmax(120px, 1fr));
   }
@@ -1317,6 +1366,10 @@ h1 {
   }
 
   .proof-pack-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .capture-grid {
     grid-template-columns: 1fr;
   }
 

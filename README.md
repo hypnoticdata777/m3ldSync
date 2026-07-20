@@ -48,6 +48,7 @@ Built capabilities:
 - Public demo proof pack
 - Public demo portfolio view
 - Public demo portfolio copy pack
+- Public demo capture presets
 
 ## Data Privacy
 

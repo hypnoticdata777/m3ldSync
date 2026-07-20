@@ -112,6 +112,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Public Demo shows a portfolio-safe proof pack.
 - [x] Public Demo Portfolio View shows clean screenshot surfaces.
 - [x] Public Demo Portfolio Copy shows reusable synthetic-safe snippets.
+- [x] Public Demo Capture Presets stage screenshot proof states.
 - [ ] No real property names appear in screenshots.
 - [ ] No real unit identifiers appear in screenshots.
 - [ ] No real descriptions appear in screenshots.
@@ -199,3 +200,12 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Copy state clears when the generated text changes.
 - Owner mode does not show the Portfolio Copy pack.
 - Mobile Portfolio Copy has no page-level horizontal overflow.
+
+2026-07-20 Phase 7B capture presets confirmed:
+
+- Portfolio View shows Capture Presets for Baseline, Follow-Up Signal, Sticky Manual, and Linked Resolution.
+- Follow-Up Signal updates public proof surfaces to `1 new / 2 changed / 1 stale` without showing the import preview panel.
+- Sticky Manual updates public proof surfaces to `1 sticky`.
+- Linked Resolution updates public proof surfaces to `1 resolved`.
+- Owner mode does not show Capture Presets.
+- Mobile Capture Presets have no page-level horizontal overflow.

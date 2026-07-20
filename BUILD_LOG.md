@@ -364,6 +364,41 @@ Phase 7B now has screenshot surfaces and reusable synthetic-safe copy ready for 
 
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed copy pack visibility, copied state, preview updates, Owner hiding, and mobile layout.
+
+## 2026-07-20 - Phase 7B Capture Presets
+
+### Goal
+
+Make portfolio screenshot capture practical by letting Public Demo stage clean proof states directly inside Portfolio View.
+
+### Built
+
+- Added Public Demo Capture Presets.
+- Presets cover Baseline, Follow-Up Signal, Sticky Manual, and Linked Resolution.
+- Capture Presets appear only in Portfolio View.
+- Follow-Up Signal creates a synthetic pending import state while keeping the import preview panel hidden.
+- Sticky Manual and Linked Resolution reuse the existing public proof states.
+- Owner mode does not show Capture Presets.
+
+### Good
+
+- Portfolio View can now stage multiple screenshot states without returning to the full workflow.
+- Public proof surfaces and Portfolio Copy update with each preset.
+- The clean screenshot surface still hides board/detail workflow chrome.
+- Mobile browser QA shows no page-level horizontal overflow.
+
+### Bad / Risks
+
+- This stages screenshot states but still does not export image files automatically.
+
+### Outcome
+
+Phase 7B now has a complete public-safe screenshot staging flow for the eventual portfolio websuite work.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed all presets, Owner hiding, and mobile layout.
 - Local preview returned HTTP 200.
 - Git status confirms the private CSV is ignored.
 

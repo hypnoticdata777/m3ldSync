@@ -39,6 +39,7 @@ Default mode:
 - Show a public proof pack that summarizes reconciliation, verification, manual memory, linked resolution, top focus, and data boundary evidence.
 - Provide a Portfolio View toggle for clean synthetic screenshots and reviewer scan.
 - Provide a Portfolio Copy pack with synthetic-safe summary, proof bullets, and privacy caption copy.
+- Provide Capture Presets for baseline, follow-up signal, sticky manual, and linked-resolution screenshots.
 - Provide a button to run a follow-up import.
 - Show new, changed, and stale counts immediately after the follow-up import.
 - Let visitors manually mark a record complete.
@@ -96,6 +97,7 @@ The most important proof points to show:
 - Portfolio-safe proof pack for screenshots and reviewer scan
 - Portfolio View for clean public screenshots
 - Portfolio Copy for reusable public-safe snippets
+- Capture Presets for public screenshot states
 
 ## Demo Risks
 
