@@ -105,6 +105,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Public Demo hides internal QA panel.
 - [x] Public Demo shows visitor-safe walkthrough steps only.
 - [x] Public demo copy clearly indicates demo data.
+- [x] Owner mode shows hosted-auth Production Gate.
 - [x] Public Demo shows a synthetic portfolio snapshot.
 - [x] Public Demo shows an operational brief.
 - [x] Public Demo shows sticky manual and linked-resolution proof controls.
@@ -217,3 +218,9 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Captured baseline, follow-up signal, sticky manual, and linked-resolution Portfolio View screenshots.
 - Capture checks confirmed Public Demo mode, Portfolio View, synthetic notice, hidden owner controls, and no page-level horizontal overflow.
 - Screenshot manifest is stored at `docs/portfolio/README.md`.
+
+2026-07-20 Phase 7B production gate confirmed:
+
+- Owner mode shows a Production Gate with hosted auth deferred, owner data local-only, public demo safe, and auth design as the next gate.
+- Public Demo does not show the Production Gate.
+- Deployment readiness note is stored at `DEPLOYMENT_READINESS.md`.

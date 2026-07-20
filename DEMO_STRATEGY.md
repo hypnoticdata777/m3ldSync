@@ -51,6 +51,7 @@ Owner mode:
 - Allow uploading a CSV with the same schema.
 - Treat uploaded data as local browser-only data.
 - Show a compact notice that owner data stays local to the browser unless exported.
+- Show a production gate that keeps hosted auth deferred until a backend exists.
 - Display a clear Private Local Data indicator.
 - Show backup, restore, reset, and internal QA controls.
 
@@ -58,6 +59,7 @@ Important POC note:
 
 - The current Owner mode is a local static-app workspace boundary, not secure authentication.
 - A hosted version needs real backend auth before storing private workspaces or multi-user data.
+- The portfolio websuite should link only to the synthetic Public Demo until Owner mode has backend auth and protected storage.
 
 ## SuperAdmin Experience
 

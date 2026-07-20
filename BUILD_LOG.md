@@ -433,6 +433,39 @@ Phase 7B now has public-safe screenshot files and copy snippets ready for the la
 
 - `node scripts/validate.mjs` passed.
 - Browser capture checks confirmed Public Demo, Portfolio View, hidden owner controls, synthetic notice, and no overflow.
+
+## 2026-07-20 - Phase 7B Production Gate
+
+### Goal
+
+Close the hosted-auth decision gate without starting hosting work.
+
+### Built
+
+- Added an Owner-only Production Gate panel.
+- The gate states hosted auth is deferred.
+- The gate states owner data remains local only.
+- The gate states Public Demo is the safe portfolio surface.
+- Added `DEPLOYMENT_READINESS.md`.
+
+### Good
+
+- The app now makes the static POC boundary visible in Owner mode.
+- The portfolio websuite rule is explicit: link only to synthetic Public Demo until real backend auth and protected storage exist.
+- Public Demo remains clean and does not show owner readiness internals.
+
+### Bad / Risks
+
+- This is a readiness gate, not an auth implementation.
+
+### Outcome
+
+Phase 7B now has the hosted-auth posture captured both in-product and in a deployment readiness note.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed Owner visibility, Public hiding, and responsive layout.
 - Local preview returned HTTP 200.
 - Git status confirms the private CSV is ignored.
 

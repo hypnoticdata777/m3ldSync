@@ -249,6 +249,53 @@ h1 {
   text-align: right;
 }
 
+.production-gate {
+  margin-bottom: 14px;
+  border: 1px solid #e0d1b4;
+  border-left: 5px solid var(--amber);
+  border-radius: 8px;
+  background: #fffaf0;
+  padding: 12px;
+}
+
+.gate-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.gate-item {
+  min-height: 96px;
+  border: 1px solid #e5d8bf;
+  border-radius: 7px;
+  background: var(--surface);
+  padding: 10px;
+}
+
+.gate-item span,
+.gate-item strong,
+.gate-item small {
+  display: block;
+}
+
+.gate-item span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.gate-item strong {
+  margin-top: 7px;
+  font-size: 1rem;
+}
+
+.gate-item small {
+  margin-top: 6px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .metrics {
   display: grid;
   grid-template-columns: repeat(6, minmax(120px, 1fr));
@@ -1272,6 +1319,10 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .gate-grid {
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+  }
+
   .risk-grid {
     grid-template-columns: repeat(2, minmax(150px, 1fr));
   }
@@ -1358,6 +1409,10 @@ h1 {
   }
 
   .brief-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gate-grid {
     grid-template-columns: 1fr;
   }
 

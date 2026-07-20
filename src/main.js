@@ -170,6 +170,8 @@ function render() {
 
       ${renderAccessNotice()}
 
+      ${accessMode === "owner" ? renderProductionGate() : ""}
+
       <section class="metrics" aria-label="Reconciliation summary">
         ${summaryMetric("Records", Object.keys(model.data.records).length)}
         ${summaryMetric("Open", allRecords().filter((record) => !isEffectivelyClosed(record, model.data.records)).length)}
@@ -278,6 +280,53 @@ function renderAccessNotice() {
       <strong>Local owner workspace</strong>
       <span>CSV imports and backup restores stay in this browser on this machine unless you export a backup file.</span>
     </section>
+  `;
+}
+
+function renderProductionGate() {
+  const gateItems = [
+    {
+      label: "Hosted Auth",
+      value: "Deferred",
+      detail: "No private workspace should be hosted until backend auth and server-side authorization exist."
+    },
+    {
+      label: "Owner Data",
+      value: "Local only",
+      detail: "CSV imports, backup restore, notes, manual edits, and links stay in this browser."
+    },
+    {
+      label: "Public Demo",
+      value: "Safe",
+      detail: "Portfolio/demo surfaces use synthetic data and hide owner tools."
+    },
+    {
+      label: "Next Gate",
+      value: "Auth design",
+      detail: "Define account roles, protected storage, and deployment boundaries before hosting owner mode."
+    }
+  ];
+
+  return `
+    <section class="production-gate" aria-label="Production readiness gate">
+      <div class="section-title">
+        <h2>Production Gate</h2>
+        <span>Hosting deferred</span>
+      </div>
+      <div class="gate-grid">
+        ${gateItems.map(renderGateItem).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderGateItem(item) {
+  return `
+    <article class="gate-item">
+      <span>${escapeHtml(item.label)}</span>
+      <strong>${escapeHtml(item.value)}</strong>
+      <small>${escapeHtml(item.detail)}</small>
+    </article>
   `;
 }
 

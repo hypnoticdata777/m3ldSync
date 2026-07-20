@@ -181,6 +181,8 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7B | Browser automation: Portfolio View Capture Presets, Owner mode, mobile Public Demo | Verify screenshot state staging and access boundary. | Baseline, Follow-Up Signal, Sticky Manual, and Linked Resolution presets updated public proof surfaces; Owner hid presets; mobile had no overflow. |
 | Phase 7B | Browser automation: capture Public Demo Portfolio View screenshots to `docs/portfolio` | Generate portfolio-safe synthetic screenshot assets. | Captured hero, baseline, follow-up signal, sticky manual, and linked-resolution PNGs with synthetic notice visible, owner controls hidden, and no page-level overflow. |
 | Phase 7B | `Add-Type -AssemblyName System.Drawing; Get-ChildItem docs\\portfolio\\*.png ...` | Verify generated screenshot dimensions and file sizes. | Confirmed five PNG files: one viewport hero and four full-page preset captures. |
+| Phase 7B | `node scripts/validate.mjs` | Validate after adding Owner Production Gate and deployment readiness note. | Passed syntax checks and 9 tests. |
+| Phase 7B | Browser automation: Owner/Public/mobile Production Gate visibility | Verify hosted-auth gate behavior and responsive layout. | Owner showed the Production Gate; Public Demo hid it; mobile had no page-level overflow. |
 
 ## Command Logging Rule
 

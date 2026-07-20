@@ -50,6 +50,7 @@ Built capabilities:
 - Public demo portfolio copy pack
 - Public demo capture presets
 - Portfolio-safe screenshot assets
+- Owner production gate
 
 ## Data Privacy
 
@@ -123,6 +124,7 @@ docs/portfolio          Synthetic portfolio screenshot assets
 - `PHASE_STATUS.md` - current completed phase and next blockers
 - `ARCHITECTURE.md` - data flow and domain model notes
 - `DEMO_STRATEGY.md` - public demo positioning
+- `DEPLOYMENT_READINESS.md` - hosted auth and deployment gate
 - `QA_CHECKLIST.md` - browser/manual QA checklist
 - `GITHUB_HANDOFF.md` - instructions for creating and connecting a GitHub repo
 - `BUILD_LOG.md` - detailed phase-by-phase build notes
