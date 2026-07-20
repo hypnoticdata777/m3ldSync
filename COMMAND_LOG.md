@@ -165,6 +165,9 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7B | `node scripts/validate.mjs` | Final validation after Operational Brief docs/log updates. | Passed syntax checks and 9 tests. |
 | Phase 7B | `git status --short --branch` | Check final changed files before handoff. | Shows eight modified files pending commit. |
 | Phase 7B | `git diff --stat` | Summarize final change size before handoff. | Shows app, style, README, demo strategy, phase, QA, build log, and command log updates. |
+| Phase 7B | `git status --short --branch` | Verify repo state after Carlos pushed Operational Brief. | `main` is tracking `origin/main` at `2aa8457 Add public demo operational brief`. |
+| Phase 7B | `node scripts/validate.mjs` | Validate after adding Public Demo proof controls. | Passed syntax checks and 9 tests. |
+| Phase 7B | Browser automation: Sticky Manual Proof, Linked Resolution Proof, Owner mode, mobile Public Demo | Verify public proof controls and responsive behavior. | Sticky proof showed `Manual 1`; linked proof showed `Linked resolved 1`; Owner hid proof controls; no console errors. |
 
 ## Command Logging Rule
 

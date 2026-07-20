@@ -43,6 +43,7 @@ Built capabilities:
 - Public demo data-boundary notice
 - Public demo portfolio snapshot
 - Public demo operational brief
+- Public demo proof controls
 
 ## Data Privacy
 

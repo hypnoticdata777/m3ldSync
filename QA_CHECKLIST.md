@@ -107,6 +107,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Public demo copy clearly indicates demo data.
 - [x] Public Demo shows a synthetic portfolio snapshot.
 - [x] Public Demo shows an operational brief.
+- [x] Public Demo shows sticky manual and linked-resolution proof controls.
 - [ ] No real property names appear in screenshots.
 - [ ] No real unit identifiers appear in screenshots.
 - [ ] No real descriptions appear in screenshots.
@@ -159,3 +160,9 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Public Demo shows import signal, triage focus, verification queue, and human-correction counts.
 - The brief updates to `1 new, 2 changed, 1 stale` during synthetic follow-up import preview and stays consistent after commit.
 - Owner mode does not show the public Operational Brief.
+
+2026-07-20 Phase 7B proof controls confirmed:
+
+- Sticky Manual Proof selects `MS-1001`, keeps effective status completed, and shows `Manual 1`.
+- Linked Resolution Proof selects `MS-1001`, links it to `MS-1002`, and shows `Linked resolved 1`.
+- Owner mode does not show the public proof controls.

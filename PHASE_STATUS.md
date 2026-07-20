@@ -146,6 +146,7 @@ Recently completed:
 - Public Demo now shows a compact synthetic-data notice.
 - Public Demo now shows a compact portfolio snapshot for reviewer orientation.
 - Public Demo now shows an operational brief that updates during synthetic import preview and commit.
+- Public Demo now has proof controls for sticky manual override and linked-record resolution.
 - Owner mode now shows a compact local-browser storage notice.
 
 ## Phase 7B Preview - Public Demo Packaging and Access Modes
@@ -160,6 +161,7 @@ Completed:
 - Public Demo clearly states that no real properties, units, descriptions, CSV uploads, backups, or owner storage are shown.
 - Public Demo shows a synthetic portfolio snapshot with scope, open work, latest import, and private-surface status.
 - Public Demo shows an operational brief with import signal, triage focus, verification queue, and human-correction counts.
+- Public Demo lets reviewers trigger sticky manual override and linked-resolution proof states directly.
 - Public Demo shows a visitor-safe `6/6` walkthrough.
 - Owner mode exposes CSV import, backup, restore, reset, and internal QA.
 - Owner mode states that CSV imports and backup restores stay in this browser unless exported.

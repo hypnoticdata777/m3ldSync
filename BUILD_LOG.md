@@ -733,3 +733,38 @@ The public investor demo now has a dynamic operational signal layer, not just st
 
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed baseline, preview, and committed brief states.
+
+## 2026-07-20 - Phase 7B Public Proof Controls
+
+### Goal
+
+Make the public demo prove the POC's load-bearing FR/NFR claims without requiring a reviewer to manually build the state from the detail panel.
+
+### Built
+
+- Added Public Demo-only proof controls.
+- Sticky Manual Proof creates a synthetic state where `MS-1001` remains completed after a follow-up import reports it as pending.
+- Linked Resolution Proof creates a synthetic state where `MS-1001` is effectively completed through linked record `MS-1002`.
+- Owner mode does not show the public proof controls.
+
+### Good
+
+- Sticky Manual Proof shows `Manual 1` and selected proof record `MS-1001 - Completed`.
+- Linked Resolution Proof shows `Linked resolved 1` and selected proof record `MS-1001 - Completed`.
+- Public Demo still hides private controls.
+- Mobile layout has no page-level horizontal overflow.
+- Browser console remained clean.
+- Validation remains green with 9 tests passing.
+
+### Bad / Risks
+
+- These are synthetic proof states for public review, not production workflows or authentication.
+
+### Outcome
+
+The public POC now gives reviewers one-click proof of sticky manual truth and linked-record resolution, directly supporting RF-10, RF-11, NRF-2, and the investor demo story.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed sticky manual and linked-resolution proof controls.

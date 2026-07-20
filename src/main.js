@@ -48,6 +48,51 @@ function createDemoModel() {
   };
 }
 
+function createFollowUpModel() {
+  const base = createDemoModel().data;
+  const rows = parsePropertyMeldCsv(demoFollowUpCsv);
+  const { state, batch } = reconcile(base, rows, {
+    uploadedAt: "2026-07-11T12:00:00.000Z",
+    batchId: "demo-follow-up-proof",
+    filename: "demo-follow-up.csv"
+  });
+
+  return {
+    mode: "demo",
+    data: state,
+    lastBatch: batch
+  };
+}
+
+function createStickyManualProofModel() {
+  const baseline = createDemoModel().data;
+  const manuallyCorrected = setManualStatus(baseline, "MS-1001", "Completed", "2026-07-10T13:00:00.000Z");
+  const rows = parsePropertyMeldCsv(demoFollowUpCsv);
+  const { state, batch } = reconcile(manuallyCorrected, rows, {
+    uploadedAt: "2026-07-11T12:00:00.000Z",
+    batchId: "demo-sticky-manual-proof",
+    filename: "demo-follow-up.csv"
+  });
+  selectedRecordId = "MS-1001";
+
+  return {
+    mode: "demo",
+    data: state,
+    lastBatch: batch
+  };
+}
+
+function createLinkedResolutionProofModel() {
+  const followUp = createFollowUpModel();
+  const linkedState = setLinkedRecord(followUp.data, "MS-1001", "MS-1002", "2026-07-11T13:00:00.000Z");
+  selectedRecordId = "MS-1001";
+
+  return {
+    ...followUp,
+    data: linkedState
+  };
+}
+
 function setModel(nextModel) {
   model = nextModel;
   persistModel();
@@ -128,6 +173,8 @@ function render() {
       ${accessMode === "public" ? renderPublicSnapshot() : ""}
 
       ${accessMode === "public" ? renderOperationalBrief() : ""}
+
+      ${accessMode === "public" ? renderProofActions() : ""}
 
       ${pendingImport ? renderImportPreview() : ""}
 
@@ -254,6 +301,18 @@ function bindEvents() {
       note: "Synthetic follow-up import. Safe for public demo."
     };
     render();
+  });
+
+  document.querySelector("#stickyProof")?.addEventListener("click", () => {
+    pendingImport = null;
+    resetConfirmOpen = false;
+    setModel(createStickyManualProofModel());
+  });
+
+  document.querySelector("#linkedProof")?.addEventListener("click", () => {
+    pendingImport = null;
+    resetConfirmOpen = false;
+    setModel(createLinkedResolutionProofModel());
   });
 
   document.querySelector("#resetData")?.addEventListener("click", () => {
@@ -708,6 +767,30 @@ function renderOperationalBrief() {
           `${manualRecords.length} manual / ${linkedResolvedRecords.length} linked`,
           "Manual and linked resolution stay durable"
         )}
+      </div>
+    </section>
+  `;
+}
+
+function renderProofActions() {
+  const selectedRecord = model.data.records[selectedRecordId];
+  const selectedSummary = selectedRecord
+    ? `${selectedRecord.id} - ${effectiveStatus(selectedRecord, model.data.records)}`
+    : "No record selected";
+
+  return `
+    <section class="proof-actions" aria-label="Public proof controls">
+      <div>
+        <p class="eyebrow">Proof Controls</p>
+        <h2>Manual truth stays durable</h2>
+      </div>
+      <div class="button-row">
+        <button id="stickyProof">Sticky Manual Proof</button>
+        <button id="linkedProof" class="ghost">Linked Resolution Proof</button>
+      </div>
+      <div class="proof-status">
+        <span>Selected proof record</span>
+        <strong>${escapeHtml(selectedSummary)}</strong>
       </div>
     </section>
   `;

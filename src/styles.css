@@ -636,6 +636,47 @@ h1 {
   line-height: 1.35;
 }
 
+.proof-actions {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) auto minmax(180px, 0.8fr);
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 14px;
+  border: 1px solid #cfe0d8;
+  border-left: 5px solid var(--green);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 12px;
+}
+
+.proof-actions h2 {
+  font-size: 1rem;
+}
+
+.proof-status {
+  border: 1px solid var(--line);
+  border-radius: 7px;
+  background: #fbfcfa;
+  padding: 10px;
+}
+
+.proof-status span,
+.proof-status strong {
+  display: block;
+}
+
+.proof-status span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.proof-status strong {
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+}
+
 .main-grid {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr) 340px;
@@ -996,6 +1037,10 @@ h1 {
 
   .brief-grid {
     grid-template-columns: repeat(2, minmax(150px, 1fr));
+  }
+
+  .proof-actions {
+    grid-template-columns: 1fr;
   }
 
   .qa-grid {
