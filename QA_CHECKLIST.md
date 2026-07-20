@@ -108,6 +108,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Public Demo shows a synthetic portfolio snapshot.
 - [x] Public Demo shows an operational brief.
 - [x] Public Demo shows sticky manual and linked-resolution proof controls.
+- [x] Aging Risk ranks property focus areas.
 - [ ] No real property names appear in screenshots.
 - [ ] No real unit identifiers appear in screenshots.
 - [ ] No real descriptions appear in screenshots.
@@ -166,3 +167,9 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Sticky Manual Proof selects `MS-1001`, keeps effective status completed, and shows `Manual 1`.
 - Linked Resolution Proof selects `MS-1001`, links it to `MS-1002`, and shows `Linked resolved 1`.
 - Owner mode does not show the public proof controls.
+
+2026-07-20 Phase 7B aging risk confirmed:
+
+- Aging Risk ranks properties by active work, high priority, stale count, and oldest open age.
+- During synthetic follow-up preview, Maple Court moves to the top with `2 open`, `1 high priority`, and `1 stale`.
+- The panel remains usable in Owner mode and at mobile width.

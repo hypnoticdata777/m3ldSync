@@ -176,6 +176,8 @@ function render() {
 
       ${accessMode === "public" ? renderProofActions() : ""}
 
+      ${renderAgingRiskPanel()}
+
       ${pendingImport ? renderImportPreview() : ""}
 
       ${resetConfirmOpen ? renderResetConfirmation() : ""}
@@ -794,6 +796,76 @@ function renderProofActions() {
       </div>
     </section>
   `;
+}
+
+function renderAgingRiskPanel() {
+  const riskState = pendingImport?.mode === "demo" ? pendingImport.state : model.data;
+  const stats = riskStats(Object.values(riskState.records), riskState.records).slice(0, 4);
+  if (!stats.length) {
+    return "";
+  }
+
+  return `
+    <section class="aging-risk" aria-label="Aging risk panel">
+      <div class="section-title">
+        <h2>Aging Risk</h2>
+        <span>${stats.length} focus areas</span>
+      </div>
+      <div class="risk-grid">
+        ${stats.map(renderRiskItem).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function riskStats(records = allRecords(), recordMap = model.data.records) {
+  const stats = new Map();
+  for (const record of records) {
+    const current = stats.get(record.property) || {
+      property: record.property,
+      open: 0,
+      stale: 0,
+      highPriority: 0,
+      oldestOpen: 0
+    };
+    if (!isEffectivelyClosed(record, recordMap)) {
+      current.open += 1;
+      current.oldestOpen = Math.max(current.oldestOpen, daysOpen(record, now));
+      if (["Emergency", "High"].includes(record.priority)) {
+        current.highPriority += 1;
+      }
+    }
+    if (record.stale) {
+      current.stale += 1;
+    }
+    stats.set(record.property, current);
+  }
+
+  return [...stats.values()]
+    .filter((item) => item.open > 0 || item.stale > 0)
+    .map((item) => ({
+      ...item,
+      score: item.oldestOpen + item.open * 3 + item.highPriority * 5 + item.stale * 4
+    }))
+    .sort((a, b) => b.score - a.score || b.oldestOpen - a.oldestOpen || b.open - a.open);
+}
+
+function renderRiskItem(item) {
+  const level = item.highPriority > 0 || item.oldestOpen >= 14 ? "Elevated" : item.stale > 0 ? "Watch" : "Normal";
+  return `
+    <article class="risk-item ${riskClass(level)}">
+      <div>
+        <span>${escapeHtml(level)}</span>
+        <strong>${escapeHtml(item.property)}</strong>
+      </div>
+      <p>${item.open} open / ${item.oldestOpen}d oldest</p>
+      <small>${item.highPriority} high priority / ${item.stale} stale</small>
+    </article>
+  `;
+}
+
+function riskClass(level) {
+  return `risk-${level.toLowerCase()}`;
 }
 
 function propertyStatsFor(records, recordMap) {

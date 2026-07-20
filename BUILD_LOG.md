@@ -768,3 +768,37 @@ The public POC now gives reviewers one-click proof of sticky manual truth and li
 
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed sticky manual and linked-resolution proof controls.
+
+## 2026-07-20 - Phase 7B Aging Risk Panel
+
+### Goal
+
+Add a real product surface for RF-6 property-level triage: which properties need attention first, and why.
+
+### Built
+
+- Added an Aging Risk panel.
+- Risk ranking considers active open work, high-priority records, stale records, and oldest open age.
+- The panel reads pending synthetic import state during demo preview, so proposed risk changes appear before commit.
+- The panel remains available in Owner mode for operational use.
+
+### Good
+
+- Baseline demo ranks Harbor Flats first with `2 open`, `15d oldest`, and `1 high priority`.
+- Synthetic follow-up preview moves Maple Court to the top with `2 open`, `1 high priority`, and `1 stale`.
+- The committed state matches the previewed risk ranking.
+- Browser QA showed no page-level overflow and no console errors.
+- Validation remains green with 9 tests passing.
+
+### Bad / Risks
+
+- Risk scoring is intentionally simple for the POC and should be tuned with real operating preferences later.
+
+### Outcome
+
+The POC now shows property-level aging risk as a first-class triage surface, strengthening the public investor story and the private ops workflow.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed baseline, preview, committed, Owner mode, and mobile risk states.

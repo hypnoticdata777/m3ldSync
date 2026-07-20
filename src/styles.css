@@ -677,6 +677,67 @@ h1 {
   overflow-wrap: anywhere;
 }
 
+.aging-risk {
+  margin-bottom: 14px;
+  border: 1px solid var(--line);
+  border-radius: 8px;
+  background: var(--surface);
+  padding: 12px;
+}
+
+.risk-grid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 8px;
+}
+
+.risk-item {
+  min-height: 106px;
+  border: 1px solid var(--line);
+  border-left: 4px solid var(--teal);
+  border-radius: 7px;
+  background: #fbfcfa;
+  padding: 10px;
+}
+
+.risk-item.risk-elevated {
+  border-left-color: var(--amber);
+}
+
+.risk-item.risk-watch {
+  border-left-color: var(--blue);
+}
+
+.risk-item span,
+.risk-item strong,
+.risk-item p,
+.risk-item small {
+  display: block;
+}
+
+.risk-item span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.risk-item strong {
+  margin-top: 6px;
+  overflow-wrap: anywhere;
+}
+
+.risk-item p {
+  margin-top: 9px;
+  font-weight: 800;
+}
+
+.risk-item small {
+  margin-top: 5px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .main-grid {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr) 340px;
@@ -1043,6 +1104,10 @@ h1 {
     grid-template-columns: 1fr;
   }
 
+  .risk-grid {
+    grid-template-columns: repeat(2, minmax(150px, 1fr));
+  }
+
   .qa-grid {
     grid-template-columns: repeat(3, minmax(120px, 1fr));
   }
@@ -1113,6 +1178,10 @@ h1 {
   }
 
   .brief-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .risk-grid {
     grid-template-columns: 1fr;
   }
 
