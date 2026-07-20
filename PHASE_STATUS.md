@@ -149,6 +149,7 @@ Recently completed:
 - Public Demo now has proof controls for sticky manual override and linked-record resolution.
 - The app now shows an aging risk panel that ranks property focus areas.
 - Public Demo now shows a proof pack for portfolio-safe screenshots and quick reviewer scan.
+- Public Demo now has a Portfolio View toggle for clean synthetic screenshots.
 - Owner mode now shows a compact local-browser storage notice.
 
 ## Phase 7B Preview - Public Demo Packaging and Access Modes
@@ -166,6 +167,7 @@ Completed:
 - Public Demo lets reviewers trigger sticky manual override and linked-resolution proof states directly.
 - Public Demo and Owner mode show aging risk ranked by open work, high priority, stale records, and oldest open age.
 - Public Demo shows a proof pack summarizing reconciliation, verification, manual memory, linked resolution, top focus, and data boundary evidence.
+- Public Demo has a Portfolio View toggle that hides workflow chrome and keeps the public proof surfaces visible.
 - Public Demo shows a visitor-safe `6/6` walkthrough.
 - Owner mode exposes CSV import, backup, restore, reset, and internal QA.
 - Owner mode states that CSV imports and backup restores stay in this browser unless exported.
@@ -177,7 +179,7 @@ Important limitation:
 
 Recommended next build:
 
-- Prepare portfolio-safe screenshots and copy using synthetic data only.
+- Capture portfolio-safe screenshots and copy using synthetic data only.
 - Decide whether hosted auth should be mocked visually or deferred until a backend exists.
 - Add a production-auth design note before any real deployment.
 

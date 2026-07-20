@@ -110,6 +110,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Public Demo shows sticky manual and linked-resolution proof controls.
 - [x] Aging Risk ranks property focus areas.
 - [x] Public Demo shows a portfolio-safe proof pack.
+- [x] Public Demo Portfolio View shows clean screenshot surfaces.
 - [ ] No real property names appear in screenshots.
 - [ ] No real unit identifiers appear in screenshots.
 - [ ] No real descriptions appear in screenshots.
@@ -180,3 +181,11 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Public Demo shows a proof pack with reconciliation, verification, manual memory, linked resolution, top focus, and data boundary evidence.
 - The proof pack updates from baseline to synthetic follow-up preview state.
 - Owner mode does not show the public proof pack.
+
+2026-07-20 Phase 7B portfolio view confirmed:
+
+- Portfolio View hides toolbar, workflow board, import preview panel, walkthrough, and import ledger.
+- Portfolio View keeps Public Demo Snapshot, Operational Brief, Aging Risk, and Demo Proof Pack visible.
+- Full Demo restores the interactive workflow.
+- Owner mode does not show the Portfolio View toggle.
+- Mobile Portfolio View has no page-level horizontal overflow.

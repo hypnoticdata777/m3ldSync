@@ -295,6 +295,40 @@ Resolution path:
 ### Validation
 
 - `node scripts/validate.mjs` passed.
+
+## 2026-07-20 - Phase 7B Portfolio View
+
+### Goal
+
+Make portfolio-safe screenshots a first-class public demo state without hosting or pretending production auth exists.
+
+### Built
+
+- Added a Public Demo-only `Portfolio View` toggle.
+- Portfolio View hides workflow chrome: toolbar, board/detail grid, import preview panel, walkthrough, and import ledger.
+- Portfolio View keeps the public proof surfaces visible: Snapshot, Operational Brief, Aging Risk, and Demo Proof Pack.
+- `Full Demo` restores the interactive workflow.
+- Owner mode does not show the Portfolio View toggle.
+
+### Good
+
+- Screenshot capture now starts from a clean synthetic public surface.
+- Follow-up import preview state still flows into the visible brief and proof pack before commit.
+- Public/Owner boundary remains intact.
+- Mobile browser QA shows no page-level horizontal overflow.
+
+### Bad / Risks
+
+- This prepares screenshot capture but does not generate image files automatically.
+
+### Outcome
+
+Phase 7B now has a clean public-facing portfolio view for synthetic screenshots and quick reviewer scans.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed toggle behavior, preview state, Owner hiding, and mobile layout.
 - Local preview returned HTTP 200.
 - Git status confirms the private CSV is ignored.
 

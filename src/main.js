@@ -24,6 +24,7 @@ let model = accessMode === "owner" ? loadState() || createDemoModel() : createDe
 let selectedRecordId = Object.keys(model.data.records)[0] || "";
 let pendingImport = null;
 let resetConfirmOpen = false;
+let portfolioView = false;
 let filters = {
   search: "",
   property: "All",
@@ -113,6 +114,7 @@ function switchAccessMode(nextAccessMode) {
   saveAccessMode(accessMode);
   pendingImport = null;
   resetConfirmOpen = false;
+  portfolioView = false;
   selectedRecordId = "";
   model = accessMode === "owner" ? loadState() || createDemoModel() : createDemoModel();
   render();
@@ -123,6 +125,7 @@ function render() {
   const selectedRecord = model.data.records[selectedRecordId] || records[0] || null;
   selectedRecordId = selectedRecord?.id || "";
   const modeState = modeBadgeState();
+  const isPortfolioView = accessMode === "public" && portfolioView;
 
   app.innerHTML = `
     <header class="app-header">
@@ -135,6 +138,7 @@ function render() {
           <button id="publicAccess" class="${accessMode === "public" ? "active" : ""}">Public Demo</button>
           <button id="ownerAccess" class="${accessMode === "owner" ? "active" : ""}">Owner</button>
         </div>
+        ${accessMode === "public" ? `<button id="portfolioView" class="portfolio-toggle">${isPortfolioView ? "Full Demo" : "Portfolio View"}</button>` : ""}
         <div class="mode-pill ${modeState.className}">
           ${modeState.label}
         </div>
@@ -142,7 +146,7 @@ function render() {
     </header>
 
     <main class="workspace">
-      <section class="toolbar" aria-label="Import and filters">
+      ${isPortfolioView ? "" : `<section class="toolbar" aria-label="Import and filters">
         <div class="button-row">
           <button id="demoBaseline">Load Demo Baseline</button>
           <button id="demoFollowUp">Run Demo Follow-Up Import</button>
@@ -157,7 +161,7 @@ function render() {
             Hide closed
           </label>
         </div>
-      </section>
+      </section>`}
 
       ${renderAccessNotice()}
 
@@ -174,23 +178,23 @@ function render() {
 
       ${accessMode === "public" ? renderOperationalBrief() : ""}
 
-      ${accessMode === "public" ? renderProofActions() : ""}
+      ${accessMode === "public" && !isPortfolioView ? renderProofActions() : ""}
 
       ${renderAgingRiskPanel()}
 
       ${accessMode === "public" ? renderPublicProofPack() : ""}
 
-      ${pendingImport ? renderImportPreview() : ""}
+      ${pendingImport && !isPortfolioView ? renderImportPreview() : ""}
 
       ${resetConfirmOpen ? renderResetConfirmation() : ""}
 
-      ${renderImportLedger()}
+      ${isPortfolioView ? "" : renderImportLedger()}
 
       ${accessMode === "owner" ? renderQaPanel() : ""}
 
-      ${renderWalkthroughPanel()}
+      ${isPortfolioView ? "" : renderWalkthroughPanel()}
 
-      <section class="main-grid">
+      ${isPortfolioView ? "" : `<section class="main-grid">
         <aside class="property-panel" aria-label="Property overview">
           <div class="section-title">
             <h2>Properties</h2>
@@ -208,7 +212,7 @@ function render() {
         <aside class="detail-panel" aria-label="Record details">
           ${selectedRecord ? renderDetail(selectedRecord) : emptyDetail()}
         </aside>
-      </section>
+      </section>`}
     </main>
   `;
 
@@ -281,14 +285,20 @@ function bindEvents() {
     }
   });
 
-  document.querySelector("#demoBaseline").addEventListener("click", () => {
+  document.querySelector("#portfolioView")?.addEventListener("click", () => {
+    portfolioView = !portfolioView;
+    render();
+  });
+
+  document.querySelector("#demoBaseline")?.addEventListener("click", () => {
     pendingImport = null;
     resetConfirmOpen = false;
+    portfolioView = false;
     selectedRecordId = "";
     setModel(createDemoModel());
   });
 
-  document.querySelector("#demoFollowUp").addEventListener("click", () => {
+  document.querySelector("#demoFollowUp")?.addEventListener("click", () => {
     resetConfirmOpen = false;
     const base = model.mode === "demo" ? model.data : createDemoModel().data;
     const rows = parsePropertyMeldCsv(demoFollowUpCsv);
@@ -410,22 +420,22 @@ function bindEvents() {
     render();
   });
 
-  document.querySelector("#search").addEventListener("input", (event) => {
+  document.querySelector("#search")?.addEventListener("input", (event) => {
     filters.search = event.target.value;
     render();
   });
 
-  document.querySelector("#propertyFilter").addEventListener("change", (event) => {
+  document.querySelector("#propertyFilter")?.addEventListener("change", (event) => {
     filters.property = event.target.value;
     render();
   });
 
-  document.querySelector("#priorityFilter").addEventListener("change", (event) => {
+  document.querySelector("#priorityFilter")?.addEventListener("change", (event) => {
     filters.priority = event.target.value;
     render();
   });
 
-  document.querySelector("#hideClosed").addEventListener("change", (event) => {
+  document.querySelector("#hideClosed")?.addEventListener("change", (event) => {
     filters.hideClosed = event.target.checked;
     render();
   });
