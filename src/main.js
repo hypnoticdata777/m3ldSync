@@ -769,6 +769,7 @@ function renderBoard(records) {
 function renderCard(record) {
   const selected = record.id === selectedRecordId ? "selected" : "";
   const linkedResolved = isLinkedResolved(record, model.data.records);
+  const manualConflict = hasManualConflict(record);
   return `
     <button class="work-card ${selected}" data-record-id="${escapeAttr(record.id)}">
       <div class="card-topline">
@@ -782,6 +783,7 @@ function renderCard(record) {
         <span>${daysOpen(record, now)}d</span>
         ${record.stale ? `<span class="stale">Stale</span>` : ""}
         ${record.statusSource === "manual" ? `<span class="manual">Manual</span>` : ""}
+        ${manualConflict ? `<span class="conflict">Conflict</span>` : ""}
         ${linkedResolved ? `<span class="linked-resolved">Linked resolved</span>` : ""}
       </div>
     </button>
@@ -796,6 +798,7 @@ function renderDetail(record) {
       <h2>${escapeHtml(record.id)}</h2>
       <span class="${record.statusSource === "manual" ? "manual-source" : "import-source"}">${record.statusSource}</span>
     </div>
+    ${hasManualConflict(record) ? renderManualConflict(record) : ""}
     <div class="detail-block">
       <label>Status</label>
       <select id="manualStatus">
@@ -827,6 +830,22 @@ function renderDetail(record) {
     <div class="history">
       <h3>History</h3>
       ${relatedHistory.map(renderHistoryEntry).join("") || `<p class="muted">No history yet.</p>`}
+    </div>
+  `;
+}
+
+function hasManualConflict(record) {
+  return record.statusSource === "manual" && record.importStatus && record.importStatus !== record.currentStatus;
+}
+
+function renderManualConflict(record) {
+  return `
+    <div class="manual-conflict">
+      <div>
+        <span>Verification conflict</span>
+        <strong>Manual status is authoritative</strong>
+      </div>
+      <p>Latest import reports ${escapeHtml(record.importStatus)}, but the owner-verified status remains ${escapeHtml(record.currentStatus)}.</p>
     </div>
   `;
 }

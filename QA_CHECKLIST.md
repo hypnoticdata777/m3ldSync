@@ -65,8 +65,9 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Change status manually.
 - [x] Confirm Manual badge/count appears.
 - [ ] Re-import a CSV where the source still shows the item pending.
-- [ ] Confirm manual status survives.
-- [ ] Confirm discrepancy is visible through history or preview.
+- [x] Confirm manual status survives.
+- [x] Confirm discrepancy is visible through history or preview.
+- [x] Confirm discrepancy is visible in the selected record detail panel.
 
 ## Linked Record Behavior
 
@@ -235,3 +236,10 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Restore Backup commits the selected backup and replaced the workspace with the selected 0-record synthetic backup.
 - Reset Local Data restored the 6-record synthetic demo baseline after the test.
 - Mobile Restore Preview has no page-level horizontal overflow.
+
+2026-07-20 manual conflict visibility confirmed:
+
+- Sticky Manual Proof selects `MS-1001` and shows a Verification Conflict panel.
+- The panel explains that the latest import reports `Pending completion` while the owner-verified status remains `Completed`.
+- Showing closed cards displays the `Conflict` badge on the affected card.
+- Mobile conflict detail has no page-level horizontal overflow.

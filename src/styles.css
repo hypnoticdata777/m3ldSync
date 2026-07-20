@@ -117,6 +117,7 @@ h1 {
 .priority,
 .stale,
 .manual,
+.conflict,
 .linked-resolved,
 .manual-source,
 .import-source {
@@ -1252,6 +1253,11 @@ h1 {
   color: #28624a;
 }
 
+.conflict {
+  background: #fff1d6;
+  color: #805618;
+}
+
 .linked-resolved {
   background: #e1ede6;
   color: #2e6847;
@@ -1278,6 +1284,38 @@ h1 {
 }
 
 .linked-summary p {
+  color: var(--muted);
+  line-height: 1.35;
+}
+
+.manual-conflict {
+  display: grid;
+  gap: 8px;
+  margin-bottom: 12px;
+  border: 1px solid #e5d8bf;
+  border-left: 4px solid var(--amber);
+  border-radius: 7px;
+  background: #fffaf0;
+  padding: 10px;
+}
+
+.manual-conflict span,
+.manual-conflict strong {
+  display: block;
+}
+
+.manual-conflict span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.manual-conflict strong {
+  margin-top: 5px;
+}
+
+.manual-conflict p {
   color: var(--muted);
   line-height: 1.35;
 }

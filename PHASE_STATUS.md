@@ -169,6 +169,7 @@ Completed:
 - Public Demo shows a synthetic portfolio snapshot with scope, open work, latest import, and private-surface status.
 - Public Demo shows an operational brief with import signal, triage focus, verification queue, and human-correction counts.
 - Public Demo lets reviewers trigger sticky manual override and linked-resolution proof states directly.
+- Manual/import conflicts now show a clear verification-conflict panel on the selected record.
 - Public Demo and Owner mode show aging risk ranked by open work, high priority, stale records, and oldest open age.
 - Public Demo shows a proof pack summarizing reconciliation, verification, manual memory, linked resolution, top focus, and data boundary evidence.
 - Public Demo has a Portfolio View toggle that hides workflow chrome and keeps the public proof surfaces visible.

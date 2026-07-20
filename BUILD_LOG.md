@@ -500,6 +500,39 @@ Owner restore is now aligned with the POC's no-silent-destructive-operation rule
 
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed restore preview, cancel, commit, cleanup reset, and mobile layout with a synthetic backup file.
+
+## 2026-07-20 - Manual Conflict Visibility
+
+### Goal
+
+Make import-vs-manual discrepancies obvious in the UI instead of requiring the owner to infer them from history.
+
+### Built
+
+- Added manual conflict detection in the UI.
+- Added a `Conflict` card badge when a manual status disagrees with the latest imported status.
+- Added a selected-record Verification Conflict panel.
+- Strengthened the manual override regression test to assert discrepancy count, discrepancy ids, and audit history note.
+
+### Good
+
+- Sticky manual truth is now visible and explainable in the record detail panel.
+- Closed cards can show both `Manual` and `Conflict` badges when closed records are visible.
+- The detail panel explains that the manual status remains authoritative.
+- Mobile browser QA shows no page-level horizontal overflow.
+
+### Bad / Risks
+
+- The conflict panel is per selected record; a future queue view could list all conflicts at once.
+
+### Outcome
+
+Manual override protection is now easier to understand during owner QA and public proof demos.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed Sticky Manual Proof detail conflict, card badge when closed cards are shown, and mobile layout.
 - Local preview returned HTTP 200.
 - Git status confirms the private CSV is ignored.
 

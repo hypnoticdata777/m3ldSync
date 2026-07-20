@@ -26,6 +26,7 @@ Built capabilities:
 - Reconciliation engine
 - Idempotent re-import behavior
 - Sticky manual status overrides
+- Manual/import conflict visibility
 - Stale record detection
 - Import preview before commit
 - Restore backup preview before commit

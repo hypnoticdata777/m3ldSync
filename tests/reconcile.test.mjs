@@ -69,14 +69,20 @@ test("manual status overrides survive future imports", () => {
     uploadedAt: "2026-07-10T12:00:00.000Z",
     batchId: "batch-1"
   });
-  const manuallyCorrected = setManualStatus(first.state, "MS-1002", "Completed", "2026-07-10T13:00:00.000Z");
+  const manuallyCorrected = setManualStatus(first.state, "MS-1001", "Completed", "2026-07-10T13:00:00.000Z");
   const second = reconcile(manuallyCorrected, nextRows, {
     uploadedAt: "2026-07-11T12:00:00.000Z",
     batchId: "batch-2"
   });
 
-  assert.equal(second.state.records["MS-1002"].currentStatus, "Completed");
-  assert.equal(second.state.records["MS-1002"].statusSource, "manual");
+  assert.equal(second.state.records["MS-1001"].currentStatus, "Completed");
+  assert.equal(second.state.records["MS-1001"].statusSource, "manual");
+  assert.equal(second.batch.discrepancyCount, 1);
+  assert.deepEqual(second.batch.discrepancyIds, ["MS-1001"]);
+  assert.equal(
+    second.state.history.find((entry) => entry.recordId === "MS-1001" && entry.importBatchId === "batch-2")?.note,
+    "Imported status changed; manual override retained"
+  );
 });
 
 test("linked records can resolve an otherwise open original record", () => {
