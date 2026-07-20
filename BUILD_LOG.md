@@ -705,6 +705,41 @@ Manual/import conflicts are now clearly called out before commit while preservin
 
 - `node scripts/validate.mjs` passed with 12 tests.
 - Browser QA confirmed normal preview, manual-conflict preview, and `390x844` mobile layout.
+
+## 2026-07-20 - Owner Local Data Health
+
+### Goal
+
+Give Owner mode a quick daily-use signal for local storage condition without adding hosting, auth, or backend storage.
+
+### Built
+
+- Added an Owner-only Local Data Health panel.
+- The panel shows workspace type, locally stored record count, latest import, review queue, and backup status.
+- Export Backup now records a local `lastBackupExportedAt` timestamp and updates the health panel after the download click.
+- Review status turns from `Ready` to `Review needed` when current conflicts or stale records exist.
+- Public Demo remains clean and hides the owner health panel.
+
+### Good
+
+- Owner baseline shows 6 local records, latest baseline import, no review items, and no backup timestamp.
+- Export Backup updates the backup health card.
+- A committed manual-conflict follow-up shows `Review needed` with 1 conflict and 1 stale item.
+- Mobile Owner layout has no page-level horizontal overflow.
+- Browser console remained clean.
+
+### Bad / Risks
+
+- The backup timestamp is local metadata, not proof of a durable off-machine backup policy.
+
+### Outcome
+
+Owner mode now has a compact operational health check for daily local use while keeping the hosted/auth work deferred.
+
+### Validation
+
+- `node scripts/validate.mjs` passed with 12 tests.
+- Browser QA confirmed Owner baseline, export timestamp update, review-needed state, Public hiding, and `390x844` mobile layout.
 - Local preview returned HTTP 200.
 - Git status confirms the private CSV is ignored.
 

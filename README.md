@@ -36,6 +36,7 @@ Built capabilities:
 - Recent import history
 - Import history detail drawer
 - Local browser persistence
+- Owner local data health panel
 - JSON backup and restore
 - Deep backup validation
 - Kanban board by effective status

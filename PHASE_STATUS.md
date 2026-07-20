@@ -115,7 +115,7 @@ Completed:
 Current note:
 
 - GitHub repo exists at `https://github.com/hypnoticdata777/m3ldSync.git`.
-- Latest verified local commit: `0b38f18 Harden backup validation`.
+- Latest verified local commit: `45ddb49 Warn before committing manual conflicts`.
 
 ## Next Active Blocker
 
@@ -155,6 +155,7 @@ Recently completed:
 - Portfolio-safe screenshot files have been captured from synthetic Public Demo Portfolio View.
 - Owner mode now shows a Production Gate for hosted-auth readiness.
 - Owner mode now shows a compact local-browser storage notice.
+- Owner mode now shows a Local Data Health panel for records, latest import, review queue, and backup status.
 - Owner import previews now allow affected-record drill-down before commit.
 - Owner import previews now warn before committing manual/import conflicts.
 - Import history now opens a detail drawer for selected committed batches.
@@ -186,6 +187,7 @@ Completed:
 - Owner mode exposes CSV import, backup, restore, reset, and internal QA.
 - Owner mode states that CSV imports and backup restores stay in this browser unless exported.
 - Owner mode shows a Production Gate that states hosted auth is deferred and private owner data must remain local.
+- Owner mode shows local data health with backup and review status.
 - Owner mode previews backup restores before replacing local state.
 - Owner mode validates backup internals before opening Restore Preview.
 - Owner mode previews affected import records before committing CSV/demo imports.

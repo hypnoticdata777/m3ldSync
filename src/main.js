@@ -182,6 +182,8 @@ function render() {
 
       ${accessMode === "owner" ? renderProductionGate() : ""}
 
+      ${accessMode === "owner" ? renderLocalDataHealth() : ""}
+
       <section class="metrics" aria-label="Reconciliation summary">
         ${summaryMetric("Records", Object.keys(model.data.records).length)}
         ${summaryMetric("Open", allRecords().filter((record) => !isEffectivelyClosed(record, model.data.records)).length)}
@@ -340,6 +342,55 @@ function renderGateItem(item) {
       <span>${escapeHtml(item.label)}</span>
       <strong>${escapeHtml(item.value)}</strong>
       <small>${escapeHtml(item.detail)}</small>
+    </article>
+  `;
+}
+
+function renderLocalDataHealth() {
+  const health = localDataHealth();
+  return `
+    <section class="local-health" aria-label="Local data health">
+      <div class="section-title">
+        <h2>Local Data Health</h2>
+        <span>${escapeHtml(health.status)}</span>
+      </div>
+      <div class="health-grid">
+        ${healthItem("Workspace", health.workspace, `${health.records} records stored locally`)}
+        ${healthItem("Latest Import", health.latestImport, health.latestImportDetail)}
+        ${healthItem("Review Queue", health.reviewQueue, health.reviewDetail)}
+        ${healthItem("Backup", health.backup, health.backupDetail)}
+      </div>
+    </section>
+  `;
+}
+
+function localDataHealth() {
+  const records = allRecords();
+  const latestImport = model.lastBatch || model.data.imports[0];
+  const conflictCount = records.filter(hasManualConflict).length;
+  const staleCount = records.filter((record) => record.stale).length;
+  const reviewCount = conflictCount + staleCount;
+  const backupExportedAt = model.lastBackupExportedAt || model.exportedAt;
+
+  return {
+    status: reviewCount ? "Review needed" : "Ready",
+    workspace: model.mode === "private" ? "Private local" : "Demo local",
+    records: records.length,
+    latestImport: latestImport ? formatDate(latestImport.uploadedAt) : "None",
+    latestImportDetail: latestImport ? `${latestImport.filename} / ${latestImport.rowCount} rows` : "No import batch stored yet",
+    reviewQueue: `${reviewCount} item${reviewCount === 1 ? "" : "s"}`,
+    reviewDetail: `${conflictCount} conflict${conflictCount === 1 ? "" : "s"} / ${staleCount} stale`,
+    backup: backupExportedAt ? formatDate(backupExportedAt) : "Not exported",
+    backupDetail: backupExportedAt ? "Latest local export timestamp" : "Use Export Backup before relying on local storage"
+  };
+}
+
+function healthItem(label, value, detail) {
+  return `
+    <article class="health-item">
+      <span>${escapeHtml(label)}</span>
+      <strong>${escapeHtml(value)}</strong>
+      <small>${escapeHtml(detail)}</small>
     </article>
   `;
 }
@@ -1726,9 +1777,11 @@ function previewList(label, ids = [], records = {}) {
 }
 
 function exportBackup() {
+  const exportedAt = new Date().toISOString();
   const backup = {
     ...model,
-    exportedAt: new Date().toISOString(),
+    lastBackupExportedAt: exportedAt,
+    exportedAt,
     product: "MeldSync POC",
     version: 1
   };
@@ -1742,6 +1795,9 @@ function exportBackup() {
   link.click();
   link.remove();
   setTimeout(() => URL.revokeObjectURL(url), 0);
+  model = { ...model, lastBackupExportedAt: exportedAt };
+  persistModel();
+  render();
 }
 
 function statusIndex(status) {

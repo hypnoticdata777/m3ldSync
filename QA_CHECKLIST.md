@@ -116,6 +116,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Public Demo shows visitor-safe walkthrough steps only.
 - [x] Public demo copy clearly indicates demo data.
 - [x] Owner mode shows hosted-auth Production Gate.
+- [x] Owner mode shows Local Data Health.
 - [x] Public Demo shows a synthetic portfolio snapshot.
 - [x] Public Demo shows an operational brief.
 - [x] Public Demo shows sticky manual and linked-resolution proof controls.
@@ -286,3 +287,11 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Owner workflow with manual `Completed` status plus follow-up preview shows a manual-conflict warning.
 - Manual-conflict preview labels the action `Commit With Manual Conflicts`.
 - Desktop and `390x844` mobile checks showed no page-level horizontal overflow.
+
+2026-07-20 owner local data health confirmed:
+
+- Owner baseline shows Local Data Health as `Ready` with 6 local records, latest import, 0 review items, and no backup timestamp.
+- Clicking `Export Backup` updates the Backup card with the latest local export timestamp.
+- A committed manual-conflict follow-up changes Local Data Health to `Review needed` with 1 conflict and 1 stale item.
+- Public Demo hides Local Data Health.
+- Mobile Owner mode shows one-column Local Data Health with no page-level horizontal overflow.
