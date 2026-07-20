@@ -128,6 +128,15 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7B | `node scripts/validate.mjs` | Final validation after storage fallback and documentation updates. | Passed syntax checks and 9 tests. |
 | Phase 7B | `git status --short --branch` | Check final changed files before handoff. | Shows 11 modified files ready to commit. |
 | Phase 7B | `git diff --stat` | Summarize final change size before handoff. | Shows updates across source, tests, styles, and documentation. |
+| Phase 7A | `git status --short --branch` | Confirm repo state before resuming reset-confirmation work. | `main` was tracking `origin/main` with no pending changes. |
+| Phase 7A | `rg -n "confirm\(|resetData|Reset Local Data|restoreInput|loadDemo|pendingImport|accessMode" src/main.js src/styles.css BUILD_LOG.md COMMAND_LOG.md PHASE_STATUS.md QA_CHECKLIST.md` | Locate reset, restore, import, and access-mode code before patching. | Confirmed reset still used native `confirm()` and docs still listed reset confirmation as a blocker. |
+| Phase 7A | `node scripts/validate.mjs` | Validate after replacing reset `confirm()` with inline reset confirmation. | Passed syntax checks and 9 tests. |
+| Phase 7A | `rg -n "confirm\(|resetConfirmOpen|renderResetConfirmation|confirmReset|cancelReset" src/main.js src/styles.css` | Confirm reset now uses inline state/actions and locate any remaining native confirmations. | Reset no longer uses native `confirm()`; restore still has its existing native confirmation. |
+| Phase 7A | `node scripts/serve.mjs` | Start local preview for reset confirmation browser QA. | Server started at `http://localhost:4173`. |
+| Phase 7A | Browser automation: Owner mode demo follow-up commit, reset open, keep current data, reset open, confirm reset | Verify the inline reset panel end to end. | No native dialog appeared; cancel preserved 7 records; confirm reset restored the 6-record synthetic demo baseline. |
+| Phase 7A | `node scripts/validate.mjs` | Final validation after reset confirmation and documentation updates. | Passed syntax checks and 9 tests. |
+| Phase 7A | `git status --short --branch` | Check final changed files after reset confirmation hardening. | Shows six modified files pending commit. |
+| Phase 7A | `git diff --stat` | Summarize final change size after reset confirmation hardening. | Shows updates across app code, styles, build log, command log, phase status, and QA checklist. |
 
 ## Command Logging Rule
 

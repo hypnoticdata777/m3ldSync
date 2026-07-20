@@ -533,3 +533,38 @@ Phase 7B has its first working slice: a public synthetic demo surface plus a loc
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed Public Demo shows only demo buttons and a `6/6` walkthrough.
 - Browser QA confirmed Owner mode shows private controls, internal QA, and the full `7/7` walkthrough.
+
+## 2026-07-20 - Phase 7A Reset Confirmation Hardening
+
+### Goal
+
+Replace the native reset confirmation dialog with an in-app confirmation panel that is visible, testable, and clearer for owner workspace use.
+
+### Built
+
+- Added reset confirmation state in `src/main.js`.
+- Replaced the `Reset Local Data` native `confirm()` path with an inline owner reset panel.
+- Added `Confirm Reset` and `Keep Current Data` actions.
+- Closed the reset panel when changing access mode, loading demo baseline, starting imports, committing imports, canceling imports, or starting restore.
+- Added amber warning styling for the reset confirmation panel.
+
+### Good
+
+- Browser QA confirmed no native dialog appears when reset is clicked.
+- `Keep Current Data` closes the panel and preserves the current 7-record follow-up state.
+- `Confirm Reset` clears local owner data and reloads the 6-record synthetic demo baseline.
+- Validation remains green with 9 tests passing.
+
+### Bad / Risks
+
+- Backup export download and restore file-picker QA are still separate remaining checks.
+- Restore still uses a native confirmation dialog and can be revisited after backup QA if we want every destructive owner action inline.
+
+### Outcome
+
+Reset confirmation is no longer a Phase 7A browser blocker.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed reset cancel/confirm behavior in Owner mode.

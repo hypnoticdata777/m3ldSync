@@ -23,6 +23,7 @@ let accessMode = loadAccessMode();
 let model = accessMode === "owner" ? loadState() || createDemoModel() : createDemoModel();
 let selectedRecordId = Object.keys(model.data.records)[0] || "";
 let pendingImport = null;
+let resetConfirmOpen = false;
 let filters = {
   search: "",
   property: "All",
@@ -66,6 +67,7 @@ function switchAccessMode(nextAccessMode) {
   accessMode = nextAccessMode;
   saveAccessMode(accessMode);
   pendingImport = null;
+  resetConfirmOpen = false;
   selectedRecordId = "";
   model = accessMode === "owner" ? loadState() || createDemoModel() : createDemoModel();
   render();
@@ -122,6 +124,8 @@ function render() {
       </section>
 
       ${pendingImport ? renderImportPreview() : ""}
+
+      ${resetConfirmOpen ? renderResetConfirmation() : ""}
 
       ${renderImportLedger()}
 
@@ -203,11 +207,14 @@ function bindEvents() {
   });
 
   document.querySelector("#demoBaseline").addEventListener("click", () => {
+    pendingImport = null;
+    resetConfirmOpen = false;
     selectedRecordId = "";
     setModel(createDemoModel());
   });
 
   document.querySelector("#demoFollowUp").addEventListener("click", () => {
+    resetConfirmOpen = false;
     const base = model.mode === "demo" ? model.data : createDemoModel().data;
     const rows = parsePropertyMeldCsv(demoFollowUpCsv);
     const { state, batch } = reconcile(base, rows, {
@@ -226,12 +233,9 @@ function bindEvents() {
   });
 
   document.querySelector("#resetData")?.addEventListener("click", () => {
-    if (confirm("Reset local MeldSync data and reload the synthetic demo baseline?")) {
-      pendingImport = null;
-      clearState();
-      selectedRecordId = "";
-      setModel(createDemoModel());
-    }
+    pendingImport = null;
+    resetConfirmOpen = true;
+    render();
   });
 
   document.querySelector("#csvInput")?.addEventListener("change", async (event) => {
@@ -239,6 +243,7 @@ function bindEvents() {
     if (!file) return;
 
     try {
+      resetConfirmOpen = false;
       const text = await file.text();
       const rows = parsePropertyMeldCsv(text);
       const startingState = model.mode === "private" ? model.data : createEmptyState();
@@ -271,6 +276,7 @@ function bindEvents() {
     if (!file) return;
 
     try {
+      resetConfirmOpen = false;
       const backup = JSON.parse(await file.text());
       validateBackup(backup);
       if (confirm("Restore this MeldSync backup into local browser storage? Current local state will be replaced.")) {
@@ -287,6 +293,7 @@ function bindEvents() {
 
   document.querySelector("#commitImport")?.addEventListener("click", () => {
     if (!pendingImport) return;
+    resetConfirmOpen = false;
     selectedRecordId = Object.keys(pendingImport.state.records)[0] || "";
     const nextModel = {
       mode: pendingImport.mode,
@@ -299,6 +306,20 @@ function bindEvents() {
 
   document.querySelector("#cancelImport")?.addEventListener("click", () => {
     pendingImport = null;
+    resetConfirmOpen = false;
+    render();
+  });
+
+  document.querySelector("#confirmReset")?.addEventListener("click", () => {
+    pendingImport = null;
+    resetConfirmOpen = false;
+    clearState();
+    selectedRecordId = "";
+    setModel(createDemoModel());
+  });
+
+  document.querySelector("#cancelReset")?.addEventListener("click", () => {
+    resetConfirmOpen = false;
     render();
   });
 
@@ -409,6 +430,22 @@ function renderImportPreview() {
       <div class="button-row">
         <button id="commitImport">Commit Import</button>
         <button class="ghost" id="cancelImport">Cancel</button>
+      </div>
+    </section>
+  `;
+}
+
+function renderResetConfirmation() {
+  return `
+    <section class="reset-confirmation" aria-label="Reset confirmation">
+      <div>
+        <p class="eyebrow">Confirm Reset</p>
+        <h2>Reset owner workspace?</h2>
+        <p>This clears local owner data in this browser and reloads the synthetic demo baseline.</p>
+      </div>
+      <div class="button-row">
+        <button id="confirmReset">Confirm Reset</button>
+        <button class="ghost" id="cancelReset">Keep Current Data</button>
       </div>
     </section>
   `;

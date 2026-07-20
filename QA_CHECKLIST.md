@@ -81,7 +81,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 
 - [ ] Click `Export Backup`.
 - [ ] Confirm JSON file downloads.
-- [ ] Reset local data.
+- [x] Reset local data.
 - [ ] Click `Restore Backup`.
 - [ ] Select downloaded JSON backup.
 - [ ] Confirm restored state matches the prior state.
@@ -133,5 +133,10 @@ Remaining manual browser QA:
 
 - Backup export download.
 - Backup restore file picker.
-- Reset confirmation dialog.
 - True tablet/mobile viewport review.
+
+2026-07-20 browser automation confirmed:
+
+- `Reset Local Data` opens an inline reset confirmation panel instead of a native dialog.
+- `Keep Current Data` closes the panel and preserves the committed 7-record demo follow-up state.
+- `Confirm Reset` clears local owner storage and reloads the 6-record synthetic demo baseline.

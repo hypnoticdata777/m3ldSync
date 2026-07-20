@@ -1,6 +1,6 @@
 # MeldSync Phase Status
 
-Last updated: 2026-07-18
+Last updated: 2026-07-20
 
 ## Current Phase
 
@@ -98,7 +98,6 @@ Still needs browser confirmation:
 
 - Backup export downloads JSON.
 - Restore backup replaces local state.
-- Reset confirmation behaves correctly.
 - Mobile/narrow layout remains readable.
 
 ### Blocker 2 - GitHub Repo Setup
@@ -140,8 +139,13 @@ Need to verify in an actual browser:
 
 - Backup export downloads JSON.
 - Restore backup replaces local state.
-- Reset confirmation behaves correctly.
 - Tablet/mobile/narrow layout remains readable.
+
+Recently completed:
+
+- Reset confirmation now uses an in-app warning panel.
+- Browser QA confirmed `Keep Current Data` preserves the current owner/demo state.
+- Browser QA confirmed `Confirm Reset` clears owner storage and reloads the synthetic demo baseline.
 
 ## Phase 7B Preview - Public Demo Packaging and Access Modes
 
