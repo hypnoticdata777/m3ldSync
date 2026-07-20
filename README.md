@@ -45,6 +45,7 @@ Built capabilities:
 - Public demo operational brief
 - Public demo proof controls
 - Aging risk panel
+- Public demo proof pack
 
 ## Data Privacy
 

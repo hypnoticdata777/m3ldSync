@@ -178,6 +178,8 @@ function render() {
 
       ${renderAgingRiskPanel()}
 
+      ${accessMode === "public" ? renderPublicProofPack() : ""}
+
       ${pendingImport ? renderImportPreview() : ""}
 
       ${resetConfirmOpen ? renderResetConfirmation() : ""}
@@ -868,6 +870,40 @@ function riskClass(level) {
   return `risk-${level.toLowerCase()}`;
 }
 
+function renderPublicProofPack() {
+  const proofState = pendingImport?.mode === "demo" ? pendingImport.state : model.data;
+  const records = Object.values(proofState.records);
+  const batch = pendingImport?.mode === "demo" ? pendingImport.batch : model.lastBatch || proofState.imports[0];
+  const topRisk = riskStats(records, proofState.records)[0];
+  const staleCount = records.filter((record) => record.stale).length;
+  const manualCount = records.filter((record) => record.statusSource === "manual").length;
+  const linkedResolvedCount = records.filter((record) => isLinkedResolved(record, proofState.records)).length;
+  const importSignal = batch
+    ? `${batch.newCount} new / ${batch.statusChangedCount} changed / ${batch.staleCount} stale`
+    : "Baseline loaded";
+
+  return `
+    <section class="proof-pack" aria-label="Public demo proof pack">
+      <div class="section-title">
+        <h2>Demo Proof Pack</h2>
+        <span>Public-ready</span>
+      </div>
+      <div class="proof-pack-grid">
+        ${proofPackItem("Reconciliation", importSignal, batch ? batch.filename : "Synthetic baseline")}
+        ${proofPackItem("Verification", `${staleCount} stale`, "Absent records remain visible")}
+        ${proofPackItem("Manual Memory", `${manualCount} sticky`, "Human corrections survive imports")}
+        ${proofPackItem("Linked Resolution", `${linkedResolvedCount} resolved`, "Follow-up tickets close originals")}
+        ${proofPackItem(
+          "Top Focus",
+          topRisk ? topRisk.property : "No active risk",
+          topRisk ? `${topRisk.open} open / ${topRisk.oldestOpen}d oldest` : "All records resolved"
+        )}
+        ${proofPackItem("Data Boundary", "Synthetic only", "Owner tools and private files hidden")}
+      </div>
+    </section>
+  `;
+}
+
 function propertyStatsFor(records, recordMap) {
   const stats = new Map();
   for (const record of records) {
@@ -889,6 +925,16 @@ function propertyStatsFor(records, recordMap) {
 function briefItem(label, value, detail) {
   return `
     <article class="brief-item">
+      <span>${escapeHtml(label)}</span>
+      <strong>${escapeHtml(value)}</strong>
+      <small>${escapeHtml(detail)}</small>
+    </article>
+  `;
+}
+
+function proofPackItem(label, value, detail) {
+  return `
+    <article class="proof-pack-item">
       <span>${escapeHtml(label)}</span>
       <strong>${escapeHtml(value)}</strong>
       <small>${escapeHtml(detail)}</small>

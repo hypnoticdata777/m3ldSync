@@ -802,3 +802,34 @@ The POC now shows property-level aging risk as a first-class triage surface, str
 
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed baseline, preview, committed, Owner mode, and mobile risk states.
+
+## 2026-07-20 - Phase 7B Public Proof Pack
+
+### Goal
+
+Turn portfolio-safe packaging into a visible app surface instead of a docs-only task.
+
+### Built
+
+- Added a Public Demo-only Proof Pack panel.
+- The panel summarizes reconciliation, verification, manual memory, linked resolution, top focus, and data-boundary evidence.
+- The panel reads pending synthetic import state during demo preview, so screenshot evidence updates before commit.
+- Owner mode does not show the public Proof Pack.
+
+### Good
+
+- Public Demo has a tighter reviewer scan for screenshots and investor walkthroughs.
+- The panel reinforces existing FR/NFR proof without exposing owner controls or private data.
+- The surface stays compact and operational instead of becoming a landing page.
+
+### Bad / Risks
+
+- The proof pack is still synthetic demo evidence, not production telemetry.
+
+### Outcome
+
+Phase 7B portfolio packaging now has a dedicated in-app proof surface that can be captured safely with synthetic data.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.

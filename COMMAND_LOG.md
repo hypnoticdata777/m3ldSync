@@ -171,6 +171,8 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7B | `git status --short --branch` | Verify repo state after Carlos pushed proof controls. | `main` is tracking `origin/main` at `b4f95a1 Add public demo proof controls`. |
 | Phase 7B | `node scripts/validate.mjs` | Validate after adding Aging Risk panel. | Passed syntax checks and 9 tests. |
 | Phase 7B | Browser automation: baseline, follow-up preview, commit, Owner mode, mobile Public Demo | Verify risk ranking and responsive behavior. | Preview moved Maple Court to the top risk slot before commit; Owner mode showed risk panel; no console errors. |
+| Phase 7B | `node scripts/validate.mjs` | Validate after adding Public Demo Proof Pack. | Passed syntax checks and 9 tests. |
+| Phase 7B | Browser automation: Public Demo baseline, follow-up preview, Owner mode, mobile Public Demo | Verify Proof Pack visibility, dynamic preview state, access boundary, and responsive behavior. | Proof Pack showed in Public Demo, updated to `1 new / 2 changed / 1 stale` during preview, hid in Owner mode, and had no page-level overflow at mobile width. |
 
 ## Command Logging Rule
 

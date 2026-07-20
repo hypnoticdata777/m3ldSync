@@ -36,6 +36,7 @@ Default mode:
 - Show an operational brief that updates when a synthetic follow-up import is previewed and committed.
 - Provide proof controls for sticky manual override and linked-record resolution.
 - Show an aging risk panel that ranks properties by active work, high priority, stale records, and oldest open age.
+- Show a public proof pack that summarizes reconciliation, verification, manual memory, linked resolution, top focus, and data boundary evidence.
 - Provide a button to run a follow-up import.
 - Show new, changed, and stale counts immediately after the follow-up import.
 - Let visitors manually mark a record complete.
@@ -90,6 +91,7 @@ The most important proof points to show:
 - Dynamic import-impact brief for investor demos
 - Clickable proof states for sticky manual truth and linked resolution
 - Aging-risk ranking for property-level triage
+- Portfolio-safe proof pack for screenshots and reviewer scan
 
 ## Demo Risks
 

@@ -109,6 +109,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Public Demo shows an operational brief.
 - [x] Public Demo shows sticky manual and linked-resolution proof controls.
 - [x] Aging Risk ranks property focus areas.
+- [x] Public Demo shows a portfolio-safe proof pack.
 - [ ] No real property names appear in screenshots.
 - [ ] No real unit identifiers appear in screenshots.
 - [ ] No real descriptions appear in screenshots.
@@ -173,3 +174,9 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Aging Risk ranks properties by active work, high priority, stale count, and oldest open age.
 - During synthetic follow-up preview, Maple Court moves to the top with `2 open`, `1 high priority`, and `1 stale`.
 - The panel remains usable in Owner mode and at mobile width.
+
+2026-07-20 Phase 7B proof pack confirmed:
+
+- Public Demo shows a proof pack with reconciliation, verification, manual memory, linked resolution, top focus, and data boundary evidence.
+- The proof pack updates from baseline to synthetic follow-up preview state.
+- Owner mode does not show the public proof pack.

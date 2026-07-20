@@ -738,6 +738,54 @@ h1 {
   line-height: 1.35;
 }
 
+.proof-pack {
+  margin-bottom: 14px;
+  border: 1px solid #d9dfd8;
+  border-radius: 8px;
+  background: #fbfcfa;
+  padding: 12px;
+}
+
+.proof-pack-grid {
+  display: grid;
+  grid-template-columns: repeat(6, minmax(130px, 1fr));
+  gap: 8px;
+}
+
+.proof-pack-item {
+  min-height: 96px;
+  border: 1px solid var(--line);
+  border-top: 4px solid var(--teal);
+  border-radius: 7px;
+  background: var(--surface);
+  padding: 10px;
+}
+
+.proof-pack-item span,
+.proof-pack-item strong,
+.proof-pack-item small {
+  display: block;
+}
+
+.proof-pack-item span {
+  color: var(--muted);
+  font-size: 0.76rem;
+  font-weight: 800;
+  text-transform: uppercase;
+}
+
+.proof-pack-item strong {
+  margin-top: 7px;
+  font-size: 0.98rem;
+  overflow-wrap: anywhere;
+}
+
+.proof-pack-item small {
+  margin-top: 6px;
+  color: var(--muted);
+  line-height: 1.35;
+}
+
 .main-grid {
   display: grid;
   grid-template-columns: 260px minmax(0, 1fr) 340px;
@@ -1108,6 +1156,10 @@ h1 {
     grid-template-columns: repeat(2, minmax(150px, 1fr));
   }
 
+  .proof-pack-grid {
+    grid-template-columns: repeat(3, minmax(140px, 1fr));
+  }
+
   .qa-grid {
     grid-template-columns: repeat(3, minmax(120px, 1fr));
   }
@@ -1182,6 +1234,10 @@ h1 {
   }
 
   .risk-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .proof-pack-grid {
     grid-template-columns: 1fr;
   }
 
