@@ -84,6 +84,9 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Reset local data.
 - [x] Click `Restore Backup`.
 - [x] Select a JSON backup.
+- [x] Confirm Restore Preview appears before local state is replaced.
+- [x] Confirm canceling Restore Preview preserves current local state.
+- [x] Confirm committing Restore Preview replaces local state.
 - [x] Confirm restored state matches the selected backup.
 - [ ] Confirm a downloaded export backup can be restored round-trip.
 
@@ -224,3 +227,11 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Owner mode shows a Production Gate with hosted auth deferred, owner data local-only, public demo safe, and auth design as the next gate.
 - Public Demo does not show the Production Gate.
 - Deployment readiness note is stored at `DEPLOYMENT_READINESS.md`.
+
+2026-07-20 Owner restore preview confirmed:
+
+- Selecting a synthetic JSON backup opens an in-app Restore Preview instead of a native confirmation.
+- Cancel preserves the current 7-record owner/demo state.
+- Restore Backup commits the selected backup and replaced the workspace with the selected 0-record synthetic backup.
+- Reset Local Data restored the 6-record synthetic demo baseline after the test.
+- Mobile Restore Preview has no page-level horizontal overflow.

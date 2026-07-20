@@ -179,6 +179,7 @@ Completed:
 - Owner mode exposes CSV import, backup, restore, reset, and internal QA.
 - Owner mode states that CSV imports and backup restores stay in this browser unless exported.
 - Owner mode shows a Production Gate that states hosted auth is deferred and private owner data must remain local.
+- Owner mode previews backup restores before replacing local state.
 - Owner mode shows the full `7/7` walkthrough.
 
 Important limitation:

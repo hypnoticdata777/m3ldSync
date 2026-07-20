@@ -28,6 +28,7 @@ Built capabilities:
 - Sticky manual status overrides
 - Stale record detection
 - Import preview before commit
+- Restore backup preview before commit
 - Recent import history
 - Local browser persistence
 - JSON backup and restore

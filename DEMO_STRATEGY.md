@@ -52,6 +52,7 @@ Owner mode:
 - Treat uploaded data as local browser-only data.
 - Show a compact notice that owner data stays local to the browser unless exported.
 - Show a production gate that keeps hosted auth deferred until a backend exists.
+- Preview backup restores before replacing local owner state.
 - Display a clear Private Local Data indicator.
 - Show backup, restore, reset, and internal QA controls.
 

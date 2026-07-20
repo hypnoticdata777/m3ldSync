@@ -183,6 +183,8 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7B | `Add-Type -AssemblyName System.Drawing; Get-ChildItem docs\\portfolio\\*.png ...` | Verify generated screenshot dimensions and file sizes. | Confirmed five PNG files: one viewport hero and four full-page preset captures. |
 | Phase 7B | `node scripts/validate.mjs` | Validate after adding Owner Production Gate and deployment readiness note. | Passed syntax checks and 9 tests. |
 | Phase 7B | Browser automation: Owner/Public/mobile Production Gate visibility | Verify hosted-auth gate behavior and responsive layout. | Owner showed the Production Gate; Public Demo hid it; mobile had no page-level overflow. |
+| Hardening | `node scripts/validate.mjs` | Validate after adding Owner Restore Preview. | Passed syntax checks and 9 tests. |
+| Hardening | Browser automation: Owner restore preview cancel, commit, reset cleanup, and mobile restore preview | Verify restore is previewed before replacing local state. | Synthetic backup opened Restore Preview, cancel preserved current state, commit restored the 0-record backup, reset returned to 6-record demo baseline, and mobile had no overflow. |
 
 ## Command Logging Rule
 

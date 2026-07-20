@@ -23,6 +23,7 @@ let accessMode = loadAccessMode();
 let model = accessMode === "owner" ? loadState() || createDemoModel() : createDemoModel();
 let selectedRecordId = Object.keys(model.data.records)[0] || "";
 let pendingImport = null;
+let pendingRestore = null;
 let resetConfirmOpen = false;
 let portfolioView = false;
 let copiedCopyId = "";
@@ -116,6 +117,7 @@ function switchAccessMode(nextAccessMode) {
   accessMode = nextAccessMode;
   saveAccessMode(accessMode);
   pendingImport = null;
+  pendingRestore = null;
   resetConfirmOpen = false;
   portfolioView = false;
   copiedCopyId = "";
@@ -196,6 +198,8 @@ function render() {
       ${isPortfolioView ? renderCapturePresets() : ""}
 
       ${pendingImport && !isPortfolioView ? renderImportPreview() : ""}
+
+      ${pendingRestore ? renderRestorePreview() : ""}
 
       ${resetConfirmOpen ? renderResetConfirmation() : ""}
 
@@ -370,6 +374,7 @@ function bindEvents() {
 
   document.querySelector("#demoBaseline")?.addEventListener("click", () => {
     pendingImport = null;
+    pendingRestore = null;
     resetConfirmOpen = false;
     portfolioView = false;
     copiedCopyId = "";
@@ -380,6 +385,7 @@ function bindEvents() {
 
   document.querySelector("#demoFollowUp")?.addEventListener("click", () => {
     resetConfirmOpen = false;
+    pendingRestore = null;
     copiedCopyId = "";
     capturePresetId = "followup";
     const base = model.mode === "demo" ? model.data : createDemoModel().data;
@@ -401,6 +407,7 @@ function bindEvents() {
 
   document.querySelector("#stickyProof")?.addEventListener("click", () => {
     pendingImport = null;
+    pendingRestore = null;
     resetConfirmOpen = false;
     capturePresetId = "sticky";
     setModel(createStickyManualProofModel());
@@ -408,6 +415,7 @@ function bindEvents() {
 
   document.querySelector("#linkedProof")?.addEventListener("click", () => {
     pendingImport = null;
+    pendingRestore = null;
     resetConfirmOpen = false;
     capturePresetId = "linked";
     setModel(createLinkedResolutionProofModel());
@@ -415,6 +423,7 @@ function bindEvents() {
 
   document.querySelector("#resetData")?.addEventListener("click", () => {
     pendingImport = null;
+    pendingRestore = null;
     resetConfirmOpen = true;
     render();
   });
@@ -425,6 +434,7 @@ function bindEvents() {
 
     try {
       resetConfirmOpen = false;
+      pendingRestore = null;
       const text = await file.text();
       const rows = parsePropertyMeldCsv(text);
       const startingState = model.mode === "private" ? model.data : createEmptyState();
@@ -458,13 +468,14 @@ function bindEvents() {
 
     try {
       resetConfirmOpen = false;
+      pendingImport = null;
       const backup = JSON.parse(await file.text());
       validateBackup(backup);
-      if (confirm("Restore this MeldSync backup into local browser storage? Current local state will be replaced.")) {
-        pendingImport = null;
-        selectedRecordId = "";
-        setModel(backup);
-      }
+      pendingRestore = {
+        backup,
+        filename: file.name
+      };
+      render();
     } catch (error) {
       alert(`Backup restore failed: ${error.message}`);
     } finally {
@@ -475,6 +486,7 @@ function bindEvents() {
   document.querySelector("#commitImport")?.addEventListener("click", () => {
     if (!pendingImport) return;
     resetConfirmOpen = false;
+    pendingRestore = null;
     selectedRecordId = Object.keys(pendingImport.state.records)[0] || "";
     const nextModel = {
       mode: pendingImport.mode,
@@ -487,6 +499,7 @@ function bindEvents() {
 
   document.querySelector("#cancelImport")?.addEventListener("click", () => {
     pendingImport = null;
+    pendingRestore = null;
     resetConfirmOpen = false;
     copiedCopyId = "";
     capturePresetId = "baseline";
@@ -495,6 +508,7 @@ function bindEvents() {
 
   document.querySelector("#confirmReset")?.addEventListener("click", () => {
     pendingImport = null;
+    pendingRestore = null;
     resetConfirmOpen = false;
     clearState();
     selectedRecordId = "";
@@ -502,6 +516,22 @@ function bindEvents() {
   });
 
   document.querySelector("#cancelReset")?.addEventListener("click", () => {
+    resetConfirmOpen = false;
+    render();
+  });
+
+  document.querySelector("#commitRestore")?.addEventListener("click", () => {
+    if (!pendingRestore) return;
+    resetConfirmOpen = false;
+    pendingImport = null;
+    selectedRecordId = "";
+    const backup = pendingRestore.backup;
+    pendingRestore = null;
+    setModel(backup);
+  });
+
+  document.querySelector("#cancelRestore")?.addEventListener("click", () => {
+    pendingRestore = null;
     resetConfirmOpen = false;
     render();
   });
@@ -618,6 +648,37 @@ function renderImportPreview() {
   `;
 }
 
+function renderRestorePreview() {
+  const backup = pendingRestore.backup;
+  const summary = restoreSummary(backup);
+  return `
+    <section class="restore-preview" aria-label="Restore backup preview">
+      <div>
+        <p class="eyebrow">Restore Preview</p>
+        <h2>${escapeHtml(pendingRestore.filename)}</h2>
+        <p>Review this backup before it replaces the current owner workspace in this browser.</p>
+      </div>
+      <div class="restore-stats">
+        ${summaryMetric("Mode", summary.mode)}
+        ${summaryMetric("Records", summary.records)}
+        ${summaryMetric("Imports", summary.imports)}
+        ${summaryMetric("History", summary.history)}
+        ${summaryMetric("Manual", summary.manual)}
+        ${summaryMetric("Stale", summary.stale)}
+      </div>
+      <div class="restore-details">
+        ${restoreDetail("Exported", summary.exportedAt)}
+        ${restoreDetail("Latest import", summary.latestImport)}
+        ${restoreDetail("Workspace effect", "Current local state will be replaced")}
+      </div>
+      <div class="button-row">
+        <button id="commitRestore">Restore Backup</button>
+        <button class="ghost" id="cancelRestore">Cancel</button>
+      </div>
+    </section>
+  `;
+}
+
 function renderResetConfirmation() {
   return `
     <section class="reset-confirmation" aria-label="Reset confirmation">
@@ -631,6 +692,31 @@ function renderResetConfirmation() {
         <button class="ghost" id="cancelReset">Keep Current Data</button>
       </div>
     </section>
+  `;
+}
+
+function restoreSummary(backup) {
+  const records = Object.values(backup.data.records);
+  const imports = backup.data.imports || [];
+  const latestImport = backup.lastBatch || imports[0];
+  return {
+    mode: backup.mode,
+    records: records.length,
+    imports: imports.length,
+    history: backup.data.history.length,
+    manual: records.filter((record) => record.statusSource === "manual").length,
+    stale: records.filter((record) => record.stale).length,
+    exportedAt: backup.exportedAt ? formatDate(backup.exportedAt) : "Not provided",
+    latestImport: latestImport ? `${latestImport.filename || "Backup import"} - ${latestImport.rowCount || 0} rows` : "None"
+  };
+}
+
+function restoreDetail(label, value) {
+  return `
+    <div>
+      <strong>${escapeHtml(label)}</strong>
+      <span>${escapeHtml(value)}</span>
+    </div>
   `;
 }
 
@@ -1413,7 +1499,12 @@ function validateBackup(backup) {
     throw new Error("Backup mode must be demo or private.");
   }
 
-  if (!backup.data || typeof backup.data.records !== "object" || !Array.isArray(backup.data.history)) {
+  if (
+    !backup.data ||
+    typeof backup.data.records !== "object" ||
+    !Array.isArray(backup.data.history) ||
+    !Array.isArray(backup.data.imports)
+  ) {
     throw new Error("Backup is missing MeldSync data.");
   }
 }

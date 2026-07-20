@@ -466,6 +466,40 @@ Phase 7B now has the hosted-auth posture captured both in-product and in a deplo
 
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed Owner visibility, Public hiding, and responsive layout.
+
+## 2026-07-20 - Owner Restore Preview
+
+### Goal
+
+Remove the remaining native restore confirmation and make backup restore follow the same explicit preview pattern as imports and reset.
+
+### Built
+
+- Added pending restore state.
+- Selecting a backup JSON now opens an in-app Restore Preview.
+- Restore Preview shows mode, record count, import count, history count, manual count, stale count, exported timestamp, latest import, and workspace effect.
+- Added explicit `Restore Backup` and `Cancel` actions.
+- Backup validation now requires records, history, and imports.
+
+### Good
+
+- Backup restore no longer replaces local state directly after file selection.
+- Cancel preserves the current owner workspace.
+- Committing restore replaces the workspace only after the preview is visible.
+- Mobile browser QA shows no page-level horizontal overflow.
+
+### Bad / Risks
+
+- A true downloaded export-to-restore round trip is still a manual browser-file check.
+
+### Outcome
+
+Owner restore is now aligned with the POC's no-silent-destructive-operation rule.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed restore preview, cancel, commit, cleanup reset, and mobile layout with a synthetic backup file.
 - Local preview returned HTTP 200.
 - Git status confirms the private CSV is ignored.
 
