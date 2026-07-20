@@ -111,6 +111,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Aging Risk ranks property focus areas.
 - [x] Public Demo shows a portfolio-safe proof pack.
 - [x] Public Demo Portfolio View shows clean screenshot surfaces.
+- [x] Public Demo Portfolio Copy shows reusable synthetic-safe snippets.
 - [ ] No real property names appear in screenshots.
 - [ ] No real unit identifiers appear in screenshots.
 - [ ] No real descriptions appear in screenshots.
@@ -189,3 +190,12 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Full Demo restores the interactive workflow.
 - Owner mode does not show the Portfolio View toggle.
 - Mobile Portfolio View has no page-level horizontal overflow.
+
+2026-07-20 Phase 7B portfolio copy confirmed:
+
+- Public Demo shows Short Summary, Proof Bullets, and Privacy Caption snippets.
+- Copy buttons update to `Copied` after activation.
+- Follow-up preview updates proof bullets to `1 new, 2 changed, 1 stale` and Maple Court top focus.
+- Copy state clears when the generated text changes.
+- Owner mode does not show the Portfolio Copy pack.
+- Mobile Portfolio Copy has no page-level horizontal overflow.

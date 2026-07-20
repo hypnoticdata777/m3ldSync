@@ -38,6 +38,7 @@ Default mode:
 - Show an aging risk panel that ranks properties by active work, high priority, stale records, and oldest open age.
 - Show a public proof pack that summarizes reconciliation, verification, manual memory, linked resolution, top focus, and data boundary evidence.
 - Provide a Portfolio View toggle for clean synthetic screenshots and reviewer scan.
+- Provide a Portfolio Copy pack with synthetic-safe summary, proof bullets, and privacy caption copy.
 - Provide a button to run a follow-up import.
 - Show new, changed, and stale counts immediately after the follow-up import.
 - Let visitors manually mark a record complete.
@@ -94,6 +95,7 @@ The most important proof points to show:
 - Aging-risk ranking for property-level triage
 - Portfolio-safe proof pack for screenshots and reviewer scan
 - Portfolio View for clean public screenshots
+- Portfolio Copy for reusable public-safe snippets
 
 ## Demo Risks
 

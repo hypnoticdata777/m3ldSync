@@ -329,6 +329,41 @@ Phase 7B now has a clean public-facing portfolio view for synthetic screenshots 
 
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed toggle behavior, preview state, Owner hiding, and mobile layout.
+
+## 2026-07-20 - Phase 7B Portfolio Copy Pack
+
+### Goal
+
+Finish the copy side of portfolio-safe packaging with reusable public snippets generated from synthetic demo state.
+
+### Built
+
+- Added a Public Demo-only Portfolio Copy pack.
+- Added Short Summary, Proof Bullets, and Privacy Caption snippets.
+- Copy buttons use the browser clipboard API with a textarea fallback.
+- Proof Bullets read pending synthetic follow-up preview state before commit.
+- Copy state clears when generated text changes.
+- Owner mode does not show the Portfolio Copy pack.
+
+### Good
+
+- Portfolio copy now lives beside the public proof surfaces instead of only in docs.
+- Follow-up preview updates the proof bullets to the same operational signal shown in the brief and proof pack.
+- The privacy caption reinforces synthetic-only public data and deferred hosted auth.
+- Mobile browser QA shows no page-level horizontal overflow.
+
+### Bad / Risks
+
+- Browser automation could verify the copied UI state and generated text, but direct clipboard reads are limited by the automation environment.
+
+### Outcome
+
+Phase 7B now has screenshot surfaces and reusable synthetic-safe copy ready for the eventual portfolio websuite integration.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed copy pack visibility, copied state, preview updates, Owner hiding, and mobile layout.
 - Local preview returned HTTP 200.
 - Git status confirms the private CSV is ignored.
 

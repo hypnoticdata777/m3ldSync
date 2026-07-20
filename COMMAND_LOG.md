@@ -175,6 +175,8 @@ This log records terminal commands used during the build, why they were run, and
 | Phase 7B | Browser automation: Public Demo baseline, follow-up preview, Owner mode, mobile Public Demo | Verify Proof Pack visibility, dynamic preview state, access boundary, and responsive behavior. | Proof Pack showed in Public Demo, updated to `1 new / 2 changed / 1 stale` during preview, hid in Owner mode, and had no page-level overflow at mobile width. |
 | Phase 7B | `node scripts/validate.mjs` | Validate after adding Public Demo Portfolio View. | Passed syntax checks and 9 tests. |
 | Phase 7B | Browser automation: Portfolio View toggle, follow-up preview, Owner mode, mobile Public Demo | Verify clean screenshot surface and access boundary. | Portfolio View hid toolbar/board/import preview/walkthrough/ledger, kept public proof surfaces visible, updated preview proof text, hid in Owner mode, and had no mobile overflow. |
+| Phase 7B | `node scripts/validate.mjs` | Validate after adding Public Demo Portfolio Copy pack. | Passed syntax checks and 9 tests. |
+| Phase 7B | Browser automation: Portfolio Copy baseline, copy activation, follow-up preview, Owner mode, mobile Public Demo | Verify synthetic-safe snippets, copied state, dynamic proof bullets, access boundary, and responsive behavior. | Copy pack rendered three snippets, button changed to `Copied`, preview text updated to `1 new, 2 changed, 1 stale` with Maple Court top focus, Owner hid it, and mobile had no overflow. |
 
 ## Command Logging Rule
 

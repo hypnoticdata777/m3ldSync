@@ -25,6 +25,7 @@ let selectedRecordId = Object.keys(model.data.records)[0] || "";
 let pendingImport = null;
 let resetConfirmOpen = false;
 let portfolioView = false;
+let copiedCopyId = "";
 let filters = {
   search: "",
   property: "All",
@@ -95,6 +96,7 @@ function createLinkedResolutionProofModel() {
 }
 
 function setModel(nextModel) {
+  copiedCopyId = "";
   model = nextModel;
   persistModel();
   if (selectedRecordId && !model.data.records[selectedRecordId]) {
@@ -115,6 +117,7 @@ function switchAccessMode(nextAccessMode) {
   pendingImport = null;
   resetConfirmOpen = false;
   portfolioView = false;
+  copiedCopyId = "";
   selectedRecordId = "";
   model = accessMode === "owner" ? loadState() || createDemoModel() : createDemoModel();
   render();
@@ -183,6 +186,8 @@ function render() {
       ${renderAgingRiskPanel()}
 
       ${accessMode === "public" ? renderPublicProofPack() : ""}
+
+      ${accessMode === "public" ? renderPortfolioCopyPack() : ""}
 
       ${pendingImport && !isPortfolioView ? renderImportPreview() : ""}
 
@@ -290,16 +295,32 @@ function bindEvents() {
     render();
   });
 
+  document.querySelectorAll("[data-copy-id]").forEach((element) => {
+    element.addEventListener("click", async () => {
+      const item = getPortfolioCopyItems().find((copyItem) => copyItem.id === element.dataset.copyId);
+      if (!item) return;
+      try {
+        await copyText(item.text);
+        copiedCopyId = item.id;
+        render();
+      } catch (error) {
+        alert(`Copy failed: ${error.message}`);
+      }
+    });
+  });
+
   document.querySelector("#demoBaseline")?.addEventListener("click", () => {
     pendingImport = null;
     resetConfirmOpen = false;
     portfolioView = false;
+    copiedCopyId = "";
     selectedRecordId = "";
     setModel(createDemoModel());
   });
 
   document.querySelector("#demoFollowUp")?.addEventListener("click", () => {
     resetConfirmOpen = false;
+    copiedCopyId = "";
     const base = model.mode === "demo" ? model.data : createDemoModel().data;
     const rows = parsePropertyMeldCsv(demoFollowUpCsv);
     const { state, batch } = reconcile(base, rows, {
@@ -404,6 +425,7 @@ function bindEvents() {
   document.querySelector("#cancelImport")?.addEventListener("click", () => {
     pendingImport = null;
     resetConfirmOpen = false;
+    copiedCopyId = "";
     render();
   });
 
@@ -914,6 +936,74 @@ function renderPublicProofPack() {
   `;
 }
 
+function renderPortfolioCopyPack() {
+  const items = getPortfolioCopyItems();
+  return `
+    <section class="copy-pack" aria-label="Portfolio copy pack">
+      <div class="section-title">
+        <h2>Portfolio Copy</h2>
+        <span>Synthetic-safe</span>
+      </div>
+      <div class="copy-pack-grid">
+        ${items.map(renderPortfolioCopyItem).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function getPortfolioCopyItems() {
+  const copyState = pendingImport?.mode === "demo" ? pendingImport.state : model.data;
+  const records = Object.values(copyState.records);
+  const batch = pendingImport?.mode === "demo" ? pendingImport.batch : model.lastBatch || copyState.imports[0];
+  const topRisk = riskStats(records, copyState.records)[0];
+  const openCount = records.filter((record) => !isEffectivelyClosed(record, copyState.records)).length;
+  const staleCount = records.filter((record) => record.stale).length;
+  const manualCount = records.filter((record) => record.statusSource === "manual").length;
+  const linkedResolvedCount = records.filter((record) => isLinkedResolved(record, copyState.records)).length;
+  const importSignal = batch
+    ? `${batch.newCount} new, ${batch.statusChangedCount} changed, ${batch.staleCount} stale`
+    : "baseline loaded";
+  const topFocus = topRisk ? `${topRisk.property}: ${topRisk.open} open, ${topRisk.oldestOpen}d oldest` : "No active risk";
+
+  return [
+    {
+      id: "summary",
+      label: "Short Summary",
+      text: "MeldSync reconciles recurring maintenance exports against prior snapshots, preserving manual verification and surfacing property-level risk across a synthetic portfolio demo."
+    },
+    {
+      id: "proof",
+      label: "Proof Bullets",
+      text: [
+        `Import signal: ${importSignal}.`,
+        `Open work: ${openCount} active records across the synthetic portfolio.`,
+        `Verification queue: ${staleCount} stale record${staleCount === 1 ? "" : "s"} flagged instead of deleted.`,
+        `Manual memory: ${manualCount} sticky manual correction${manualCount === 1 ? "" : "s"}.`,
+        `Linked resolution: ${linkedResolvedCount} original ticket${linkedResolvedCount === 1 ? "" : "s"} effectively resolved by follow-up work.`,
+        `Top focus: ${topFocus}.`
+      ].join("\n")
+    },
+    {
+      id: "privacy",
+      label: "Privacy Caption",
+      text: "Public Demo uses synthetic data only. Owner CSV import, backup, restore, reset, and private browser storage stay out of the public screenshot surface until real hosted auth exists."
+    }
+  ];
+}
+
+function renderPortfolioCopyItem(item) {
+  const copied = copiedCopyId === item.id;
+  return `
+    <article class="copy-item">
+      <div>
+        <span>${escapeHtml(item.label)}</span>
+        <p>${escapeHtml(item.text)}</p>
+      </div>
+      <button class="copy-action ${copied ? "copied" : ""}" data-copy-id="${escapeAttr(item.id)}">${copied ? "Copied" : "Copy"}</button>
+    </article>
+  `;
+}
+
 function propertyStatsFor(records, recordMap) {
   const stats = new Map();
   for (const record of records) {
@@ -960,6 +1050,23 @@ function snapshotItem(label, value, detail) {
       <small>${escapeHtml(detail)}</small>
     </article>
   `;
+}
+
+async function copyText(text) {
+  if (navigator.clipboard?.writeText) {
+    await navigator.clipboard.writeText(text);
+    return;
+  }
+
+  const textarea = document.createElement("textarea");
+  textarea.value = text;
+  textarea.setAttribute("readonly", "");
+  textarea.style.position = "fixed";
+  textarea.style.left = "-9999px";
+  document.body.append(textarea);
+  textarea.select();
+  document.execCommand("copy");
+  textarea.remove();
 }
 
 function batchSummary() {
