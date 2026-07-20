@@ -182,7 +182,7 @@ Make the import preview more auditable by showing which records are affected, no
 ### I Did Not Know This Yet
 
 - Whether Carlos would prefer import preview sorted by property, status, or severity.
-- Whether manual conflicts should block commit or simply warn before commit.
+- Manual conflicts were later handled as an explicit warning before commit for the local POC.
 
 ### Outcome
 
@@ -672,6 +672,39 @@ Owner backup restore is safer for local POC use, and malformed internal backup s
 
 - `node scripts/validate.mjs` passed with 12 tests.
 - Browser QA confirmed valid synthetic backup restore preview still opens.
+
+## 2026-07-20 - Manual-Conflict Commit Warning
+
+### Goal
+
+Answer the import-preview policy question for the POC: manual/import conflicts should warn before commit, not block the owner.
+
+### Built
+
+- Added a manual-conflict warning band inside Import Preview when `discrepancyCount` is greater than zero.
+- The warning explains that manual statuses remain authoritative and the imported disagreement is recorded.
+- The commit button changes from `Commit Import` to `Commit With Manual Conflicts` only when conflicts exist.
+- The warning collapses cleanly on tablet/mobile.
+
+### Good
+
+- Normal follow-up import previews stay uncluttered.
+- Manual-conflict imports now require a visibly different commit action.
+- The behavior matches the POC's owner-controlled local workflow without pretending to enforce production approvals.
+- Browser console remained clean.
+
+### Bad / Risks
+
+- This is a warning-only policy; production approval workflows would need identity, roles, and durable audit assignment later.
+
+### Outcome
+
+Manual/import conflicts are now clearly called out before commit while preserving the owner’s ability to keep moving in the local POC.
+
+### Validation
+
+- `node scripts/validate.mjs` passed with 12 tests.
+- Browser QA confirmed normal preview, manual-conflict preview, and `390x844` mobile layout.
 - Local preview returned HTTP 200.
 - Git status confirms the private CSV is ignored.
 

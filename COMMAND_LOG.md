@@ -195,6 +195,8 @@ This log records terminal commands used during the build, why they were run, and
 | Hardening | Browser automation: Public Demo baseline, Sticky Manual Proof, Owner manual-edit import flow, mobile queue | Verify committed manual/import conflict queue. | Baseline hid the queue, sticky proof showed `MS-1001`, clicking it selected the detail conflict panel, Owner workflow produced the same queue, and mobile had no overflow. |
 | Hardening | `node scripts/validate.mjs` | Validate after adding deep backup validation. | Passed syntax checks and 12 tests. |
 | Hardening | Browser automation: Owner Restore Backup with valid synthetic backup | Verify strict backup validation still accepts valid backup restore preview. | Restore Preview opened for a valid 0-record synthetic backup, no overflow appeared, and console errors stayed at 0. |
+| Hardening | `node scripts/validate.mjs` | Validate after adding manual-conflict commit warning. | Passed syntax checks and 12 tests. |
+| Hardening | Browser automation: Owner normal follow-up preview, manual-conflict follow-up preview, mobile warning | Verify manual-conflict warning before import commit. | Normal preview kept `Commit Import`; manual-conflict preview showed the warning and `Commit With Manual Conflicts`; mobile had no overflow and console errors stayed at 0. |
 
 ## Command Logging Rule
 

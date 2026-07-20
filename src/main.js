@@ -706,12 +706,25 @@ function renderImportPreview() {
         ${previewList("Stale", batch.staleIds, pendingImport.state.records)}
         ${previewList("Manual conflicts", batch.discrepancyIds, pendingImport.state.records)}
       </div>
+      ${batch.discrepancyCount ? renderImportConflictWarning(batch) : ""}
       ${previewRecord ? renderPreviewInspector(previewRecord) : ""}
       <div class="button-row">
-        <button id="commitImport">Commit Import</button>
+        <button id="commitImport">${batch.discrepancyCount ? "Commit With Manual Conflicts" : "Commit Import"}</button>
         <button class="ghost" id="cancelImport">Cancel</button>
       </div>
     </section>
+  `;
+}
+
+function renderImportConflictWarning(batch) {
+  return `
+    <div class="preview-conflict-warning">
+      <div>
+        <span>Manual conflict warning</span>
+        <strong>${batch.discrepancyCount} owner-verified status ${batch.discrepancyCount === 1 ? "differs" : "differ"} from this import</strong>
+      </div>
+      <p>Committing keeps manual statuses authoritative and records the imported disagreement for review.</p>
+    </div>
   `;
 }
 

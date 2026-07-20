@@ -30,6 +30,7 @@ Built capabilities:
 - Manual/import conflict queue
 - Stale record detection
 - Import preview before commit
+- Manual-conflict warning before import commit
 - Clickable import preview drill-down
 - Restore backup preview before commit
 - Recent import history

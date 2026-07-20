@@ -115,7 +115,7 @@ Completed:
 Current note:
 
 - GitHub repo exists at `https://github.com/hypnoticdata777/m3ldSync.git`.
-- Latest verified local commit: `7fd2c04 Add manual conflict queue`.
+- Latest verified local commit: `0b38f18 Harden backup validation`.
 
 ## Next Active Blocker
 
@@ -156,6 +156,7 @@ Recently completed:
 - Owner mode now shows a Production Gate for hosted-auth readiness.
 - Owner mode now shows a compact local-browser storage notice.
 - Owner import previews now allow affected-record drill-down before commit.
+- Owner import previews now warn before committing manual/import conflicts.
 - Import history now opens a detail drawer for selected committed batches.
 - Manual/import conflicts now appear in a compact verification queue.
 - Backup restore now uses deeper record, history, and import-batch validation.
@@ -188,6 +189,7 @@ Completed:
 - Owner mode previews backup restores before replacing local state.
 - Owner mode validates backup internals before opening Restore Preview.
 - Owner mode previews affected import records before committing CSV/demo imports.
+- Owner mode labels manual-conflict commits explicitly before commit.
 - Owner mode can inspect committed import batches through the history detail drawer.
 - Owner mode can review all current manual/import conflicts through the verification queue.
 - Owner mode shows the full `7/7` walkthrough.

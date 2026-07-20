@@ -31,6 +31,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Click `Run Demo Follow-Up Import`.
 - [x] Confirm an Import Preview panel appears.
 - [x] Confirm preview shows rows, new, changed, stale, manual conflicts, and total after.
+- [x] Confirm manual-conflict previews show an explicit warning before commit.
 - [x] Confirm preview lists affected record IDs with property and status context.
 - [x] Confirm affected record IDs can be clicked to inspect current committed status versus pending import status.
 - [x] Click `Cancel`.
@@ -278,3 +279,10 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Unit tests reject mismatched backup record IDs.
 - Unit tests reject corrupted import batch affected-ID lists.
 - Browser restore QA confirmed a valid synthetic backup still opens Restore Preview with no console errors.
+
+2026-07-20 manual-conflict commit warning confirmed:
+
+- Normal synthetic follow-up preview shows no conflict warning and keeps `Commit Import`.
+- Owner workflow with manual `Completed` status plus follow-up preview shows a manual-conflict warning.
+- Manual-conflict preview labels the action `Commit With Manual Conflicts`.
+- Desktop and `390x844` mobile checks showed no page-level horizontal overflow.
