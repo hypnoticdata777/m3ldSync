@@ -196,6 +196,8 @@ function render() {
 
       ${accessMode === "public" && !isPortfolioView ? renderProofActions() : ""}
 
+      ${isPortfolioView ? "" : renderManualConflictQueue()}
+
       ${renderAgingRiskPanel()}
 
       ${accessMode === "public" ? renderPublicProofPack() : ""}
@@ -614,6 +616,13 @@ function bindEvents() {
   document.querySelectorAll("[data-ledger-record-id]").forEach((element) => {
     element.addEventListener("click", () => {
       selectedRecordId = element.dataset.ledgerRecordId;
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-conflict-record-id]").forEach((element) => {
+    element.addEventListener("click", () => {
+      selectedRecordId = element.dataset.conflictRecordId;
       render();
     });
   });
@@ -1089,6 +1098,38 @@ function renderProofActions() {
         <strong>${escapeHtml(selectedSummary)}</strong>
       </div>
     </section>
+  `;
+}
+
+function renderManualConflictQueue() {
+  const conflicts = allRecords().filter(hasManualConflict);
+  if (!conflicts.length) {
+    return "";
+  }
+
+  return `
+    <section class="conflict-queue" aria-label="Manual import conflict queue">
+      <div class="section-title">
+        <h2>Verification Queue</h2>
+        <span>${conflicts.length}</span>
+      </div>
+      <div class="conflict-queue-list">
+        ${conflicts.map(renderConflictQueueItem).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderConflictQueueItem(record) {
+  const selected = selectedRecordId === record.id ? "active" : "";
+  return `
+    <button class="conflict-queue-item ${selected}" data-conflict-record-id="${escapeAttr(record.id)}" type="button">
+      <div>
+        <strong>${escapeHtml(record.id)}</strong>
+        <span>${escapeHtml(record.property)}${record.unit ? ` - ${escapeHtml(record.unit)}` : ""}</span>
+      </div>
+      <p>Import: ${escapeHtml(record.importStatus)} / Manual: ${escapeHtml(record.currentStatus)}</p>
+    </button>
   `;
 }
 

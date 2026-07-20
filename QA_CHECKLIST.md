@@ -71,6 +71,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Confirm manual status survives.
 - [x] Confirm discrepancy is visible through history or preview.
 - [x] Confirm discrepancy is visible in the selected record detail panel.
+- [x] Confirm discrepancy appears in the verification queue and selects the affected record.
 
 ## Linked Record Behavior
 
@@ -260,4 +261,12 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Selecting `demo-baseline` opens baseline details with historical imported statuses.
 - Selecting the follow-up batch shows `1 new`, `2 changed`, `1 stale`, and `3` import history entries.
 - Clicking `MS-1001` in the selected batch detail selects the matching work card and detail panel.
+- Desktop and `390x844` mobile checks showed no page-level horizontal overflow.
+
+2026-07-20 manual conflict queue confirmed:
+
+- Public Demo baseline shows no Verification Queue.
+- Sticky Manual Proof shows a one-item Verification Queue for `MS-1001`.
+- Clicking `MS-1001` in the queue selects the record and shows the detail conflict panel.
+- Owner workflow with manual `Completed` status plus committed follow-up import shows the same queue.
 - Desktop and `390x844` mobile checks showed no page-level horizontal overflow.

@@ -27,6 +27,7 @@ Built capabilities:
 - Idempotent re-import behavior
 - Sticky manual status overrides
 - Manual/import conflict visibility
+- Manual/import conflict queue
 - Stale record detection
 - Import preview before commit
 - Clickable import preview drill-down

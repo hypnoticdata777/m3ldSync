@@ -523,7 +523,7 @@ Make import-vs-manual discrepancies obvious in the UI instead of requiring the o
 
 ### Bad / Risks
 
-- The conflict panel is per selected record; a future queue view could list all conflicts at once.
+- The conflict panel was per selected record at this point; a compact queue view was added later on 2026-07-20.
 
 ### Outcome
 
@@ -603,6 +603,41 @@ The post-commit import history is now inspectable, which strengthens the owner a
 
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed desktop and `390x844` mobile import history detail behavior.
+
+## 2026-07-20 - Manual Conflict Queue
+
+### Goal
+
+Close the manual/import conflict gap where conflicts were visible only on the selected record.
+
+### Built
+
+- Added a compact Verification Queue for committed manual/import conflicts.
+- The queue appears in the full working view when manual status disagrees with latest import status.
+- Queue items show ID, property/unit, import status, and manual status.
+- Clicking a queue item selects the affected work order and opens the existing detail conflict panel.
+- Portfolio View remains clean and does not show the operational queue.
+
+### Good
+
+- Public Demo baseline shows no queue.
+- Sticky Manual Proof shows `MS-1001` in the Verification Queue.
+- Owner workflow can produce the same queue through manual edit plus committed follow-up import.
+- Desktop and mobile browser QA showed no page-level horizontal overflow.
+- Validation remains green with 9 tests passing.
+
+### Bad / Risks
+
+- The queue is still local/static POC UI; production conflict assignment or resolution workflows would need backend identity and storage later.
+
+### Outcome
+
+Manual/import conflict review is now a first-class owner workflow and a clearer public proof point without starting hosted auth or backend work.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed public baseline, sticky manual queue, owner workflow queue, and `390x844` mobile layout.
 - Local preview returned HTTP 200.
 - Git status confirms the private CSV is ignored.
 

@@ -115,7 +115,7 @@ Completed:
 Current note:
 
 - GitHub repo exists at `https://github.com/hypnoticdata777/m3ldSync.git`.
-- Latest verified local commit: `f09a27d Add manual conflict visibility`.
+- Latest verified local commit: `91e6651 Add import history detail drawer`.
 
 ## Next Active Blocker
 
@@ -157,6 +157,7 @@ Recently completed:
 - Owner mode now shows a compact local-browser storage notice.
 - Owner import previews now allow affected-record drill-down before commit.
 - Import history now opens a detail drawer for selected committed batches.
+- Manual/import conflicts now appear in a compact verification queue.
 
 ## Phase 7B Preview - Public Demo Packaging and Access Modes
 
@@ -172,6 +173,7 @@ Completed:
 - Public Demo shows an operational brief with import signal, triage focus, verification queue, and human-correction counts.
 - Public Demo lets reviewers trigger sticky manual override and linked-resolution proof states directly.
 - Manual/import conflicts now show a clear verification-conflict panel on the selected record.
+- Manual/import conflicts now also show a compact verification queue in the full working view.
 - Public Demo and Owner mode show aging risk ranked by open work, high priority, stale records, and oldest open age.
 - Public Demo shows a proof pack summarizing reconciliation, verification, manual memory, linked resolution, top focus, and data boundary evidence.
 - Public Demo has a Portfolio View toggle that hides workflow chrome and keeps the public proof surfaces visible.
@@ -185,6 +187,7 @@ Completed:
 - Owner mode previews backup restores before replacing local state.
 - Owner mode previews affected import records before committing CSV/demo imports.
 - Owner mode can inspect committed import batches through the history detail drawer.
+- Owner mode can review all current manual/import conflicts through the verification queue.
 - Owner mode shows the full `7/7` walkthrough.
 
 Important limitation:
