@@ -23,6 +23,7 @@ let accessMode = loadAccessMode();
 let model = accessMode === "owner" ? loadState() || createDemoModel() : createDemoModel();
 let selectedRecordId = Object.keys(model.data.records)[0] || "";
 let selectedPreviewRecordId = "";
+let selectedImportBatchId = "";
 let pendingImport = null;
 let pendingRestore = null;
 let resetConfirmOpen = false;
@@ -101,6 +102,9 @@ function createLinkedResolutionProofModel() {
 function setModel(nextModel) {
   copiedCopyId = "";
   model = nextModel;
+  if (selectedImportBatchId && !model.data.imports.some((batch) => batch.id === selectedImportBatchId)) {
+    selectedImportBatchId = "";
+  }
   persistModel();
   if (selectedRecordId && !model.data.records[selectedRecordId]) {
     selectedRecordId = Object.keys(model.data.records)[0] || "";
@@ -119,6 +123,7 @@ function switchAccessMode(nextAccessMode) {
   saveAccessMode(accessMode);
   pendingImport = null;
   selectedPreviewRecordId = "";
+  selectedImportBatchId = "";
   pendingRestore = null;
   resetConfirmOpen = false;
   portfolioView = false;
@@ -377,6 +382,7 @@ function bindEvents() {
   document.querySelector("#demoBaseline")?.addEventListener("click", () => {
     pendingImport = null;
     selectedPreviewRecordId = "";
+    selectedImportBatchId = "";
     pendingRestore = null;
     resetConfirmOpen = false;
     portfolioView = false;
@@ -406,12 +412,14 @@ function bindEvents() {
       note: "Synthetic follow-up import. Safe for public demo."
     };
     selectedPreviewRecordId = firstPreviewRecordId(batch);
+    selectedImportBatchId = batch.id;
     render();
   });
 
   document.querySelector("#stickyProof")?.addEventListener("click", () => {
     pendingImport = null;
     selectedPreviewRecordId = "";
+    selectedImportBatchId = "";
     pendingRestore = null;
     resetConfirmOpen = false;
     capturePresetId = "sticky";
@@ -421,6 +429,7 @@ function bindEvents() {
   document.querySelector("#linkedProof")?.addEventListener("click", () => {
     pendingImport = null;
     selectedPreviewRecordId = "";
+    selectedImportBatchId = "";
     pendingRestore = null;
     resetConfirmOpen = false;
     capturePresetId = "linked";
@@ -430,6 +439,7 @@ function bindEvents() {
   document.querySelector("#resetData")?.addEventListener("click", () => {
     pendingImport = null;
     selectedPreviewRecordId = "";
+    selectedImportBatchId = "";
     pendingRestore = null;
     resetConfirmOpen = true;
     render();
@@ -443,6 +453,7 @@ function bindEvents() {
       resetConfirmOpen = false;
       pendingRestore = null;
       selectedPreviewRecordId = "";
+      selectedImportBatchId = "";
       const text = await file.text();
       const rows = parsePropertyMeldCsv(text);
       const startingState = model.mode === "private" ? model.data : createEmptyState();
@@ -459,6 +470,7 @@ function bindEvents() {
         note: "This import will be stored only in this browser on this machine."
       };
       selectedPreviewRecordId = firstPreviewRecordId(batch);
+      selectedImportBatchId = batch.id;
       render();
     } catch (error) {
       alert(error.message);
@@ -479,6 +491,7 @@ function bindEvents() {
       resetConfirmOpen = false;
       pendingImport = null;
       selectedPreviewRecordId = "";
+      selectedImportBatchId = "";
       const backup = JSON.parse(await file.text());
       validateBackup(backup);
       pendingRestore = {
@@ -498,6 +511,7 @@ function bindEvents() {
     resetConfirmOpen = false;
     pendingRestore = null;
     selectedRecordId = Object.keys(pendingImport.state.records)[0] || "";
+    const committedBatchId = pendingImport.batch.id;
     const nextModel = {
       mode: pendingImport.mode,
       data: pendingImport.state,
@@ -505,12 +519,14 @@ function bindEvents() {
     };
     pendingImport = null;
     selectedPreviewRecordId = "";
+    selectedImportBatchId = committedBatchId;
     setModel(nextModel);
   });
 
   document.querySelector("#cancelImport")?.addEventListener("click", () => {
     pendingImport = null;
     selectedPreviewRecordId = "";
+    selectedImportBatchId = "";
     pendingRestore = null;
     resetConfirmOpen = false;
     copiedCopyId = "";
@@ -521,6 +537,7 @@ function bindEvents() {
   document.querySelector("#confirmReset")?.addEventListener("click", () => {
     pendingImport = null;
     selectedPreviewRecordId = "";
+    selectedImportBatchId = "";
     pendingRestore = null;
     resetConfirmOpen = false;
     clearState();
@@ -538,6 +555,7 @@ function bindEvents() {
     resetConfirmOpen = false;
     pendingImport = null;
     selectedPreviewRecordId = "";
+    selectedImportBatchId = "";
     selectedRecordId = "";
     const backup = pendingRestore.backup;
     pendingRestore = null;
@@ -547,6 +565,7 @@ function bindEvents() {
   document.querySelector("#cancelRestore")?.addEventListener("click", () => {
     pendingRestore = null;
     selectedPreviewRecordId = "";
+    selectedImportBatchId = "";
     resetConfirmOpen = false;
     render();
   });
@@ -581,6 +600,20 @@ function bindEvents() {
   document.querySelectorAll("[data-preview-record-id]").forEach((element) => {
     element.addEventListener("click", () => {
       selectedPreviewRecordId = element.dataset.previewRecordId;
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-import-batch-id]").forEach((element) => {
+    element.addEventListener("click", () => {
+      selectedImportBatchId = element.dataset.importBatchId;
+      render();
+    });
+  });
+
+  document.querySelectorAll("[data-ledger-record-id]").forEach((element) => {
+    element.addEventListener("click", () => {
+      selectedRecordId = element.dataset.ledgerRecordId;
       render();
     });
   });
@@ -1410,6 +1443,8 @@ function renderImportLedger() {
     return "";
   }
 
+  const selectedBatch = selectedImportBatch(model.data.imports);
+  const selectedBatchId = selectedBatch?.id || "";
   return `
     <section class="import-ledger" aria-label="Import batch history">
       <div class="section-title">
@@ -1417,20 +1452,105 @@ function renderImportLedger() {
         <span>${model.data.imports.length}</span>
       </div>
       <div class="import-ledger-list">
-        ${imports.map(renderImportBatch).join("")}
+        ${imports.map((batch) => renderImportBatch(batch, selectedBatchId)).join("")}
       </div>
+      ${selectedBatch ? renderImportBatchDetail(selectedBatch) : ""}
     </section>
   `;
 }
 
-function renderImportBatch(batch) {
+function renderImportBatch(batch, selectedBatchId) {
+  const selected = batch.id === selectedBatchId ? "active" : "";
   return `
-    <article>
+    <button class="import-batch ${selected}" data-import-batch-id="${escapeAttr(batch.id)}" type="button">
       <strong>${escapeHtml(batch.filename)}</strong>
       <span>${formatDate(batch.uploadedAt)}</span>
       <p>${batch.rowCount} rows - ${batch.newCount} new - ${batch.statusChangedCount} changed - ${batch.staleCount} stale</p>
+    </button>
+  `;
+}
+
+function renderImportBatchDetail(batch) {
+  const historyEntries = model.data.history.filter((entry) => entry.importBatchId === batch.id);
+  const history = historyEntries.slice(0, 4);
+  return `
+    <div class="import-ledger-detail" aria-label="Selected import detail">
+      <div>
+        <span>Selected import</span>
+        <strong>${escapeHtml(batch.filename)}</strong>
+        <p>${escapeHtml(formatDate(batch.uploadedAt))} - ${escapeHtml(batch.id)}</p>
+      </div>
+      <div class="ledger-detail-stats">
+        ${detailItem("Rows", batch.rowCount)}
+        ${detailItem("New", batch.newCount)}
+        ${detailItem("Changed", batch.statusChangedCount)}
+        ${detailItem("Stale", batch.staleCount)}
+        ${detailItem("Manual conflicts", batch.discrepancyCount)}
+        ${detailItem("History entries", historyEntries.length)}
+      </div>
+      <div class="ledger-detail-records">
+        ${importAffectedList("New", batch.newIds, batch)}
+        ${importAffectedList("Changed", batch.changedIds, batch)}
+        ${importAffectedList("Stale", batch.staleIds, batch)}
+        ${importAffectedList("Manual conflicts", batch.discrepancyIds, batch)}
+      </div>
+      ${history.length ? `<div class="ledger-history">${history.map(renderImportHistoryEntry).join("")}</div>` : ""}
+    </div>
+  `;
+}
+
+function importAffectedList(label, ids = [], batch) {
+  if (!ids.length) {
+    return `
+      <div>
+        <strong>${label}</strong>
+        <span>None</span>
+      </div>
+    `;
+  }
+
+  const visible = ids
+    .slice(0, 5)
+    .map((id) => {
+      const record = model.data.records[id];
+      const statusAtImport = importRecordStatusLabel(id, batch, label);
+      const labelText = record ? `${id} (${record.property}, ${statusAtImport})` : id;
+      const selected = selectedRecordId === id ? "active" : "";
+      return `<button class="ledger-record ${selected}" data-ledger-record-id="${escapeAttr(id)}" type="button">${escapeHtml(labelText)}</button>`;
+    })
+    .join("");
+  const extra = ids.length > 5 ? ` +${ids.length - 5} more` : "";
+  return `
+    <div>
+      <strong>${label}</strong>
+      <span>${visible}${extra ? `<em>${escapeHtml(extra)}</em>` : ""}</span>
+    </div>
+  `;
+}
+
+function importRecordStatusLabel(recordId, batch, label) {
+  const importHistory = model.data.history.find((entry) => entry.importBatchId === batch.id && entry.recordId === recordId);
+  const record = model.data.records[recordId];
+  if (label === "Stale") {
+    return record ? `current ${effectiveStatus(record, model.data.records)}` : "stale";
+  }
+  if (importHistory?.toStatus) {
+    return importHistory.toStatus;
+  }
+  return record ? `current ${effectiveStatus(record, model.data.records)}` : "affected";
+}
+
+function renderImportHistoryEntry(entry) {
+  return `
+    <article>
+      <strong>${escapeHtml(entry.recordId)}: ${escapeHtml(entry.fromStatus || "New")} -> ${escapeHtml(entry.toStatus)}</strong>
+      <span>${escapeHtml(entry.note)}</span>
     </article>
   `;
+}
+
+function selectedImportBatch(imports) {
+  return imports.find((batch) => batch.id === selectedImportBatchId) || imports[0] || null;
 }
 
 function renderQaPanel() {

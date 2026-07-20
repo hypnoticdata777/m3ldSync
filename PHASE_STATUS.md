@@ -156,6 +156,7 @@ Recently completed:
 - Owner mode now shows a Production Gate for hosted-auth readiness.
 - Owner mode now shows a compact local-browser storage notice.
 - Owner import previews now allow affected-record drill-down before commit.
+- Import history now opens a detail drawer for selected committed batches.
 
 ## Phase 7B Preview - Public Demo Packaging and Access Modes
 
@@ -183,6 +184,7 @@ Completed:
 - Owner mode shows a Production Gate that states hosted auth is deferred and private owner data must remain local.
 - Owner mode previews backup restores before replacing local state.
 - Owner mode previews affected import records before committing CSV/demo imports.
+- Owner mode can inspect committed import batches through the history detail drawer.
 - Owner mode shows the full `7/7` walkthrough.
 
 Important limitation:

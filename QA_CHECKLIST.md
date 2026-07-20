@@ -39,6 +39,8 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Click `Commit Import`.
 - [x] Confirm board counts update.
 - [x] Confirm recent import history ledger updates.
+- [x] Confirm committed import batches can be selected and inspected.
+- [x] Confirm affected IDs in the import history detail select the matching work order.
 
 ## Private CSV Import Flow
 
@@ -250,4 +252,12 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Synthetic follow-up import auto-selects the first affected record, `MS-1007`, and shows it as `New`.
 - Clicking `MS-1001` updates the inspector to `Changed`, with committed status `Pending vendor acceptance` and import status `Pending completion`.
 - Clicking `MS-1004` updates the inspector to `Stale`.
+- Desktop and `390x844` mobile checks showed no page-level horizontal overflow.
+
+2026-07-20 import history detail confirmed:
+
+- Committing the synthetic follow-up import auto-selects the latest import history batch.
+- Selecting `demo-baseline` opens baseline details with historical imported statuses.
+- Selecting the follow-up batch shows `1 new`, `2 changed`, `1 stale`, and `3` import history entries.
+- Clicking `MS-1001` in the selected batch detail selects the matching work card and detail panel.
 - Desktop and `390x844` mobile checks showed no page-level horizontal overflow.

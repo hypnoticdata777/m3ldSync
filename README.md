@@ -32,6 +32,7 @@ Built capabilities:
 - Clickable import preview drill-down
 - Restore backup preview before commit
 - Recent import history
+- Import history detail drawer
 - Local browser persistence
 - JSON backup and restore
 - Kanban board by effective status
@@ -135,4 +136,4 @@ docs/portfolio          Synthetic portfolio screenshot assets
 
 ## Current Status
 
-Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B has started: the public demo / owner workspace boundary is in place, Public Demo clearly labels the workspace as synthetic and private-data-free, and owner import previews now support drill-down review before commit.
+Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B has started: the public demo / owner workspace boundary is in place, Public Demo clearly labels the workspace as synthetic and private-data-free, and owner import review now supports both pre-commit drill-down and post-commit ledger inspection.

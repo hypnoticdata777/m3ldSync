@@ -228,7 +228,7 @@ Make the tool more trustworthy for recurring operations by improving audit visib
 ### Bad / Risks
 
 - Linked resolution is currently one-directional: the original record must link to the follow-up record.
-- The import history ledger is summary-only; it does not yet open a full import detail drawer.
+- The import history ledger was summary-only at this point; a detail drawer was added later on 2026-07-20.
 - Browser screenshot/interaction QA was not completed because browser-control tooling was not available in this session.
 - There is still no Git repository initialized for version control.
 
@@ -568,6 +568,41 @@ Owner import review is now more auditable before commit, directly strengthening 
 
 - `node scripts/validate.mjs` passed.
 - Browser QA confirmed desktop and `390x844` mobile preview drill-down behavior.
+
+## 2026-07-20 - Import History Detail Drawer
+
+### Goal
+
+Close the committed-import audit gap where the history ledger only showed summary cards.
+
+### Built
+
+- Import history batches are now selectable.
+- The selected batch opens a detail drawer with rows, new, changed, stale, manual conflicts, and history-entry counts.
+- The drawer lists affected IDs by new, changed, stale, and manual-conflict groups.
+- Affected IDs in the drawer select the matching work order card/detail panel.
+- Historical status labels now prefer the status recorded by that import batch instead of only showing the current record status.
+
+### Good
+
+- Committed follow-up imports auto-select the latest batch in the ledger.
+- Selecting `demo-baseline` shows baseline imported statuses even after a later follow-up has changed records.
+- Selecting the follow-up batch shows `1 new`, `2 changed`, `1 stale`, and `3` history entries.
+- Desktop and mobile browser QA showed no page-level horizontal overflow.
+- Validation remains green with 9 tests passing.
+
+### Bad / Risks
+
+- The drawer still shows compact affected lists and a short history trail; a production backend may eventually need a full import-detail page with every row.
+
+### Outcome
+
+The post-commit import history is now inspectable, which strengthens the owner audit trail without starting hosting, auth, or backend work.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+- Browser QA confirmed desktop and `390x844` mobile import history detail behavior.
 - Local preview returned HTTP 200.
 - Git status confirms the private CSV is ignored.
 
