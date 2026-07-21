@@ -1,0 +1,41 @@
+{
+  "safeSurface": "Public Demo Portfolio View",
+  "routePattern": "?view=portfolio&preset={presetId}",
+  "heroScreenshot": "docs/portfolio/meldsync-portfolio-hero.png",
+  "boundaryRules": [
+    "Public Demo only",
+    "Synthetic data only",
+    "Owner tools hidden",
+    "Hosted owner auth deferred"
+  ],
+  "presets": [
+    {
+      "id": "baseline",
+      "label": "Baseline",
+      "detail": "Clean synthetic portfolio",
+      "route": "?view=portfolio&preset=baseline",
+      "screenshot": "docs/portfolio/meldsync-portfolio-baseline.png"
+    },
+    {
+      "id": "followup",
+      "label": "Follow-Up Signal",
+      "detail": "Preview import impact",
+      "route": "?view=portfolio&preset=followup",
+      "screenshot": "docs/portfolio/meldsync-portfolio-follow-up-signal.png"
+    },
+    {
+      "id": "sticky",
+      "label": "Sticky Manual",
+      "detail": "Manual truth survives",
+      "route": "?view=portfolio&preset=sticky",
+      "screenshot": "docs/portfolio/meldsync-portfolio-sticky-manual.png"
+    },
+    {
+      "id": "linked",
+      "label": "Linked Resolution",
+      "detail": "Follow-up closes original",
+      "route": "?view=portfolio&preset=linked",
+      "screenshot": "docs/portfolio/meldsync-portfolio-linked-resolution.png"
+    }
+  ]
+}

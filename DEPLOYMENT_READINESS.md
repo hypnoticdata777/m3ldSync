@@ -11,6 +11,7 @@ MeldSync may be shown publicly as a synthetic portfolio demo, but Owner mode mus
 - Public Demo with synthetic data.
 - Portfolio View screenshots from `docs/portfolio`.
 - Portfolio Copy snippets.
+- Public-only Portfolio View preset routes from `docs/portfolio/manifest.json`.
 - Reconciliation, sticky manual override, stale detection, linked resolution, and aging-risk proof states.
 
 ## Not Safe To Host Yet
@@ -32,3 +33,9 @@ MeldSync may be shown publicly as a synthetic portfolio demo, but Owner mode mus
 ## Portfolio Websuite Rule
 
 When MeldSync is connected to the portfolio websuite, link only to the synthetic Public Demo until the hosted Owner mode has real auth and protected storage.
+
+Safe current route pattern:
+
+```text
+?view=portfolio&preset={baseline|followup|sticky|linked}
+```

@@ -4,7 +4,7 @@ Last updated: 2026-07-21
 
 ## Current Phase
 
-Current completed phase: Phase 7A - Browser QA and UX Hardening complete; Phase 7B public packaging and private/local QA closeout complete.
+Current completed phase: Phase 7A - Browser QA and UX Hardening complete; Phase 7B public packaging, private/local QA closeout, and websuite handoff kit complete.
 
 Next phase: Continue non-hosted POC hardening and portfolio-websuite prep. Hosted deployment remains deferred until the final integration/auth gate.
 
@@ -115,7 +115,7 @@ Completed:
 Current note:
 
 - GitHub repo exists at `https://github.com/hypnoticdata777/m3ldSync.git`.
-- Latest verified local commit: `dad23a5 Add owner local data health`.
+- Latest verified local commit: `44bf252 Close private local QA`.
 
 ## Next Active Blocker
 
@@ -152,6 +152,8 @@ Recently completed:
 - Public Demo now has a Portfolio View toggle for clean synthetic screenshots.
 - Public Demo now has a Portfolio Copy pack for reusable synthetic-safe snippets.
 - Public Demo now has Capture Presets for clean screenshot proof states.
+- Public Demo now has public-only Portfolio View deep links for baseline, follow-up signal, sticky manual, and linked-resolution preset states.
+- Public Demo now shows a Websuite Handoff panel in Portfolio View with copyable safe routes and screenshot asset paths.
 - Portfolio-safe screenshot files have been captured from synthetic Public Demo Portfolio View.
 - Owner mode now shows a Production Gate for hosted-auth readiness.
 - Owner mode now shows a compact local-browser storage notice.
@@ -183,6 +185,7 @@ Completed:
 - Public Demo has a Portfolio View toggle that hides workflow chrome and keeps the public proof surfaces visible.
 - Public Demo has a Portfolio Copy pack with summary, proof bullets, and privacy caption copy.
 - Public Demo has Capture Presets for baseline, follow-up signal, sticky manual, and linked-resolution screenshot states.
+- Public Demo has a Websuite Handoff panel and `docs/portfolio/manifest.json` for safe future portfolio integration.
 - Portfolio screenshot assets are stored under `docs/portfolio`.
 - Public Demo shows a visitor-safe `6/6` walkthrough.
 - Owner mode exposes CSV import, backup, restore, reset, and internal QA.
@@ -204,7 +207,7 @@ Important limitation:
 
 Recommended next build:
 
-- Next best blocker: tighten the final non-hosted handoff surface for the portfolio websuite integration while keeping owner data local-only and hosting/auth work deferred.
+- Next best blocker: run one final public-demo polish/QA pass, then pause MeldSync hosting until the portfolio websuite and hosted-auth gate are ready.
 
 ## Important Privacy Rule
 

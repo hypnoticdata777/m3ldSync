@@ -9,6 +9,14 @@ These screenshots are captured from Public Demo Portfolio View with synthetic da
 - `meldsync-portfolio-follow-up-signal.png` - synthetic follow-up import signal proof state.
 - `meldsync-portfolio-sticky-manual.png` - sticky manual correction proof state.
 - `meldsync-portfolio-linked-resolution.png` - linked-resolution proof state.
+- `manifest.json` - public-only preset route and screenshot manifest for the portfolio websuite.
+
+## Safe Routes
+
+- `?view=portfolio&preset=baseline`
+- `?view=portfolio&preset=followup`
+- `?view=portfolio&preset=sticky`
+- `?view=portfolio&preset=linked`
 
 ## Capture Checks
 

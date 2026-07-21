@@ -209,6 +209,10 @@ This log records terminal commands used during the build, why they were run, and
 | Private/local QA | `git ls-files` | Confirm committed source contains no CSV files. | No tracked CSV files were listed. |
 | Private/local QA | `node scripts/validate.mjs` | Run final validation after QA documentation updates. | Passed syntax checks and 12 tests. |
 | Private/local QA | `git status --short --branch` and `git diff --stat` | Check final changed files before handoff. | Shows docs-only updates to `BUILD_LOG.md`, `COMMAND_LOG.md`, `PHASE_STATUS.md`, and `QA_CHECKLIST.md`. |
+| Websuite handoff | `node scripts/validate.mjs` | Validate after adding the portfolio handoff module, manifest, routes, and tests. | Passed syntax checks and 15 tests. |
+| Websuite handoff | Browser automation: `?view=portfolio&preset=baseline`, `followup`, `sticky`, `linked`, and unknown preset | Verify safe deep-linked Portfolio View states. | Each route opened Public Demo Portfolio View, hid owner controls/toolbar/board, showed the Websuite Handoff panel, had no console errors, and had no desktop page-level overflow. |
+| Websuite handoff | Browser automation: copy `handoff-route-followup` | Verify handoff route copy feedback. | Button changed from `Copy` to `Copied` with no console errors. |
+| Websuite handoff | `node scripts/validate.mjs`, `git status --short --branch`, and `git diff --stat` | Run final validation and inspect handoff-kit changes. | Validation passed with 15 tests; status shows the handoff module, manifest, tests, app/style updates, and supporting docs pending commit. |
 
 ## Command Logging Rule
 

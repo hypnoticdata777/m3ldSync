@@ -3,8 +3,9 @@ import { spawnSync } from "node:child_process";
 const commands = [
   ["node", ["--check", "src/main.js"]],
   ["node", ["--check", "src/domain.js"]],
+  ["node", ["--check", "src/portfolioHandoff.js"]],
   ["node", ["--check", "src/qa.js"]],
-  ["node", ["--test", "tests/reconcile.test.mjs", "tests/qa.test.mjs"]]
+  ["node", ["--test", "tests/reconcile.test.mjs", "tests/qa.test.mjs", "tests/portfolioHandoff.test.mjs"]]
 ];
 
 let failed = false;

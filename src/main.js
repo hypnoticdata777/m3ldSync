@@ -14,13 +14,15 @@ import {
   validateBackup
 } from "./domain.js";
 import { demoBaselineCsv, demoFollowUpCsv } from "./demoData.js";
+import { getPortfolioHandoff, normalizePresetId, PORTFOLIO_PRESETS } from "./portfolioHandoff.js";
 import { getDemoWalkthrough, runDemoQa } from "./qa.js";
 import { clearState, loadAccessMode, loadState, saveAccessMode, saveState } from "./storage.js";
 
 const app = document.querySelector("#app");
 const now = new Date("2026-07-15T12:00:00");
+const initialPortfolioRoute = readInitialPortfolioRoute();
 
-let accessMode = loadAccessMode();
+let accessMode = initialPortfolioRoute.enabled ? "public" : loadAccessMode();
 let model = accessMode === "owner" ? loadState() || createDemoModel() : createDemoModel();
 let selectedRecordId = Object.keys(model.data.records)[0] || "";
 let selectedPreviewRecordId = "";
@@ -28,9 +30,9 @@ let selectedImportBatchId = "";
 let pendingImport = null;
 let pendingRestore = null;
 let resetConfirmOpen = false;
-let portfolioView = false;
+let portfolioView = initialPortfolioRoute.enabled;
 let copiedCopyId = "";
-let capturePresetId = "baseline";
+let capturePresetId = initialPortfolioRoute.presetId;
 let filters = {
   search: "",
   property: "All",
@@ -38,6 +40,7 @@ let filters = {
   hideClosed: true
 };
 
+applyInitialPortfolioRoute();
 render();
 
 function createDemoModel() {
@@ -98,6 +101,25 @@ function createLinkedResolutionProofModel() {
     ...followUp,
     data: linkedState
   };
+}
+
+function readInitialPortfolioRoute() {
+  const params = new URLSearchParams(window.location.search);
+  const presetId = normalizePresetId(params.get("preset") || "baseline");
+  const portfolioRequested = params.get("view") === "portfolio" || params.has("preset");
+
+  return {
+    enabled: portfolioRequested,
+    presetId
+  };
+}
+
+function applyInitialPortfolioRoute() {
+  if (!initialPortfolioRoute.enabled) {
+    return;
+  }
+
+  applyCapturePresetState(initialPortfolioRoute.presetId);
 }
 
 function setModel(nextModel) {
@@ -208,6 +230,8 @@ function render() {
       ${accessMode === "public" ? renderPortfolioCopyPack() : ""}
 
       ${isPortfolioView ? renderCapturePresets() : ""}
+
+      ${isPortfolioView ? renderPortfolioHandoffPack() : ""}
 
       ${pendingImport && !isPortfolioView ? renderImportPreview() : ""}
 
@@ -415,7 +439,7 @@ function bindEvents() {
 
   document.querySelectorAll("[data-copy-id]").forEach((element) => {
     element.addEventListener("click", async () => {
-      const item = getPortfolioCopyItems().find((copyItem) => copyItem.id === element.dataset.copyId);
+      const item = getCopyItem(element.dataset.copyId);
       if (!item) return;
       try {
         await copyText(item.text);
@@ -1334,28 +1358,7 @@ function renderCapturePresets() {
 }
 
 function getCapturePresets() {
-  return [
-    {
-      id: "baseline",
-      label: "Baseline",
-      detail: "Clean synthetic portfolio"
-    },
-    {
-      id: "followup",
-      label: "Follow-Up Signal",
-      detail: "Preview import impact"
-    },
-    {
-      id: "sticky",
-      label: "Sticky Manual",
-      detail: "Manual truth survives"
-    },
-    {
-      id: "linked",
-      label: "Linked Resolution",
-      detail: "Follow-up closes original"
-    }
-  ];
+  return PORTFOLIO_PRESETS;
 }
 
 function renderCapturePreset(preset) {
@@ -1372,7 +1375,12 @@ function applyCapturePreset(presetId) {
   copiedCopyId = "";
   resetConfirmOpen = false;
   portfolioView = true;
-  capturePresetId = presetId || "baseline";
+  applyCapturePresetState(presetId);
+  render();
+}
+
+function applyCapturePresetState(presetId) {
+  capturePresetId = normalizePresetId(presetId);
 
   if (capturePresetId === "followup") {
     model = createDemoModel();
@@ -1390,25 +1398,96 @@ function applyCapturePreset(presetId) {
       filename: "demo-follow-up.csv",
       note: "Synthetic follow-up import. Safe for public demo."
     };
-    render();
     return;
   }
 
   pendingImport = null;
 
   if (capturePresetId === "sticky") {
-    setModel(createStickyManualProofModel());
+    model = createStickyManualProofModel();
     return;
   }
 
   if (capturePresetId === "linked") {
-    setModel(createLinkedResolutionProofModel());
+    model = createLinkedResolutionProofModel();
     return;
   }
 
   capturePresetId = "baseline";
   selectedRecordId = "";
-  setModel(createDemoModel());
+  model = createDemoModel();
+}
+
+function renderPortfolioHandoffPack() {
+  const handoff = getPortfolioHandoff(currentRouteBase());
+  return `
+    <section class="handoff-pack" aria-label="Portfolio websuite handoff">
+      <div class="section-title">
+        <h2>Websuite Handoff</h2>
+        <span>${escapeHtml(handoff.safeSurface)}</span>
+      </div>
+      <div class="handoff-grid">
+        <article class="handoff-item hero">
+          <span>Hero Asset</span>
+          <strong>${escapeHtml(handoff.heroScreenshot)}</strong>
+          <button class="copy-action ${copiedCopyId === "handoff-hero" ? "copied" : ""}" data-copy-id="handoff-hero">
+            ${copiedCopyId === "handoff-hero" ? "Copied" : "Copy"}
+          </button>
+        </article>
+        ${handoff.presets.map(renderHandoffPreset).join("")}
+      </div>
+      <div class="handoff-rules">
+        ${handoff.boundaryRules.map((rule) => `<span>${escapeHtml(rule)}</span>`).join("")}
+      </div>
+    </section>
+  `;
+}
+
+function renderHandoffPreset(preset) {
+  const copyId = `handoff-route-${preset.id}`;
+  return `
+    <article class="handoff-item">
+      <span>${escapeHtml(preset.label)}</span>
+      <strong>${escapeHtml(preset.route)}</strong>
+      <small>${escapeHtml(preset.screenshot)}</small>
+      <button class="copy-action ${copiedCopyId === copyId ? "copied" : ""}" data-copy-id="${escapeAttr(copyId)}">
+        ${copiedCopyId === copyId ? "Copied" : "Copy"}
+      </button>
+    </article>
+  `;
+}
+
+function currentRouteBase() {
+  return `${window.location.origin}${window.location.pathname}`;
+}
+
+function getCopyItem(copyId) {
+  const portfolioItem = getPortfolioCopyItems().find((copyItem) => copyItem.id === copyId);
+  if (portfolioItem) {
+    return portfolioItem;
+  }
+
+  const handoff = getPortfolioHandoff(currentRouteBase());
+  if (copyId === "handoff-hero") {
+    return {
+      id: copyId,
+      text: handoff.heroScreenshot
+    };
+  }
+
+  const routePrefix = "handoff-route-";
+  if (copyId?.startsWith(routePrefix)) {
+    const presetId = copyId.slice(routePrefix.length);
+    const preset = handoff.presets.find((item) => item.id === presetId);
+    if (preset) {
+      return {
+        id: copyId,
+        text: preset.route
+      };
+    }
+  }
+
+  return null;
 }
 
 function getPortfolioCopyItems() {

@@ -57,6 +57,7 @@ Built capabilities:
 - Public demo portfolio view
 - Public demo portfolio copy pack
 - Public demo capture presets
+- Public demo websuite handoff kit
 - Portfolio-safe screenshot assets
 - Owner production gate
 
@@ -115,15 +116,16 @@ node scripts/validate.mjs
 ## Project Structure
 
 ```text
-index.html              Browser app entry
-src/domain.js           CSV parser and reconciliation engine
-src/main.js             UI rendering and local interactions
-src/demoData.js         Synthetic demo CSV snapshots
-src/qa.js               Demo QA and walkthrough scenario
-src/storage.js          Browser localStorage helpers
-tests/reconcile.test.mjs Core reconciliation tests
-scripts/serve.mjs       Local static preview server
-docs/portfolio          Synthetic portfolio screenshot assets
+index.html                  Browser app entry
+src/domain.js               CSV parser and reconciliation engine
+src/main.js                 UI rendering and local interactions
+src/demoData.js             Synthetic demo CSV snapshots
+src/portfolioHandoff.js     Portfolio route and asset handoff contract
+src/qa.js                   Demo QA and walkthrough scenario
+src/storage.js              Browser localStorage helpers
+tests/reconcile.test.mjs    Core reconciliation tests
+scripts/serve.mjs           Local static preview server
+docs/portfolio              Synthetic portfolio screenshot assets and manifest
 ```
 
 ## Documentation
@@ -140,4 +142,4 @@ docs/portfolio          Synthetic portfolio screenshot assets
 
 ## Current Status
 
-Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B has started: the public demo / owner workspace boundary is in place, Public Demo clearly labels the workspace as synthetic and private-data-free, and owner import review now supports both pre-commit drill-down and post-commit ledger inspection.
+Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B now includes the synthetic Public Demo, Portfolio View screenshots, portfolio copy snippets, capture presets, and a websuite handoff kit with public-only preset routes such as `?view=portfolio&preset=followup`. Owner mode remains local-only until real backend auth and protected storage exist.

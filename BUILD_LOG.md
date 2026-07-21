@@ -2,6 +2,52 @@
 
 This log tracks what was built, what worked, what did not, and what we learned.
 
+## 2026-07-21 - Portfolio Websuite Handoff Kit
+
+### Goal
+
+Tighten the final non-hosted public-demo handoff surface so the future portfolio websuite can link to safe synthetic MeldSync proof states without exposing Owner mode or private data.
+
+### Built
+
+- Added `src/portfolioHandoff.js` as the route, screenshot, preset, and boundary-rule handoff contract.
+- Added public-only URL preset handling for Portfolio View:
+  - `?view=portfolio&preset=baseline`
+  - `?view=portfolio&preset=followup`
+  - `?view=portfolio&preset=sticky`
+  - `?view=portfolio&preset=linked`
+- Added a Websuite Handoff panel inside Public Demo Portfolio View.
+- Added copy actions for handoff routes and the hero screenshot path.
+- Added `docs/portfolio/manifest.json`.
+- Added `tests/portfolioHandoff.test.mjs`.
+- Updated validation to check the new module and run the new tests.
+
+### Good
+
+- Deep links open directly into Public Demo Portfolio View.
+- Owner controls, toolbar, and board stay hidden in the deep-linked portfolio surface.
+- Follow-up, sticky manual, and linked-resolution states can be staged from URL alone.
+- The handoff panel shows route links, screenshot asset paths, and the public/private boundary rules.
+- The follow-up handoff route copy button changes to `Copied`.
+- Browser checks showed no page-level horizontal overflow and no console errors at desktop width.
+- Automated tests verify route IDs, unknown-preset fallback, public-only route shape, and manifest/source alignment.
+
+### Bad / Risks
+
+- This is a local/static handoff kit, not a hosted deployment.
+- Browser viewport resizing was not available through the current browser-control surface for this pass, so the new handoff panel did not get a fresh mobile automation check.
+- Portfolio websuite integration still belongs later, after the websuite landing page work and hosted-auth gate are ready.
+
+### Outcome
+
+MeldSync now has a concrete non-hosted portfolio handoff contract: public-only preset routes, source constants, a JSON manifest, visible in-app handoff panel, and tests.
+
+### Validation
+
+- `node scripts/validate.mjs` passed with 15 tests.
+- Browser QA confirmed the four safe preset routes and unknown-preset fallback.
+- Browser QA confirmed hidden owner controls/toolbar/board, no console errors, no desktop page-level overflow, and route-copy feedback.
+
 ## 2026-07-21 - Private Local QA Closeout
 
 ### Goal

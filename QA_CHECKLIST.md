@@ -125,6 +125,8 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Public Demo Portfolio View shows clean screenshot surfaces.
 - [x] Public Demo Portfolio Copy shows reusable synthetic-safe snippets.
 - [x] Public Demo Capture Presets stage screenshot proof states.
+- [x] Public Demo deep links open Portfolio View preset states.
+- [x] Public Demo Websuite Handoff lists safe routes and screenshot assets.
 - [x] Portfolio-safe screenshots are captured from synthetic Public Demo only.
 - [x] No real property names appear in captured public screenshots.
 - [x] No real unit identifiers appear in captured public screenshots.
@@ -309,3 +311,13 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Exported `meldsync-backup-2026-07-21.json` restored round-trip with 4 records, 3 imports, 1 manual override, and 1 stale record.
 - The browser was reset back to the 6-record synthetic demo baseline after the restore test.
 - `git check-ignore` confirmed the real Property Meld export pattern and ignored private QA fixtures; `git ls-files` showed no tracked CSV files.
+
+2026-07-21 websuite handoff kit confirmed:
+
+- Public-only deep links open Portfolio View for `baseline`, `followup`, `sticky`, and `linked` preset states.
+- Unknown preset IDs normalize to the baseline state.
+- Each deep link keeps owner controls, toolbar, and board hidden.
+- Websuite Handoff lists the hero asset, preset routes, preset screenshot assets, and public boundary rules.
+- Copying the follow-up handoff route changes the action state to `Copied`.
+- Desktop browser checks showed no page-level horizontal overflow and no console errors.
+- Automated tests confirm the handoff routes do not include owner mode and `docs/portfolio/manifest.json` matches the source handoff constants.
