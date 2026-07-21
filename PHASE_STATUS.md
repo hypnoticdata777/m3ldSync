@@ -4,7 +4,7 @@ Last updated: 2026-07-21
 
 ## Current Phase
 
-Current completed phase: Phase 7A - Browser QA and UX Hardening complete; Phase 7B public packaging, private/local QA closeout, and websuite handoff kit complete.
+Current completed phase: Phase 7A - Browser QA and UX Hardening complete; Phase 7B public packaging, private/local QA closeout, websuite handoff kit, and locked public handoff routes complete.
 
 Next phase: Continue non-hosted POC hardening and portfolio-websuite prep. Hosted deployment remains deferred until the final integration/auth gate.
 
@@ -154,6 +154,7 @@ Recently completed:
 - Public Demo now has Capture Presets for clean screenshot proof states.
 - Public Demo now has public-only Portfolio View deep links for baseline, follow-up signal, sticky manual, and linked-resolution preset states.
 - Public Demo now shows a Websuite Handoff panel in Portfolio View with copyable safe routes and screenshot asset paths.
+- Public handoff routes now include `surface=public` and hide the Owner switch entirely.
 - Portfolio-safe screenshot files have been captured from synthetic Public Demo Portfolio View.
 - Owner mode now shows a Production Gate for hosted-auth readiness.
 - Owner mode now shows a compact local-browser storage notice.
@@ -186,6 +187,7 @@ Completed:
 - Public Demo has a Portfolio Copy pack with summary, proof bullets, and privacy caption copy.
 - Public Demo has Capture Presets for baseline, follow-up signal, sticky manual, and linked-resolution screenshot states.
 - Public Demo has a Websuite Handoff panel and `docs/portfolio/manifest.json` for safe future portfolio integration.
+- Portfolio-websuite handoff routes are locked to Public Demo and remove the Owner switch from the header.
 - Portfolio screenshot assets are stored under `docs/portfolio`.
 - Public Demo shows a visitor-safe `6/6` walkthrough.
 - Owner mode exposes CSV import, backup, restore, reset, and internal QA.

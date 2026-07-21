@@ -127,6 +127,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Public Demo Capture Presets stage screenshot proof states.
 - [x] Public Demo deep links open Portfolio View preset states.
 - [x] Public Demo Websuite Handoff lists safe routes and screenshot assets.
+- [x] Locked public handoff routes hide the Owner access switch.
 - [x] Portfolio-safe screenshots are captured from synthetic Public Demo only.
 - [x] No real property names appear in captured public screenshots.
 - [x] No real unit identifiers appear in captured public screenshots.
@@ -317,6 +318,7 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Public-only deep links open Portfolio View for `baseline`, `followup`, `sticky`, and `linked` preset states.
 - Unknown preset IDs normalize to the baseline state.
 - Each deep link keeps owner controls, toolbar, and board hidden.
+- Locked handoff routes use `surface=public` and hide the Owner switch itself.
 - Websuite Handoff lists the hero asset, preset routes, preset screenshot assets, and public boundary rules.
 - Copying the follow-up handoff route changes the action state to `Copied`.
 - Desktop browser checks showed no page-level horizontal overflow and no console errors.

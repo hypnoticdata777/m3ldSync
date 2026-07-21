@@ -12,11 +12,12 @@ Tighten the final non-hosted public-demo handoff surface so the future portfolio
 
 - Added `src/portfolioHandoff.js` as the route, screenshot, preset, and boundary-rule handoff contract.
 - Added public-only URL preset handling for Portfolio View:
-  - `?view=portfolio&preset=baseline`
-  - `?view=portfolio&preset=followup`
-  - `?view=portfolio&preset=sticky`
-  - `?view=portfolio&preset=linked`
+  - `?surface=public&view=portfolio&preset=baseline`
+  - `?surface=public&view=portfolio&preset=followup`
+  - `?surface=public&view=portfolio&preset=sticky`
+  - `?surface=public&view=portfolio&preset=linked`
 - Added a Websuite Handoff panel inside Public Demo Portfolio View.
+- Added a locked public header state that hides the Owner access switch on handoff routes.
 - Added copy actions for handoff routes and the hero screenshot path.
 - Added `docs/portfolio/manifest.json`.
 - Added `tests/portfolioHandoff.test.mjs`.
@@ -26,6 +27,7 @@ Tighten the final non-hosted public-demo handoff surface so the future portfolio
 
 - Deep links open directly into Public Demo Portfolio View.
 - Owner controls, toolbar, and board stay hidden in the deep-linked portfolio surface.
+- The Owner switch itself is hidden on locked public handoff routes.
 - Follow-up, sticky manual, and linked-resolution states can be staged from URL alone.
 - The handoff panel shows route links, screenshot asset paths, and the public/private boundary rules.
 - The follow-up handoff route copy button changes to `Copied`.
@@ -40,7 +42,7 @@ Tighten the final non-hosted public-demo handoff surface so the future portfolio
 
 ### Outcome
 
-MeldSync now has a concrete non-hosted portfolio handoff contract: public-only preset routes, source constants, a JSON manifest, visible in-app handoff panel, and tests.
+MeldSync now has a concrete non-hosted portfolio handoff contract: locked public preset routes, source constants, a JSON manifest, visible in-app handoff panel, and tests.
 
 ### Validation
 

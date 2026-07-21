@@ -142,4 +142,4 @@ docs/portfolio              Synthetic portfolio screenshot assets and manifest
 
 ## Current Status
 
-Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B now includes the synthetic Public Demo, Portfolio View screenshots, portfolio copy snippets, capture presets, and a websuite handoff kit with public-only preset routes such as `?view=portfolio&preset=followup`. Owner mode remains local-only until real backend auth and protected storage exist.
+Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B now includes the synthetic Public Demo, Portfolio View screenshots, portfolio copy snippets, capture presets, and a websuite handoff kit with locked public preset routes such as `?surface=public&view=portfolio&preset=followup`. Owner mode remains local-only until real backend auth and protected storage exist.

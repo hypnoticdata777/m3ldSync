@@ -23,6 +23,7 @@ const now = new Date("2026-07-15T12:00:00");
 const initialPortfolioRoute = readInitialPortfolioRoute();
 
 let accessMode = initialPortfolioRoute.enabled ? "public" : loadAccessMode();
+let publicSurfaceLocked = initialPortfolioRoute.locked;
 let model = accessMode === "owner" ? loadState() || createDemoModel() : createDemoModel();
 let selectedRecordId = Object.keys(model.data.records)[0] || "";
 let selectedPreviewRecordId = "";
@@ -107,9 +108,11 @@ function readInitialPortfolioRoute() {
   const params = new URLSearchParams(window.location.search);
   const presetId = normalizePresetId(params.get("preset") || "baseline");
   const portfolioRequested = params.get("view") === "portfolio" || params.has("preset");
+  const publicSurfaceRequested = params.get("surface") === "public" || portfolioRequested;
 
   return {
-    enabled: portfolioRequested,
+    enabled: portfolioRequested || publicSurfaceRequested,
+    locked: publicSurfaceRequested,
     presetId
   };
 }
@@ -144,6 +147,7 @@ function persistModel() {
 function switchAccessMode(nextAccessMode) {
   accessMode = nextAccessMode;
   saveAccessMode(accessMode);
+  publicSurfaceLocked = false;
   pendingImport = null;
   selectedPreviewRecordId = "";
   selectedImportBatchId = "";
@@ -171,10 +175,7 @@ function render() {
         <h1>Recurring Work Order Reconciliation</h1>
       </div>
       <div class="header-actions">
-        <div class="access-switch" aria-label="Access mode">
-          <button id="publicAccess" class="${accessMode === "public" ? "active" : ""}">Public Demo</button>
-          <button id="ownerAccess" class="${accessMode === "owner" ? "active" : ""}">Owner</button>
-        </div>
+        ${renderAccessControl()}
         ${accessMode === "public" ? `<button id="portfolioView" class="portfolio-toggle">${isPortfolioView ? "Full Demo" : "Portfolio View"}</button>` : ""}
         <div class="mode-pill ${modeState.className}">
           ${modeState.label}
@@ -268,6 +269,23 @@ function render() {
   `;
 
   bindEvents();
+}
+
+function renderAccessControl() {
+  if (publicSurfaceLocked) {
+    return `
+      <div class="access-lock" aria-label="Access mode">
+        <span>Public Demo</span>
+      </div>
+    `;
+  }
+
+  return `
+    <div class="access-switch" aria-label="Access mode">
+      <button id="publicAccess" class="${accessMode === "public" ? "active" : ""}">Public Demo</button>
+      <button id="ownerAccess" class="${accessMode === "owner" ? "active" : ""}">Owner</button>
+    </div>
+  `;
 }
 
 function modeBadgeState() {
@@ -420,13 +438,13 @@ function healthItem(label, value, detail) {
 }
 
 function bindEvents() {
-  document.querySelector("#publicAccess").addEventListener("click", () => {
+  document.querySelector("#publicAccess")?.addEventListener("click", () => {
     if (accessMode !== "public") {
       switchAccessMode("public");
     }
   });
 
-  document.querySelector("#ownerAccess").addEventListener("click", () => {
+  document.querySelector("#ownerAccess")?.addEventListener("click", () => {
     if (accessMode !== "owner") {
       switchAccessMode("owner");
     }

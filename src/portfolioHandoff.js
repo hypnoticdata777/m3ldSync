@@ -31,6 +31,7 @@ export const PORTFOLIO_BOUNDARY_RULES = [
   "Public Demo only",
   "Synthetic data only",
   "Owner tools hidden",
+  "Owner switch hidden",
   "Hosted owner auth deferred"
 ];
 
@@ -42,7 +43,7 @@ export function portfolioRouteForPreset(presetId = "baseline", basePath = "") {
   const normalizedPresetId = normalizePresetId(presetId);
   const routeBase = basePath || "";
   const separator = routeBase.includes("?") ? "&" : "?";
-  return `${routeBase}${separator}view=portfolio&preset=${encodeURIComponent(normalizedPresetId)}`;
+  return `${routeBase}${separator}surface=public&view=portfolio&preset=${encodeURIComponent(normalizedPresetId)}`;
 }
 
 export function getPortfolioHandoff(basePath = "") {

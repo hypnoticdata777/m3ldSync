@@ -17,7 +17,8 @@ test("portfolio handoff exposes public-only preset routes", () => {
     handoff.presets.map((preset) => preset.id),
     ["baseline", "followup", "sticky", "linked"]
   );
-  assert.equal(handoff.presets[1].route, "https://portfolio.example/meldsync/?view=portfolio&preset=followup");
+  assert.equal(handoff.presets[1].route, "https://portfolio.example/meldsync/?surface=public&view=portfolio&preset=followup");
+  assert.equal(handoff.presets.every((preset) => preset.route.includes("surface=public")), true);
   assert.equal(handoff.presets.every((preset) => preset.route.includes("view=portfolio")), true);
   assert.equal(handoff.presets.every((preset) => !preset.route.includes("owner")), true);
   assert.deepEqual(handoff.boundaryRules, PORTFOLIO_BOUNDARY_RULES);
@@ -26,7 +27,7 @@ test("portfolio handoff exposes public-only preset routes", () => {
 test("portfolio preset ids normalize to baseline when unknown", () => {
   assert.equal(normalizePresetId("sticky"), "sticky");
   assert.equal(normalizePresetId("nope"), "baseline");
-  assert.equal(portfolioRouteForPreset("nope"), "?view=portfolio&preset=baseline");
+  assert.equal(portfolioRouteForPreset("nope"), "?surface=public&view=portfolio&preset=baseline");
 });
 
 test("portfolio manifest matches source handoff constants", async () => {

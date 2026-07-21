@@ -37,5 +37,5 @@ When MeldSync is connected to the portfolio websuite, link only to the synthetic
 Safe current route pattern:
 
 ```text
-?view=portfolio&preset={baseline|followup|sticky|linked}
+?surface=public&view=portfolio&preset={baseline|followup|sticky|linked}
 ```

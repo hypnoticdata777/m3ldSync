@@ -13,16 +13,17 @@ These screenshots are captured from Public Demo Portfolio View with synthetic da
 
 ## Safe Routes
 
-- `?view=portfolio&preset=baseline`
-- `?view=portfolio&preset=followup`
-- `?view=portfolio&preset=sticky`
-- `?view=portfolio&preset=linked`
+- `?surface=public&view=portfolio&preset=baseline`
+- `?surface=public&view=portfolio&preset=followup`
+- `?surface=public&view=portfolio&preset=sticky`
+- `?surface=public&view=portfolio&preset=linked`
 
 ## Capture Checks
 
 - Public Demo mode only.
 - Portfolio View enabled.
 - Owner controls hidden.
+- Owner switch hidden on locked public handoff routes.
 - No private CSV import, backup, restore, reset, or owner storage controls visible.
 - Synthetic data notice visible.
 - No page-level horizontal overflow reported during capture.
