@@ -199,6 +199,16 @@ This log records terminal commands used during the build, why they were run, and
 | Hardening | Browser automation: Owner normal follow-up preview, manual-conflict follow-up preview, mobile warning | Verify manual-conflict warning before import commit. | Normal preview kept `Commit Import`; manual-conflict preview showed the warning and `Commit With Manual Conflicts`; mobile had no overflow and console errors stayed at 0. |
 | Hardening | `node scripts/validate.mjs` | Validate after adding Owner Local Data Health. | Passed syntax checks and 12 tests. |
 | Hardening | Browser automation: Owner baseline, Export Backup, review-needed state, Public Demo, mobile Owner | Verify Local Data Health visibility and state. | Owner showed health cards, export updated backup timestamp, conflict/stale state showed `Review needed`, Public Demo hid the panel, and mobile had no overflow. |
+| Private/local QA | `git status --short --branch` | Confirm repo state before private/local QA closeout. | `main` was tracking `origin/main` at `dad23a5` with no pending changes. |
+| Private/local QA | `node scripts\serve.mjs` | Start local preview for browser QA. | Server started at `http://localhost:4173`. |
+| Private/local QA | Browser automation: ignored synthetic private baseline CSV import, cancel, commit, refresh, duplicate re-import | Verify private import safety and idempotent local persistence. | Cancel preserved demo data; commit switched to Private Local Data; refresh preserved 3 records; duplicate import showed `0 new`, `0 changed`, `0 stale`, and `0` history entries. |
+| Private/local QA | Browser automation: ignored synthetic changed CSV import after manual override | Verify stale detection and manual/import conflict behavior. | Preview showed `1 new`, `1 changed`, `1 stale`, and `1` manual conflict; commit retained the manual status and marked the absent record stale. |
+| Private/local QA | Browser automation plus Downloads inspection | Verify export backup can restore round-trip. | Export created `meldsync-backup-2026-07-21.json`; restore preview showed 4 records, 3 imports, 1 manual override, and 1 stale record; restore committed with no console errors. |
+| Private/local QA | `git check-ignore -v -- "melds_report__2551_1784126250342145 (1).csv"` | Confirm real Property Meld export pattern remains ignored. | `.gitignore` ignored the file through `melds_report__*.csv`. |
+| Private/local QA | `git check-ignore -v -- private/qa-baseline.private.csv` | Confirm temporary synthetic private QA fixtures are ignored. | `.gitignore` ignored the file through `private/`. |
+| Private/local QA | `git ls-files` | Confirm committed source contains no CSV files. | No tracked CSV files were listed. |
+| Private/local QA | `node scripts/validate.mjs` | Run final validation after QA documentation updates. | Passed syntax checks and 12 tests. |
+| Private/local QA | `git status --short --branch` and `git diff --stat` | Check final changed files before handoff. | Shows docs-only updates to `BUILD_LOG.md`, `COMMAND_LOG.md`, `PHASE_STATUS.md`, and `QA_CHECKLIST.md`. |
 
 ## Command Logging Rule
 

@@ -2,6 +2,49 @@
 
 This log tracks what was built, what worked, what did not, and what we learned.
 
+## 2026-07-21 - Private Local QA Closeout
+
+### Goal
+
+Close the remaining private/local owner QA blocker with synthetic private CSV fixtures only, before moving on to the next non-hosted portfolio/websuite prep step.
+
+### Built
+
+- No app code changes in this pass.
+- Added QA evidence and phase-status documentation for the private/local workflow.
+
+### Good
+
+- Browser automation confirmed Owner initial load has no console errors.
+- Canceling a private CSV import preview left the committed demo workspace unchanged.
+- Committing an ignored synthetic private baseline switched the workspace to Private Local Data with 3 records.
+- Refresh preserved the private local browser workspace.
+- Re-importing the same private CSV produced `0 new`, `0 changed`, `0 stale`, and `0` history entries.
+- Importing a changed private CSV produced `1 new`, `1 changed`, `1 stale`, and `1` manual conflict.
+- Manual status stayed authoritative when the import source still reported a pending status.
+- The absent record stayed in local state as stale instead of being deleted.
+- Exported backup `meldsync-backup-2026-07-21.json` restored round-trip with 4 records, 3 imports, 1 manual override, and 1 stale record.
+- The browser was reset back to the 6-record synthetic demo baseline after QA.
+- Git ignore checks confirmed the real Property Meld export pattern and ignored private QA fixtures; no CSV files are tracked.
+
+### Bad / Risks
+
+- The restore/export round-trip still depends on browser-local files and user-managed backups until hosted auth and protected storage exist.
+- The downloaded backup file lives outside the repo in the user's Downloads folder and should not be committed.
+- Owner mode remains a static local POC boundary, not production authentication.
+
+### Outcome
+
+Private/local owner QA is now closed for the POC using synthetic private data only. The next blocker should stay non-hosted and prepare the portfolio-websuite handoff surface without starting deployment/auth work.
+
+### Validation
+
+- Browser automation confirmed private import cancel/commit/refresh/re-import/changed-import/manual-conflict behavior.
+- Browser automation confirmed downloaded backup restore round-trip.
+- `git check-ignore -v -- "melds_report__2551_1784126250342145 (1).csv"` confirmed the real export pattern is ignored.
+- `git check-ignore -v -- private/qa-baseline.private.csv` confirmed synthetic private fixtures are ignored.
+- `git ls-files` showed no tracked CSV files.
+
 ## 2026-07-15 - Phase 0 Start: Local POC Foundation
 
 ### Goal

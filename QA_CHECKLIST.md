@@ -5,9 +5,9 @@ Use this checklist before relying on the private tool day to day or publishing a
 ## Environment
 
 - [x] Local preview opens at `http://localhost:4173`.
-- [ ] Browser console has no uncaught errors on initial load.
+- [x] Browser console has no uncaught errors on initial load.
 - [x] App starts in Demo Data mode.
-- [ ] Real CSV file is not part of committed source.
+- [x] Real CSV file is not part of committed source.
 - [x] Demo QA panel shows all checks passing.
 - [x] Owner Demo Walkthrough panel shows seven ready steps.
 
@@ -49,26 +49,26 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Select a Property Meld export.
 - [x] Confirm import preview appears before commit.
 - [x] Confirm app switches to Private Local Data after commit.
-- [ ] Confirm canceling does not commit private data.
+- [x] Confirm canceling does not commit private data.
 - [x] Confirm committing stores data locally.
-- [ ] Refresh page.
-- [ ] Confirm private data persists locally.
+- [x] Refresh page.
+- [x] Confirm private data persists locally.
 
 ## Reconciliation Behavior
 
-- [ ] Re-import the same CSV.
-- [ ] Confirm zero new records.
-- [ ] Confirm zero spurious status history entries.
-- [ ] Import a changed CSV.
-- [ ] Confirm changed records appear in preview.
-- [ ] Confirm absent records are marked stale, not deleted.
+- [x] Re-import the same CSV.
+- [x] Confirm zero new records.
+- [x] Confirm zero spurious status history entries.
+- [x] Import a changed CSV.
+- [x] Confirm changed records appear in preview.
+- [x] Confirm absent records are marked stale, not deleted.
 
 ## Manual Override Behavior
 
 - [x] Select a pending card.
 - [x] Change status manually.
 - [x] Confirm Manual badge/count appears.
-- [ ] Re-import a CSV where the source still shows the item pending.
+- [x] Re-import a CSV where the source still shows the item pending.
 - [x] Confirm manual status survives.
 - [x] Confirm discrepancy is visible through history or preview.
 - [x] Confirm discrepancy is visible in the selected record detail panel.
@@ -95,7 +95,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Confirm canceling Restore Preview preserves current local state.
 - [x] Confirm committing Restore Preview replaces local state.
 - [x] Confirm restored state matches the selected backup.
-- [ ] Confirm a downloaded export backup can be restored round-trip.
+- [x] Confirm a downloaded export backup can be restored round-trip.
 
 ## Responsive Layout
 
@@ -295,3 +295,17 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - A committed manual-conflict follow-up changes Local Data Health to `Review needed` with 1 conflict and 1 stale item.
 - Public Demo hides Local Data Health.
 - Mobile Owner mode shows one-column Local Data Health with no page-level horizontal overflow.
+
+2026-07-21 private/local QA closeout confirmed:
+
+- Browser automation used ignored synthetic private CSV fixtures only.
+- Initial Owner load produced no console errors.
+- Canceling a private import preview preserved the committed demo workspace.
+- Committing the private baseline switched to Private Local Data with 3 local records, and refresh preserved that local state.
+- Re-importing the same private CSV showed `0 new`, `0 changed`, `0 stale`, and `0` history entries.
+- Importing a changed private CSV showed `1 new`, `1 changed`, `1 stale`, and `1` manual conflict.
+- Manual status remained authoritative when the source import still reported the item as pending.
+- The absent record stayed in local state as stale rather than being deleted.
+- Exported `meldsync-backup-2026-07-21.json` restored round-trip with 4 records, 3 imports, 1 manual override, and 1 stale record.
+- The browser was reset back to the 6-record synthetic demo baseline after the restore test.
+- `git check-ignore` confirmed the real Property Meld export pattern and ignored private QA fixtures; `git ls-files` showed no tracked CSV files.

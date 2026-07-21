@@ -1,12 +1,12 @@
 # MeldSync Phase Status
 
-Last updated: 2026-07-20
+Last updated: 2026-07-21
 
 ## Current Phase
 
-Current completed phase: Phase 7A - Browser QA and UX Hardening complete; Phase 7B first polish slices complete.
+Current completed phase: Phase 7A - Browser QA and UX Hardening complete; Phase 7B public packaging and private/local QA closeout complete.
 
-Next phase: Continue Phase 7B portfolio packaging.
+Next phase: Continue non-hosted POC hardening and portfolio-websuite prep. Hosted deployment remains deferred until the final integration/auth gate.
 
 ## Completed
 
@@ -115,7 +115,7 @@ Completed:
 Current note:
 
 - GitHub repo exists at `https://github.com/hypnoticdata777/m3ldSync.git`.
-- Latest verified local commit: `45ddb49 Warn before committing manual conflicts`.
+- Latest verified local commit: `dad23a5 Add owner local data health`.
 
 ## Next Active Blocker
 
@@ -161,6 +161,7 @@ Recently completed:
 - Import history now opens a detail drawer for selected committed batches.
 - Manual/import conflicts now appear in a compact verification queue.
 - Backup restore now uses deeper record, history, and import-batch validation.
+- Private/local QA closeout confirmed cancel-safe private imports, local persistence after refresh, idempotent re-imports, changed/stale/manual-conflict reconciliation, and downloaded backup restore round-trip using ignored synthetic private CSV fixtures only.
 
 ## Phase 7B Preview - Public Demo Packaging and Access Modes
 
@@ -194,6 +195,7 @@ Completed:
 - Owner mode labels manual-conflict commits explicitly before commit.
 - Owner mode can inspect committed import batches through the history detail drawer.
 - Owner mode can review all current manual/import conflicts through the verification queue.
+- Owner mode has browser-verified private/local QA coverage for synthetic private CSV import, refresh persistence, idempotent re-import, stale marking, manual override retention, and exported backup restore round-trip.
 - Owner mode shows the full `7/7` walkthrough.
 
 Important limitation:
@@ -202,7 +204,7 @@ Important limitation:
 
 Recommended next build:
 
-- Continue only with non-hosted product polish until the portfolio websuite integration step.
+- Next best blocker: tighten the final non-hosted handoff surface for the portfolio websuite integration while keeping owner data local-only and hosting/auth work deferred.
 
 ## Important Privacy Rule
 
