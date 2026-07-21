@@ -135,6 +135,7 @@ docs/portfolio              Synthetic portfolio screenshot assets and manifest
 - `ARCHITECTURE.md` - data flow and domain model notes
 - `DEMO_STRATEGY.md` - public demo positioning
 - `DEPLOYMENT_READINESS.md` - hosted auth and deployment gate
+- `PUBLIC_DEMO_CLOSEOUT.md` - safe public demo route and hosting pause note
 - `QA_CHECKLIST.md` - browser/manual QA checklist
 - `GITHUB_HANDOFF.md` - instructions for creating and connecting a GitHub repo
 - `BUILD_LOG.md` - detailed phase-by-phase build notes
@@ -142,4 +143,4 @@ docs/portfolio              Synthetic portfolio screenshot assets and manifest
 
 ## Current Status
 
-Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B now includes the synthetic Public Demo, Portfolio View screenshots, portfolio copy snippets, capture presets, and a websuite handoff kit with locked public preset routes such as `?surface=public&view=portfolio&preset=followup`. Owner mode remains local-only until real backend auth and protected storage exist.
+Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B public demo packaging is complete for now: use locked public preset routes such as `?surface=public&view=portfolio&preset=followup` plus `docs/portfolio` assets for the portfolio websuite. Owner mode remains local-only until real backend auth and protected storage exist.

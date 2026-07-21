@@ -323,3 +323,10 @@ Important: screenshots from the real CSV import contain real property/unit/work-
 - Copying the follow-up handoff route changes the action state to `Copied`.
 - Desktop browser checks showed no page-level horizontal overflow and no console errors.
 - Automated tests confirm the handoff routes do not include owner mode and `docs/portfolio/manifest.json` matches the source handoff constants.
+
+2026-07-21 public demo closeout confirmed:
+
+- `PUBLIC_DEMO_CLOSEOUT.md` documents the safe public route pattern, safe screenshot assets, and Owner hosting pause.
+- Manifest tests now verify `docs/portfolio/manifest.json` routes match `src/portfolioHandoff.js`.
+- Locked public routes remain the only recommended portfolio websuite entry point.
+- Owner mode remains local-only until backend auth, authorization, protected storage, and per-owner isolation exist.

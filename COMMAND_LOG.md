@@ -216,6 +216,9 @@ This log records terminal commands used during the build, why they were run, and
 | Public route lock | `node scripts/validate.mjs` | Validate after adding locked public handoff routes and hiding the Owner switch. | Passed syntax checks and 15 tests. |
 | Public route lock | Browser automation: `?surface=public&view=portfolio&preset=followup` and normal local root | Verify locked public route behavior versus normal local controls. | Locked handoff route hid `Owner`; normal local root still showed the Public Demo/Owner switch. |
 | Public route lock | `node scripts/validate.mjs` after manifest alignment | Re-run validation after syncing `docs/portfolio/manifest.json` boundary rules with source constants. | Passed syntax checks and 15 tests. |
+| Public demo closeout | `node scripts/validate.mjs` | Validate after adding `PUBLIC_DEMO_CLOSEOUT.md` and strengthening manifest route tests. | Passed syntax checks and 15 tests. |
+| Public demo closeout | Browser automation reconnect attempt | Try to run one fresh final browser smoke after the closeout docs. | Browser connector setup failed before attaching; relied on prior locked-route browser evidence plus green route/manifest tests. |
+| Public demo closeout | `git status --short --branch` and `git diff --stat` | Check final closeout files before handoff. | Shows closeout docs, status docs, command/build logs, and strengthened handoff test pending commit. |
 
 ## Command Logging Rule
 

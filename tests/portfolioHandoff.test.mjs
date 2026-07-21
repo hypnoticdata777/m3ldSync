@@ -34,10 +34,15 @@ test("portfolio manifest matches source handoff constants", async () => {
   const manifest = JSON.parse(await readFile("docs/portfolio/manifest.json", "utf8"));
 
   assert.equal(manifest.safeSurface, "Public Demo Portfolio View");
+  assert.equal(manifest.routePattern, "?surface=public&view=portfolio&preset={presetId}");
   assert.deepEqual(manifest.boundaryRules, PORTFOLIO_BOUNDARY_RULES);
   assert.deepEqual(
     manifest.presets.map((preset) => preset.id),
     PORTFOLIO_PRESETS.map((preset) => preset.id)
+  );
+  assert.deepEqual(
+    manifest.presets.map((preset) => preset.route),
+    PORTFOLIO_PRESETS.map((preset) => portfolioRouteForPreset(preset.id))
   );
   assert.deepEqual(
     manifest.presets.map((preset) => preset.screenshot),

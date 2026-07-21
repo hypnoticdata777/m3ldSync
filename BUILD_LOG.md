@@ -2,6 +2,39 @@
 
 This log tracks what was built, what worked, what did not, and what we learned.
 
+## 2026-07-21 - Public Demo Closeout
+
+### Goal
+
+Close the final non-hosted public demo gate and pause MeldSync hosting work until the portfolio websuite and hosted-auth gate are ready.
+
+### Built
+
+- Added `PUBLIC_DEMO_CLOSEOUT.md`.
+- Strengthened `tests/portfolioHandoff.test.mjs` so manifest routes must match the source handoff route generator.
+- Updated README, phase status, QA checklist, and logs to mark Phase 7B complete for the current POC.
+
+### Good
+
+- The safe public route pattern is now documented in one closeout file.
+- The portfolio websuite can use `docs/portfolio/manifest.json` and locked public routes without exposing Owner mode.
+- The hosting pause is explicit: Owner mode remains local-only until backend auth, authorization, protected storage, and per-owner isolation exist.
+- Manifest/source route drift is now covered by automated tests.
+
+### Bad / Risks
+
+- This does not deploy MeldSync.
+- The future portfolio websuite still needs its own landing-page work and integration pass.
+
+### Outcome
+
+MeldSync is ready to show as a synthetic public demo and should not receive more hosting work until the portfolio websuite and auth gate are ready.
+
+### Validation
+
+- `node scripts/validate.mjs` passed with 15 tests.
+- Browser QA confirmed the locked public handoff route and normal local root behavior in the prior route-lock pass.
+
 ## 2026-07-21 - Portfolio Websuite Handoff Kit
 
 ### Goal

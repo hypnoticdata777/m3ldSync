@@ -4,9 +4,9 @@ Last updated: 2026-07-21
 
 ## Current Phase
 
-Current completed phase: Phase 7A - Browser QA and UX Hardening complete; Phase 7B public packaging, private/local QA closeout, websuite handoff kit, and locked public handoff routes complete.
+Current completed phase: Phase 7A - Browser QA and UX Hardening complete; Phase 7B public demo packaging complete for now.
 
-Next phase: Continue non-hosted POC hardening and portfolio-websuite prep. Hosted deployment remains deferred until the final integration/auth gate.
+Next phase: Pause MeldSync hosting work and move to the portfolio websuite integration/landing-page work. Hosted Owner mode remains deferred until the backend auth gate.
 
 ## Completed
 
@@ -115,7 +115,7 @@ Completed:
 Current note:
 
 - GitHub repo exists at `https://github.com/hypnoticdata777/m3ldSync.git`.
-- Latest verified local commit: `44bf252 Close private local QA`.
+- Latest verified local commit: `163fbeb Lock public portfolio handoff routes`.
 
 ## Next Active Blocker
 
@@ -166,9 +166,9 @@ Recently completed:
 - Backup restore now uses deeper record, history, and import-batch validation.
 - Private/local QA closeout confirmed cancel-safe private imports, local persistence after refresh, idempotent re-imports, changed/stale/manual-conflict reconciliation, and downloaded backup restore round-trip using ignored synthetic private CSV fixtures only.
 
-## Phase 7B Preview - Public Demo Packaging and Access Modes
+## Phase 7B - Public Demo Packaging and Access Modes
 
-Status: Started
+Status: Complete for current POC
 
 Completed:
 
@@ -188,6 +188,7 @@ Completed:
 - Public Demo has Capture Presets for baseline, follow-up signal, sticky manual, and linked-resolution screenshot states.
 - Public Demo has a Websuite Handoff panel and `docs/portfolio/manifest.json` for safe future portfolio integration.
 - Portfolio-websuite handoff routes are locked to Public Demo and remove the Owner switch from the header.
+- Public demo closeout is documented in `PUBLIC_DEMO_CLOSEOUT.md`.
 - Portfolio screenshot assets are stored under `docs/portfolio`.
 - Public Demo shows a visitor-safe `6/6` walkthrough.
 - Owner mode exposes CSV import, backup, restore, reset, and internal QA.
@@ -209,7 +210,8 @@ Important limitation:
 
 Recommended next build:
 
-- Next best blocker: run one final public-demo polish/QA pass, then pause MeldSync hosting until the portfolio websuite and hosted-auth gate are ready.
+- Move to the portfolio websuite integration/landing-page work and use only locked public MeldSync routes/assets there.
+- Do not host MeldSync Owner mode until backend auth, server-side authorization, protected storage, and per-owner isolation are designed.
 
 ## Important Privacy Rule
 
