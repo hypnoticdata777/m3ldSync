@@ -458,6 +458,43 @@ Owner mode can now read CSV, uncompressed text PDF, Flate-compressed text PDF, a
 
 - `node scripts/validate.mjs` passed with 21 tests.
 
+## 2026-07-31 - OCR Import UX and Browser QA
+
+### Goal
+
+Make scanned-PDF imports feel understandable in the browser and verify the new CSV/PDF/OCR paths through the actual Owner file picker.
+
+### Built
+
+- Added an Owner-only inline import status strip for CSV/PDF/OCR processing.
+- Added inline import error feedback so failed PDF/OCR imports do not rely on alert-only messaging.
+- Hardened PDF decompression with byte-preserving stream decoding, a timeout, and raw-deflate fallback.
+- Added fuzzy OCR table parsing for partially recovered Property Meld headers and noisy OCR date text.
+- Updated the local static server to serve `.mjs`, `.wasm`, and `.gz` assets needed by PDF.js and Tesseract.
+- Added `scripts/serve.mjs` to the validation helper syntax checks.
+
+### Good
+
+- Browser QA confirmed synthetic CSV import opens preview.
+- Browser QA confirmed synthetic text-PDF import opens preview.
+- Browser QA confirmed synthetic scanned/image-only PDF import runs OCR and opens preview.
+- Browser QA confirmed Public Demo hides import controls and import status.
+- OCR parser now tolerates common scan artifacts such as partial headers and stray symbols around dates.
+
+### Bad / Risks
+
+- The synthetic compressed-PDF browser fixture is too minimal to serve as a reliable browser-level PDF.js fixture, though automated compressed-stream extraction remains covered.
+- OCR remains quality-dependent and may need tuning for rotated, blurry, or low-contrast scans.
+
+### Outcome
+
+The Owner workflow now gives clear import feedback and the scanned-PDF OCR path has browser-level proof through the real upload flow.
+
+### Validation
+
+- `node scripts/validate.mjs` passed with 22 tests.
+- Browser QA ran on `http://localhost:4174/` after restarting the preview server with updated MIME support.
+
 ## 2026-07-20 - Phase 7B Portfolio View
 
 ### Goal

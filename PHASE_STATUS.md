@@ -29,6 +29,7 @@ Status: Complete
 - Parser rejects missing required columns.
 - Owner import now accepts CSV plus text-based PDFs that expose the same Property Meld table columns, including Flate-compressed text streams.
 - Owner import now falls back to browser OCR for scanned/image-only PDFs.
+- Owner import now shows inline progress/error feedback during PDF text extraction and OCR.
 
 ### Phase 2 - Reconciliation Engine
 
@@ -203,6 +204,7 @@ Completed:
 - Owner mode previews affected import records before committing CSV/demo imports.
 - Owner mode reads Flate-compressed text PDFs and runs local browser OCR for image-only/scanned PDFs.
 - Owner mode rejects unreadable scans when OCR cannot recover the expected Property Meld table columns.
+- Local preview server now serves `.mjs`, `.wasm`, and `.gz` assets correctly for PDF.js and Tesseract OCR dependencies.
 - Owner mode labels manual-conflict commits explicitly before commit.
 - Owner mode can inspect committed import batches through the history detail drawer.
 - Owner mode can review all current manual/import conflicts through the verification queue.

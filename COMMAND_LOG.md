@@ -225,6 +225,9 @@ This log records terminal commands used during the build, why they were run, and
 | Owner scanned PDF OCR | `npm install pdfjs-dist tesseract.js` | Add browser PDF rendering and OCR dependencies for scanned/image-only owner imports. | Installed 16 packages with no reported vulnerabilities. |
 | Owner scanned PDF OCR | `npm install "@tesseract.js-data/eng"` | Add local English OCR language data so private scanned PDFs do not need CDN language downloads. | Installed local traineddata package with no reported vulnerabilities. |
 | Owner scanned PDF OCR | `node scripts\validate.mjs` | Validate OCR fallback module, parser handoff, and unreadable-scan errors. | Passed syntax checks and 21 tests. |
+| OCR import UX | Browser file picker QA on `http://localhost:4174/` | Verify Owner synthetic CSV, text-PDF, and scanned-PDF imports through the actual upload flow. | CSV and text-PDF previews opened; scanned PDF initially exposed missing `.mjs` MIME support, then passed after server fix and parser hardening. |
+| OCR import UX | `node scripts\validate.mjs` | Validate byte-preserving PDF decoding, OCR parser hardening, inline import status, and server syntax. | Passed syntax checks and 22 tests. |
+| Public demo safety | Browser check on `http://localhost:4174/` | Verify Public Demo still hides private import controls and import status. | Public Demo showed no `Import CSV/PDF`, no import status strip, and no console warnings/errors. |
 
 ## Command Logging Rule
 

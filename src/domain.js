@@ -407,18 +407,13 @@ function parseDelimitedImportText(text, delimiter) {
   const parsedLines = lines
     .map((line) => splitDelimitedLine(line, delimiter))
     .filter((cells) => cells.length > 1 && !isMarkdownSeparatorRow(cells));
-  const headerIndex = parsedLines.findIndex((cells) => {
-    const headers = cells.map((cell, index) => (index === 0 ? cell.replace(/^\uFEFF/, "") : cell).trim());
-    return EXPECTED_COLUMNS.every((column) => headers.includes(column));
-  });
+  const headerIndex = parsedLines.findIndex((cells) => Boolean(headersFromDelimitedCells(cells)));
 
   if (headerIndex === -1) {
     throw new Error("PDF table text is missing the Property Meld header row.");
   }
 
-  const headers = parsedLines[headerIndex].map((header, index) =>
-    (index === 0 ? header.replace(/^\uFEFF/, "") : header).trim()
-  );
+  const headers = headersFromDelimitedCells(parsedLines[headerIndex]);
   const dataRows = parsedLines
     .slice(headerIndex + 1)
     .map((cells) => fitCellsToHeaders(cells, headers.length))
@@ -439,6 +434,24 @@ function splitDelimitedLine(line, delimiter) {
   return source.split(delimiter).map((cell) => cell.trim());
 }
 
+function headersFromDelimitedCells(cells) {
+  const headers = cells.map((cell, index) => (index === 0 ? cell.replace(/^\uFEFF/, "") : cell).trim());
+  if (EXPECTED_COLUMNS.every((column) => headers.includes(column))) {
+    return headers;
+  }
+
+  const headerText = headers.join(" ").toLowerCase();
+  const strongOcrHeaderSignals = ["meld number", "property name", "meld status"].filter((signal) =>
+    headerText.includes(signal)
+  );
+
+  if (strongOcrHeaderSignals.length >= 2 && headerText.includes("meld")) {
+    return EXPECTED_COLUMNS;
+  }
+
+  return null;
+}
+
 function fitCellsToHeaders(cells, headerCount) {
   if (cells.length <= headerCount) {
     return cells;
@@ -457,7 +470,8 @@ function parseMeldDate(value, label) {
     return null;
   }
 
-  const match = cleaned.match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})$/);
+  const dateSource = cleaned.replace(/[^\d/: ]+/g, " ").replace(/\s+/g, " ").trim();
+  const match = dateSource.match(/(\d{1,2})\/(\d{1,2})\/(\d{4})\s+(\d{1,2}):(\d{2})/);
   if (!match) {
     throw new Error(`${label} has unsupported date format: ${cleaned}`);
   }

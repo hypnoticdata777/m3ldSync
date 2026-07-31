@@ -202,6 +202,50 @@ h1 {
   background: var(--line);
 }
 
+.import-status {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  max-width: 780px;
+  border: 1px solid #b9d2df;
+  border-radius: 7px;
+  background: #edf6f9;
+  color: #234f63;
+  padding: 9px 11px;
+  font-size: 0.86rem;
+  font-weight: 750;
+}
+
+.import-status small {
+  color: #527082;
+  font-size: 0.76rem;
+  font-weight: 650;
+}
+
+.import-status.error {
+  border-color: #e0b8b0;
+  background: #fff1ee;
+  color: #7a3127;
+}
+
+.import-status.error small {
+  color: #8a5149;
+}
+
+.status-dot {
+  inline-size: 9px;
+  block-size: 9px;
+  flex: 0 0 auto;
+  border-radius: 999px;
+  background: var(--blue);
+  box-shadow: 0 0 0 4px rgba(47, 111, 159, 0.12);
+}
+
+.import-status.error .status-dot {
+  background: var(--red);
+  box-shadow: 0 0 0 4px rgba(179, 74, 59, 0.12);
+}
+
 .file-button input {
   inline-size: 1px;
   block-size: 1px;

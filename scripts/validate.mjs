@@ -7,6 +7,7 @@ const commands = [
   ["node", ["--check", "src/pdfOcr.js"]],
   ["node", ["--check", "src/portfolioHandoff.js"]],
   ["node", ["--check", "src/qa.js"]],
+  ["node", ["--check", "scripts/serve.mjs"]],
   ["node", ["--test", "tests/reconcile.test.mjs", "tests/qa.test.mjs", "tests/portfolioHandoff.test.mjs", "tests/pdfImport.test.mjs"]]
 ];
 

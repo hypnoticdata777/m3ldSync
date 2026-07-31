@@ -15,10 +15,10 @@ private/
 
 # Local runtime data
 .local/
+*.traineddata
 
 # Local backups and secrets
 meldsync-backup-*.json
 .env
 .env.*
 !.env.example
-

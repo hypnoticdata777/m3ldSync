@@ -33,6 +33,7 @@ let selectedPreviewRecordId = "";
 let selectedImportBatchId = "";
 let pendingImport = null;
 let pendingRestore = null;
+let importStatus = null;
 let resetConfirmOpen = false;
 let portfolioView = initialPortfolioRoute.enabled;
 let copiedCopyId = "";
@@ -52,6 +53,7 @@ async function readImportRowsFromFile(file) {
     return await readPdfImportRowsFromFile(file);
   }
 
+  setImportStatus("Reading CSV export...");
   return parsePropertyMeldCsv(await file.text());
 }
 
@@ -59,6 +61,7 @@ async function readPdfImportRowsFromFile(file) {
   let textExtractionError = null;
 
   try {
+    setImportStatus("Reading PDF table text...");
     const text = await extractPdfTextFromFile(file);
     return parsePropertyMeldPdfText(text);
   } catch (error) {
@@ -66,7 +69,9 @@ async function readPdfImportRowsFromFile(file) {
   }
 
   try {
+    setImportStatus("No reliable PDF table text found. Running OCR on scanned pages...");
     const ocrText = await extractPdfTextWithOcrFromFile(file);
+    setImportStatus("OCR finished. Preparing import preview...");
     return parsePropertyMeldPdfText(ocrText);
   } catch (error) {
     throw new Error(`PDF import failed. Text extraction: ${textExtractionError.message} OCR: ${error.message}`);
@@ -75,6 +80,11 @@ async function readPdfImportRowsFromFile(file) {
 
 function isPdfFile(file) {
   return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+}
+
+function setImportStatus(message, type = "info", detail = "OCR can take longer on scanned PDFs.") {
+  importStatus = { message, type, detail };
+  render();
 }
 
 function createDemoModel() {
@@ -223,6 +233,7 @@ function render() {
           <button id="demoFollowUp">Run Demo Follow-Up Import</button>
           ${accessMode === "owner" ? renderOwnerControls() : ""}
         </div>
+        ${accessMode === "owner" ? renderImportStatus() : ""}
         <div class="filter-row">
           <input id="search" type="search" value="${escapeAttr(filters.search)}" placeholder="Search ID, property, unit, description" />
           <select id="propertyFilter">${propertyOptions()}</select>
@@ -510,6 +521,7 @@ function bindEvents() {
 
   document.querySelector("#demoBaseline")?.addEventListener("click", () => {
     pendingImport = null;
+    importStatus = null;
     selectedPreviewRecordId = "";
     selectedImportBatchId = "";
     pendingRestore = null;
@@ -524,6 +536,7 @@ function bindEvents() {
   document.querySelector("#demoFollowUp")?.addEventListener("click", () => {
     resetConfirmOpen = false;
     pendingRestore = null;
+    importStatus = null;
     copiedCopyId = "";
     capturePresetId = "followup";
     const base = model.mode === "demo" ? model.data : createDemoModel().data;
@@ -547,6 +560,7 @@ function bindEvents() {
 
   document.querySelector("#stickyProof")?.addEventListener("click", () => {
     pendingImport = null;
+    importStatus = null;
     selectedPreviewRecordId = "";
     selectedImportBatchId = "";
     pendingRestore = null;
@@ -557,6 +571,7 @@ function bindEvents() {
 
   document.querySelector("#linkedProof")?.addEventListener("click", () => {
     pendingImport = null;
+    importStatus = null;
     selectedPreviewRecordId = "";
     selectedImportBatchId = "";
     pendingRestore = null;
@@ -567,6 +582,7 @@ function bindEvents() {
 
   document.querySelector("#resetData")?.addEventListener("click", () => {
     pendingImport = null;
+    importStatus = null;
     selectedPreviewRecordId = "";
     selectedImportBatchId = "";
     pendingRestore = null;
@@ -581,6 +597,8 @@ function bindEvents() {
     try {
       resetConfirmOpen = false;
       pendingRestore = null;
+      importStatus = { message: `Reading ${file.name}...` };
+      render();
       selectedPreviewRecordId = "";
       selectedImportBatchId = "";
       const rows = await readImportRowsFromFile(file);
@@ -599,9 +617,10 @@ function bindEvents() {
       };
       selectedPreviewRecordId = firstPreviewRecordId(batch);
       selectedImportBatchId = batch.id;
+      importStatus = null;
       render();
     } catch (error) {
-      alert(error.message);
+      setImportStatus("Import failed.", "error", error.message);
     } finally {
       event.target.value = "";
     }
@@ -618,6 +637,7 @@ function bindEvents() {
     try {
       resetConfirmOpen = false;
       pendingImport = null;
+      importStatus = null;
       selectedPreviewRecordId = "";
       selectedImportBatchId = "";
       const backup = JSON.parse(await file.text());
@@ -646,6 +666,7 @@ function bindEvents() {
       lastBatch: pendingImport.batch
     };
     pendingImport = null;
+    importStatus = null;
     selectedPreviewRecordId = "";
     selectedImportBatchId = committedBatchId;
     setModel(nextModel);
@@ -653,6 +674,7 @@ function bindEvents() {
 
   document.querySelector("#cancelImport")?.addEventListener("click", () => {
     pendingImport = null;
+    importStatus = null;
     selectedPreviewRecordId = "";
     selectedImportBatchId = "";
     pendingRestore = null;
@@ -664,6 +686,7 @@ function bindEvents() {
 
   document.querySelector("#confirmReset")?.addEventListener("click", () => {
     pendingImport = null;
+    importStatus = null;
     selectedPreviewRecordId = "";
     selectedImportBatchId = "";
     pendingRestore = null;
@@ -803,6 +826,20 @@ function renderOwnerControls() {
       <input id="restoreInput" type="file" accept=".json,application/json" />
     </label>
     <button class="ghost" id="resetData">Reset Local Data</button>
+  `;
+}
+
+function renderImportStatus() {
+  if (!importStatus) {
+    return "";
+  }
+
+  return `
+    <div class="import-status ${escapeAttr(importStatus.type)}" role="status" aria-live="polite">
+      <span class="status-dot"></span>
+      <span>${escapeHtml(importStatus.message)}</span>
+      <small>${escapeHtml(importStatus.detail)}</small>
+    </div>
   `;
 }
 

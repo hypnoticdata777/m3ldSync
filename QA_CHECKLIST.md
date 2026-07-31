@@ -57,6 +57,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Confirm Flate-compressed text PDF imports normalize into the same import rows as CSV.
 - [x] Confirm image-only/scanned PDF imports fall back to OCR and normalize readable table text into the same import rows as CSV.
 - [x] Confirm rendered scans with no readable text fail with clear OCR guidance.
+- [x] Confirm slower PDF/OCR imports show inline progress or error status instead of leaving the user guessing.
 
 ## Reconciliation Behavior
 
@@ -115,6 +116,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 
 - [x] Demo mode contains synthetic data only.
 - [x] Public Demo hides private CSV/PDF import.
+- [x] Public Demo hides PDF/OCR import progress and error status.
 - [x] Public Demo hides backup, restore, and reset controls.
 - [x] Public Demo hides internal QA panel.
 - [x] Public Demo shows visitor-safe walkthrough steps only.

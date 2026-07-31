@@ -24,6 +24,7 @@ Built capabilities:
 - Strict CSV schema validation
 - Text-based PDF import support for the same Property Meld table contract, including Flate-compressed text streams
 - Scanned/image-only PDF OCR fallback for owner imports
+- Inline import status and error feedback for slower OCR imports
 - Property Meld export parsing
 - Reconciliation engine
 - Idempotent re-import behavior
@@ -110,6 +111,7 @@ node --check src/main.js
 node --check src/domain.js
 node --check src/pdfText.js
 node --check src/pdfOcr.js
+node --check scripts/serve.mjs
 ```
 
 Run the full local validation helper:
@@ -151,4 +153,4 @@ docs/portfolio              Synthetic portfolio screenshot assets and manifest
 
 ## Current Status
 
-Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B public demo packaging is complete for now: use locked public preset routes such as `?surface=public&view=portfolio&preset=followup` plus `docs/portfolio` assets for the portfolio websuite. Owner mode supports CSV imports, text-based PDF imports, Flate-compressed text PDFs, and scanned/image-only PDF OCR fallback locally. OCR quality depends on scan clarity and whether OCR can recover the expected Property Meld table columns. Owner mode remains local-only until real backend auth and protected storage exist.
+Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B public demo packaging is complete for now: use locked public preset routes such as `?surface=public&view=portfolio&preset=followup` plus `docs/portfolio` assets for the portfolio websuite. Owner mode supports CSV imports, text-based PDF imports, Flate-compressed text PDFs, and scanned/image-only PDF OCR fallback locally. Owner imports now show inline progress/error feedback while PDF text extraction or OCR is running. OCR quality depends on scan clarity and whether OCR can recover the expected Property Meld table columns. Owner mode remains local-only until real backend auth and protected storage exist.

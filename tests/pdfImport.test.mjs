@@ -113,6 +113,20 @@ test("OCR image text feeds the Property Meld import parser", async () => {
   assert.equal(rows[0].id, "PDF-1001");
 });
 
+test("parses noisy OCR table text when headers are partially recovered", () => {
+  const ocrText = `Synthetic Property Meld OCR Import
+
+Meld Number |Unit|Property Name |Work Category|Work Type|Description|Priority|Meld Status|Meld creation date|Meld completion dz
+
+QA-9001|12A|QA Towers|Plumbing|Resident Request|Synthetic faucet scan test|Medium|Pending vendor acceptance|@7/30/2026 ©9:00]|`;
+  const rows = parsePropertyMeldPdfText(ocrText);
+
+  assert.equal(rows.length, 1);
+  assert.equal(rows[0].id, "QA-9001");
+  assert.equal(rows[0].createdDate, new Date(2026, 6, 30, 9, 0).toISOString());
+  assert.equal(rows[0].totalLaborHours, 0);
+});
+
 test("OCR rejects rendered scans with no readable text", async () => {
   await assert.rejects(
     () =>

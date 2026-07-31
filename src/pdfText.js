@@ -3,7 +3,7 @@ export async function extractPdfTextFromFile(file) {
 }
 
 export async function extractPdfTextFromBytes(bytes) {
-  const source = new TextDecoder("latin1").decode(bytes);
+  const source = bytesToBinaryString(bytes);
   return await extractPdfTextFromSource(source);
 }
 
@@ -64,16 +64,45 @@ async function inflateFlateDecodeStream(stream) {
     return "";
   }
 
+  for (const format of ["deflate", "deflate-raw"]) {
+    const inflated = await inflateWithFormat(stream, format);
+    if (inflated) {
+      return inflated;
+    }
+  }
+
+  return "";
+}
+
+async function inflateWithFormat(stream, format) {
   try {
     const input = latin1ToBytes(stream);
-    const decompressor = new DecompressionStream("deflate");
+    const decompressor = new DecompressionStream(format);
     const writer = decompressor.writable.getWriter();
-    await writer.write(input);
-    await writer.close();
-    const output = await new Response(decompressor.readable).arrayBuffer();
+    const output = await withTimeout(
+      (async () => {
+        await writer.write(input);
+        await writer.close();
+        return await new Response(decompressor.readable).arrayBuffer();
+      })(),
+      3000
+    );
     return new TextDecoder("latin1").decode(output);
   } catch {
     return "";
+  }
+}
+
+async function withTimeout(promise, timeoutMs) {
+  let timeoutId;
+  const timeout = new Promise((_, reject) => {
+    timeoutId = setTimeout(() => reject(new Error("PDF decompression timed out.")), timeoutMs);
+  });
+
+  try {
+    return await Promise.race([promise, timeout]);
+  } finally {
+    clearTimeout(timeoutId);
   }
 }
 
@@ -83,6 +112,17 @@ function latin1ToBytes(value) {
     bytes[index] = value.charCodeAt(index) & 0xff;
   }
   return bytes;
+}
+
+function bytesToBinaryString(bytes) {
+  const chunkSize = 8192;
+  const chunks = [];
+
+  for (let index = 0; index < bytes.length; index += chunkSize) {
+    chunks.push(String.fromCharCode(...bytes.slice(index, index + chunkSize)));
+  }
+
+  return chunks.join("");
 }
 
 function extractTextFromContentStream(content) {
