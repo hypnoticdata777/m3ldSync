@@ -3,9 +3,11 @@ import { spawnSync } from "node:child_process";
 const commands = [
   ["node", ["--check", "src/main.js"]],
   ["node", ["--check", "src/domain.js"]],
+  ["node", ["--check", "src/pdfText.js"]],
+  ["node", ["--check", "src/pdfOcr.js"]],
   ["node", ["--check", "src/portfolioHandoff.js"]],
   ["node", ["--check", "src/qa.js"]],
-  ["node", ["--test", "tests/reconcile.test.mjs", "tests/qa.test.mjs", "tests/portfolioHandoff.test.mjs"]]
+  ["node", ["--test", "tests/reconcile.test.mjs", "tests/qa.test.mjs", "tests/portfolioHandoff.test.mjs", "tests/pdfImport.test.mjs"]]
 ];
 
 let failed = false;

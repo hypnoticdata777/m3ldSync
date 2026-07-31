@@ -420,6 +420,44 @@ Resolution path:
 
 - `node scripts/validate.mjs` passed.
 
+## 2026-07-31 - Owner CSV/PDF/OCR Import Compatibility
+
+### Goal
+
+Make the Owner import tool read CSV files, text-based PDFs, compressed text PDFs, and scanned/image-only PDFs without changing the reconciliation contract.
+
+### Built
+
+- Kept CSV parsing as the preferred strict Property Meld import path.
+- Added `src/pdfText.js` for browser-safe text extraction from simple PDF text streams.
+- Added FlateDecode decompression for compressed PDF text streams when `DecompressionStream` is available.
+- Added `src/pdfOcr.js` for browser OCR fallback when normal PDF text extraction cannot recover table text.
+- Added `pdfjs-dist`, `tesseract.js`, and local English Tesseract language data for PDF page rendering and OCR.
+- Added `parsePropertyMeldPdfText` to normalize tab-delimited or pipe-delimited PDF table text into the same import rows as CSV.
+- Updated Owner controls from `Import CSV` to `Import CSV/PDF`.
+- Added automated PDF import tests for parsed table text, a small extracted PDF stream, compressed text extraction, OCR handoff, and unreadable-scan fallback guidance.
+
+### Good
+
+- CSV imports still flow through the existing strict schema parser.
+- Text-based PDFs, including Flate-compressed text streams, can now enter the same preview, reconcile, cancel, and commit flow as CSV.
+- Scanned/image-only PDFs can now render to images and pass through OCR before the same parser/reconcile preview flow.
+- The OCR assets are served locally from project dependencies instead of relying on a language-data CDN.
+
+### Bad / Risks
+
+- This is static-browser best-effort OCR support, not a full production ingestion pipeline.
+- OCR quality depends on scan clarity, page rotation, and whether OCR can recover the expected Property Meld table columns.
+- Robust production PDF/OCR handling should move behind backend auth and protected storage after the hosted auth gate.
+
+### Outcome
+
+Owner mode can now read CSV, uncompressed text PDF, Flate-compressed text PDF, and readable scanned PDF exports locally while preserving the existing import safety model.
+
+### Validation
+
+- `node scripts/validate.mjs` passed with 21 tests.
+
 ## 2026-07-20 - Phase 7B Portfolio View
 
 ### Goal

@@ -1,6 +1,6 @@
 # MeldSync
 
-Recurring work order reconciliation and Kanban triage for Property Meld-style CSV exports.
+Recurring work order reconciliation and Kanban triage for Property Meld-style CSV, text PDF, and scanned PDF exports.
 
 ## What It Does
 
@@ -22,6 +22,8 @@ This repository currently contains a local browser-based proof of concept.
 Built capabilities:
 
 - Strict CSV schema validation
+- Text-based PDF import support for the same Property Meld table contract, including Flate-compressed text streams
+- Scanned/image-only PDF OCR fallback for owner imports
 - Property Meld export parsing
 - Reconciliation engine
 - Idempotent re-import behavior
@@ -63,7 +65,7 @@ Built capabilities:
 
 ## Data Privacy
 
-The real Property Meld CSV export is private and must not be committed or published.
+The real Property Meld CSV/PDF export is private and must not be committed or published.
 
 The public demo uses synthetic data only. The real export filename pattern is ignored by `.gitignore`.
 
@@ -72,7 +74,7 @@ The public demo uses synthetic data only. The real export filename pattern is ig
 MeldSync currently has two local POC modes:
 
 - `Public Demo` starts with synthetic data, hides private import/backup/reset controls, and shows only the visitor-safe walkthrough.
-- `Owner` uses local browser storage and exposes CSV import, backup, restore, reset, and internal QA checks.
+- `Owner` uses local browser storage and exposes CSV/PDF import, backup, restore, reset, and internal QA checks.
 
 This is a static POC boundary, not production authentication. A hosted product would need backend auth before storing or syncing private data.
 
@@ -81,6 +83,7 @@ This is a static POC boundary, not production authentication. A hosted product w
 Requirements:
 
 - Node.js 24 or newer
+- Project dependencies installed with `npm install`
 
 Start the local preview:
 
@@ -105,6 +108,8 @@ Run syntax checks:
 ```powershell
 node --check src/main.js
 node --check src/domain.js
+node --check src/pdfText.js
+node --check src/pdfOcr.js
 ```
 
 Run the full local validation helper:
@@ -117,13 +122,16 @@ node scripts/validate.mjs
 
 ```text
 index.html                  Browser app entry
-src/domain.js               CSV parser and reconciliation engine
+src/domain.js               CSV/PDF table parser and reconciliation engine
+src/pdfText.js              Browser-safe text extraction for text-based PDFs
+src/pdfOcr.js               Browser OCR fallback for scanned/image-only PDFs
 src/main.js                 UI rendering and local interactions
 src/demoData.js             Synthetic demo CSV snapshots
 src/portfolioHandoff.js     Portfolio route and asset handoff contract
 src/qa.js                   Demo QA and walkthrough scenario
 src/storage.js              Browser localStorage helpers
 tests/reconcile.test.mjs    Core reconciliation tests
+tests/pdfImport.test.mjs    PDF import parser, extractor, and OCR handoff tests
 scripts/serve.mjs           Local static preview server
 docs/portfolio              Synthetic portfolio screenshot assets and manifest
 ```
@@ -143,4 +151,4 @@ docs/portfolio              Synthetic portfolio screenshot assets and manifest
 
 ## Current Status
 
-Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B public demo packaging is complete for now: use locked public preset routes such as `?surface=public&view=portfolio&preset=followup` plus `docs/portfolio` assets for the portfolio websuite. Owner mode remains local-only until real backend auth and protected storage exist.
+Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B public demo packaging is complete for now: use locked public preset routes such as `?surface=public&view=portfolio&preset=followup` plus `docs/portfolio` assets for the portfolio websuite. Owner mode supports CSV imports, text-based PDF imports, Flate-compressed text PDFs, and scanned/image-only PDF OCR fallback locally. OCR quality depends on scan clarity and whether OCR can recover the expected Property Meld table columns. Owner mode remains local-only until real backend auth and protected storage exist.

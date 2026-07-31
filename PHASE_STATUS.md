@@ -1,10 +1,10 @@
 # MeldSync Phase Status
 
-Last updated: 2026-07-21
+Last updated: 2026-07-31
 
 ## Current Phase
 
-Current completed phase: Phase 7A - Browser QA and UX Hardening complete; Phase 7B public demo packaging complete for now.
+Current completed phase: Phase 7A - Browser QA and UX Hardening complete; Phase 7B public demo packaging complete for now; Owner CSV/PDF/OCR import compatibility added for local POC use.
 
 Next phase: Pause MeldSync hosting work and move to the portfolio websuite integration/landing-page work. Hosted Owner mode remains deferred until the backend auth gate.
 
@@ -27,6 +27,8 @@ Status: Complete
 - Parser validates expected Property Meld columns.
 - Parser handles blank unit and blank completion date.
 - Parser rejects missing required columns.
+- Owner import now accepts CSV plus text-based PDFs that expose the same Property Meld table columns, including Flate-compressed text streams.
+- Owner import now falls back to browser OCR for scanned/image-only PDFs.
 
 ### Phase 2 - Reconciliation Engine
 
@@ -192,12 +194,15 @@ Completed:
 - Portfolio screenshot assets are stored under `docs/portfolio`.
 - Public Demo shows a visitor-safe `6/6` walkthrough.
 - Owner mode exposes CSV import, backup, restore, reset, and internal QA.
+- Owner mode accepts text-based PDF imports through the same preview/reconcile/commit flow as CSV.
 - Owner mode states that CSV imports and backup restores stay in this browser unless exported.
 - Owner mode shows a Production Gate that states hosted auth is deferred and private owner data must remain local.
 - Owner mode shows local data health with backup and review status.
 - Owner mode previews backup restores before replacing local state.
 - Owner mode validates backup internals before opening Restore Preview.
 - Owner mode previews affected import records before committing CSV/demo imports.
+- Owner mode reads Flate-compressed text PDFs and runs local browser OCR for image-only/scanned PDFs.
+- Owner mode rejects unreadable scans when OCR cannot recover the expected Property Meld table columns.
 - Owner mode labels manual-conflict commits explicitly before commit.
 - Owner mode can inspect committed import batches through the history detail drawer.
 - Owner mode can review all current manual/import conflicts through the verification queue.

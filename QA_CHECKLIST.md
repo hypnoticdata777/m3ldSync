@@ -43,9 +43,9 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Confirm committed import batches can be selected and inspected.
 - [x] Confirm affected IDs in the import history detail select the matching work order.
 
-## Private CSV Import Flow
+## Private CSV/PDF Import Flow
 
-- [x] Click `Import CSV`.
+- [x] Click `Import CSV/PDF`.
 - [x] Select a Property Meld export.
 - [x] Confirm import preview appears before commit.
 - [x] Confirm app switches to Private Local Data after commit.
@@ -53,6 +53,10 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Confirm committing stores data locally.
 - [x] Refresh page.
 - [x] Confirm private data persists locally.
+- [x] Confirm text-based PDF table imports normalize into the same import rows as CSV.
+- [x] Confirm Flate-compressed text PDF imports normalize into the same import rows as CSV.
+- [x] Confirm image-only/scanned PDF imports fall back to OCR and normalize readable table text into the same import rows as CSV.
+- [x] Confirm rendered scans with no readable text fail with clear OCR guidance.
 
 ## Reconciliation Behavior
 
@@ -110,7 +114,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 ## Public Demo Safety
 
 - [x] Demo mode contains synthetic data only.
-- [x] Public Demo hides private CSV import.
+- [x] Public Demo hides private CSV/PDF import.
 - [x] Public Demo hides backup, restore, and reset controls.
 - [x] Public Demo hides internal QA panel.
 - [x] Public Demo shows visitor-safe walkthrough steps only.

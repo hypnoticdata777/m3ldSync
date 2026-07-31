@@ -6,6 +6,7 @@ import {
   isEffectivelyClosed,
   isLinkedResolved,
   parsePropertyMeldCsv,
+  parsePropertyMeldPdfText,
   reconcile,
   setLinkedRecord,
   setLinkedRecordDraft,
@@ -14,6 +15,8 @@ import {
   validateBackup
 } from "./domain.js";
 import { demoBaselineCsv, demoFollowUpCsv } from "./demoData.js";
+import { extractPdfTextWithOcrFromFile } from "./pdfOcr.js";
+import { extractPdfTextFromFile } from "./pdfText.js";
 import { getPortfolioHandoff, normalizePresetId, PORTFOLIO_PRESETS } from "./portfolioHandoff.js";
 import { getDemoWalkthrough, runDemoQa } from "./qa.js";
 import { clearState, loadAccessMode, loadState, saveAccessMode, saveState } from "./storage.js";
@@ -43,6 +46,36 @@ let filters = {
 
 applyInitialPortfolioRoute();
 render();
+
+async function readImportRowsFromFile(file) {
+  if (isPdfFile(file)) {
+    return await readPdfImportRowsFromFile(file);
+  }
+
+  return parsePropertyMeldCsv(await file.text());
+}
+
+async function readPdfImportRowsFromFile(file) {
+  let textExtractionError = null;
+
+  try {
+    const text = await extractPdfTextFromFile(file);
+    return parsePropertyMeldPdfText(text);
+  } catch (error) {
+    textExtractionError = error;
+  }
+
+  try {
+    const ocrText = await extractPdfTextWithOcrFromFile(file);
+    return parsePropertyMeldPdfText(ocrText);
+  } catch (error) {
+    throw new Error(`PDF import failed. Text extraction: ${textExtractionError.message} OCR: ${error.message}`);
+  }
+}
+
+function isPdfFile(file) {
+  return file.type === "application/pdf" || file.name.toLowerCase().endsWith(".pdf");
+}
 
 function createDemoModel() {
   const rows = parsePropertyMeldCsv(demoBaselineCsv);
@@ -550,8 +583,7 @@ function bindEvents() {
       pendingRestore = null;
       selectedPreviewRecordId = "";
       selectedImportBatchId = "";
-      const text = await file.text();
-      const rows = parsePropertyMeldCsv(text);
+      const rows = await readImportRowsFromFile(file);
       const startingState = model.mode === "private" ? model.data : createEmptyState();
       const { state, batch } = reconcile(startingState, rows, {
         uploadedAt: new Date().toISOString(),
@@ -762,8 +794,8 @@ function renderOwnerControls() {
   return `
     <span class="owner-divider"></span>
     <label class="file-button">
-      Import CSV
-      <input id="csvInput" type="file" accept=".csv,text/csv" />
+      Import CSV/PDF
+      <input id="csvInput" type="file" accept=".csv,text/csv,.pdf,application/pdf" />
     </label>
     <button class="ghost" id="exportBackup">Export Backup</button>
     <label class="file-button ghost-file">

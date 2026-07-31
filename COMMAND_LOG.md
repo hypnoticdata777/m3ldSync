@@ -219,6 +219,12 @@ This log records terminal commands used during the build, why they were run, and
 | Public demo closeout | `node scripts/validate.mjs` | Validate after adding `PUBLIC_DEMO_CLOSEOUT.md` and strengthening manifest route tests. | Passed syntax checks and 15 tests. |
 | Public demo closeout | Browser automation reconnect attempt | Try to run one fresh final browser smoke after the closeout docs. | Browser connector setup failed before attaching; relied on prior locked-route browser evidence plus green route/manifest tests. |
 | Public demo closeout | `git status --short --branch` and `git diff --stat` | Check final closeout files before handoff. | Shows closeout docs, status docs, command/build logs, and strengthened handoff test pending commit. |
+| Owner CSV/PDF import | `node scripts\validate.mjs` | Validate CSV/PDF import support after adding PDF parser, extractor, UI accept list, and tests. | Initial run found the compressed-PDF fallback scanner could read PDF dictionary syntax as text; fixed before final validation. |
+| Owner CSV/PDF import | `node scripts\validate.mjs` | Re-run validation after compressed-PDF fallback fix. | Passed syntax checks and 18 tests. |
+| Owner compressed PDF import | `node scripts\validate.mjs` | Validate FlateDecode compressed text PDF support and image-only/OCR fallback guidance. | Passed syntax checks and 19 tests. |
+| Owner scanned PDF OCR | `npm install pdfjs-dist tesseract.js` | Add browser PDF rendering and OCR dependencies for scanned/image-only owner imports. | Installed 16 packages with no reported vulnerabilities. |
+| Owner scanned PDF OCR | `npm install "@tesseract.js-data/eng"` | Add local English OCR language data so private scanned PDFs do not need CDN language downloads. | Installed local traineddata package with no reported vulnerabilities. |
+| Owner scanned PDF OCR | `node scripts\validate.mjs` | Validate OCR fallback module, parser handoff, and unreadable-scan errors. | Passed syntax checks and 21 tests. |
 
 ## Command Logging Rule
 

@@ -103,6 +103,31 @@ export function parsePropertyMeldCsv(text) {
   });
 }
 
+export function parsePropertyMeldPdfText(text) {
+  const cleaned = String(text ?? "").trim();
+  if (!cleaned) {
+    throw new Error("PDF text could not be extracted. Export CSV or use a text-based PDF.");
+  }
+
+  try {
+    return parsePropertyMeldCsv(cleaned);
+  } catch {
+    // PDF text extraction often preserves rows but changes the table delimiter.
+  }
+
+  for (const delimiter of ["\t", "|"]) {
+    try {
+      return parseDelimitedImportText(cleaned, delimiter);
+    } catch {
+      // Try the next PDF table shape before surfacing a user-facing error.
+    }
+  }
+
+  throw new Error(
+    `PDF import needs extractable table text with required columns: ${EXPECTED_COLUMNS.join(", ")}. CSV remains the safest export format.`
+  );
+}
+
 export function normalizeImportRow(row, rowNumber = 0) {
   const id = clean(row["Meld Number"]);
   const sourceStatus = clean(row["Meld Status"]);
@@ -372,6 +397,58 @@ export function validateBackup(backup) {
 
 function clean(value) {
   return String(value ?? "").trim();
+}
+
+function parseDelimitedImportText(text, delimiter) {
+  const lines = text
+    .split(/\r?\n/)
+    .map((line) => line.trim())
+    .filter(Boolean);
+  const parsedLines = lines
+    .map((line) => splitDelimitedLine(line, delimiter))
+    .filter((cells) => cells.length > 1 && !isMarkdownSeparatorRow(cells));
+  const headerIndex = parsedLines.findIndex((cells) => {
+    const headers = cells.map((cell, index) => (index === 0 ? cell.replace(/^\uFEFF/, "") : cell).trim());
+    return EXPECTED_COLUMNS.every((column) => headers.includes(column));
+  });
+
+  if (headerIndex === -1) {
+    throw new Error("PDF table text is missing the Property Meld header row.");
+  }
+
+  const headers = parsedLines[headerIndex].map((header, index) =>
+    (index === 0 ? header.replace(/^\uFEFF/, "") : header).trim()
+  );
+  const dataRows = parsedLines
+    .slice(headerIndex + 1)
+    .map((cells) => fitCellsToHeaders(cells, headers.length))
+    .filter((cells) => cells.some((cell) => cell.trim() !== ""));
+
+  if (dataRows.length === 0) {
+    throw new Error("PDF table text must include at least one data row.");
+  }
+
+  return dataRows.map((values, rowIndex) => {
+    const source = Object.fromEntries(headers.map((header, index) => [header, values[index] ?? ""]));
+    return normalizeImportRow(source, rowIndex + headerIndex + 2);
+  });
+}
+
+function splitDelimitedLine(line, delimiter) {
+  const source = delimiter === "|" ? line.replace(/^\|/, "").replace(/\|$/, "") : line;
+  return source.split(delimiter).map((cell) => cell.trim());
+}
+
+function fitCellsToHeaders(cells, headerCount) {
+  if (cells.length <= headerCount) {
+    return cells;
+  }
+
+  return [...cells.slice(0, headerCount - 1), cells.slice(headerCount - 1).join(" ").trim()];
+}
+
+function isMarkdownSeparatorRow(cells) {
+  return cells.every((cell) => /^:?-{3,}:?$/.test(cell.trim()));
 }
 
 function parseMeldDate(value, label) {
