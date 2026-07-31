@@ -61,6 +61,7 @@ Built capabilities:
 - Public demo portfolio copy pack
 - Public demo capture presets
 - Public demo websuite handoff kit
+- Portfolio landing-card integration contract
 - Portfolio-safe screenshot assets
 - Owner production gate
 
@@ -146,6 +147,7 @@ docs/portfolio              Synthetic portfolio screenshot assets and manifest
 - `DEMO_STRATEGY.md` - public demo positioning
 - `DEPLOYMENT_READINESS.md` - hosted auth and deployment gate
 - `PUBLIC_DEMO_CLOSEOUT.md` - safe public demo route and hosting pause note
+- `docs/portfolio/WEBSUITE_INTEGRATION.md` - portfolio landing-card copy and integration rules
 - `QA_CHECKLIST.md` - browser/manual QA checklist
 - `GITHUB_HANDOFF.md` - instructions for creating and connecting a GitHub repo
 - `BUILD_LOG.md` - detailed phase-by-phase build notes

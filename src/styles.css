@@ -1436,6 +1436,10 @@ h1 {
   border-top: 4px solid var(--blue);
 }
 
+.handoff-item.project {
+  border-top: 4px solid var(--teal);
+}
+
 .handoff-item span,
 .handoff-item strong,
 .handoff-item small {

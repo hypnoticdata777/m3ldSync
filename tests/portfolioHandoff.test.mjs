@@ -6,6 +6,9 @@ import {
   normalizePresetId,
   portfolioRouteForPreset,
   PORTFOLIO_BOUNDARY_RULES,
+  PORTFOLIO_COPY,
+  PORTFOLIO_INTEGRATION_RULES,
+  PORTFOLIO_PROJECT_CARD,
   PORTFOLIO_PRESETS
 } from "../src/portfolioHandoff.js";
 
@@ -13,6 +16,10 @@ test("portfolio handoff exposes public-only preset routes", () => {
   const handoff = getPortfolioHandoff("https://portfolio.example/meldsync/");
 
   assert.equal(handoff.safeSurface, "Public Demo Portfolio View");
+  assert.equal(handoff.projectCard.name, "MeldSync");
+  assert.equal(handoff.projectCard.primaryRoute, "https://portfolio.example/meldsync/?surface=public&view=portfolio&preset=followup");
+  assert.equal(handoff.copy.privacyCaption.includes("synthetic data only"), true);
+  assert.equal(handoff.integrationRules.ownerHostingStatus.includes("Deferred"), true);
   assert.deepEqual(
     handoff.presets.map((preset) => preset.id),
     ["baseline", "followup", "sticky", "linked"]
@@ -36,6 +43,12 @@ test("portfolio manifest matches source handoff constants", async () => {
   assert.equal(manifest.safeSurface, "Public Demo Portfolio View");
   assert.equal(manifest.routePattern, "?surface=public&view=portfolio&preset={presetId}");
   assert.deepEqual(manifest.boundaryRules, PORTFOLIO_BOUNDARY_RULES);
+  assert.deepEqual(manifest.copy, PORTFOLIO_COPY);
+  assert.deepEqual(manifest.integrationRules, PORTFOLIO_INTEGRATION_RULES);
+  assert.deepEqual(manifest.projectCard, {
+    ...PORTFOLIO_PROJECT_CARD,
+    primaryRoute: portfolioRouteForPreset(PORTFOLIO_PROJECT_CARD.primaryPreset)
+  });
   assert.deepEqual(
     manifest.presets.map((preset) => preset.id),
     PORTFOLIO_PRESETS.map((preset) => preset.id)

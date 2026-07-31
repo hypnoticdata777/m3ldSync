@@ -10,6 +10,7 @@ These screenshots are captured from Public Demo Portfolio View with synthetic da
 - `meldsync-portfolio-sticky-manual.png` - sticky manual correction proof state.
 - `meldsync-portfolio-linked-resolution.png` - linked-resolution proof state.
 - `manifest.json` - public-only preset route and screenshot manifest for the portfolio websuite.
+- `WEBSUITE_INTEGRATION.md` - landing-card copy, safe CTA routes, proof bullets, and public/private boundary rules.
 
 ## Safe Routes
 
@@ -29,3 +30,4 @@ These screenshots are captured from Public Demo Portfolio View with synthetic da
 - No page-level horizontal overflow reported during capture.
 
 Hosting and portfolio websuite integration remain deferred until the later deployment step.
+Owner hosting remains deferred, but the websuite integration copy/routes are ready to use from `manifest.json` and `WEBSUITE_INTEGRATION.md`.

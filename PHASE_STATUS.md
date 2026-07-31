@@ -190,9 +190,11 @@ Completed:
 - Public Demo has a Portfolio Copy pack with summary, proof bullets, and privacy caption copy.
 - Public Demo has Capture Presets for baseline, follow-up signal, sticky manual, and linked-resolution screenshot states.
 - Public Demo has a Websuite Handoff panel and `docs/portfolio/manifest.json` for safe future portfolio integration.
+- Public Demo/Websuite handoff now includes landing-card copy, proof bullets, privacy caption, OCR caveat, and integration rules.
 - Portfolio-websuite handoff routes are locked to Public Demo and remove the Owner switch from the header.
 - Public demo closeout is documented in `PUBLIC_DEMO_CLOSEOUT.md`.
 - Portfolio screenshot assets are stored under `docs/portfolio`.
+- Portfolio websuite integration instructions are stored in `docs/portfolio/WEBSUITE_INTEGRATION.md`.
 - Public Demo shows a visitor-safe `6/6` walkthrough.
 - Owner mode exposes CSV import, backup, restore, reset, and internal QA.
 - Owner mode accepts text-based PDF imports through the same preview/reconcile/commit flow as CSV.

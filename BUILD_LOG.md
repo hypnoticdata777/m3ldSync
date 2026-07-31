@@ -495,6 +495,39 @@ The Owner workflow now gives clear import feedback and the scanned-PDF OCR path 
 - `node scripts/validate.mjs` passed with 22 tests.
 - Browser QA ran on `http://localhost:4174/` after restarting the preview server with updated MIME support.
 
+## 2026-07-31 - Portfolio Websuite Integration Contract
+
+### Goal
+
+Prepare MeldSync for the portfolio websuite landing-page work without hosting Owner mode or exposing private tooling.
+
+### Built
+
+- Added landing-card metadata to the portfolio handoff module.
+- Added static proof bullets, privacy caption, OCR caveat, and integration rules to the handoff contract.
+- Synced `docs/portfolio/manifest.json` with the new integration metadata.
+- Added `docs/portfolio/WEBSUITE_INTEGRATION.md` for the future portfolio page implementation.
+- Updated the in-app Websuite Handoff panel to show and copy the project-card copy.
+- Updated roadmap/status docs so the current next phase points to portfolio websuite integration.
+
+### Good
+
+- The portfolio page now has a single safe source for the MeldSync card, CTA route, screenshot assets, proof bullets, privacy copy, and forbidden public content.
+- Tests verify the manifest stays aligned with source constants.
+- Owner hosting remains explicitly deferred.
+
+### Bad / Risks
+
+- The actual portfolio websuite repo/page is not in this workspace, so this pass prepares the integration contract rather than editing the final landing page.
+
+### Outcome
+
+MeldSync is ready to be wired into the portfolio websuite using locked Public Demo Portfolio View routes and synthetic screenshot assets.
+
+### Validation
+
+- `node scripts/validate.mjs` passed.
+
 ## 2026-07-20 - Phase 7B Portfolio View
 
 ### Goal

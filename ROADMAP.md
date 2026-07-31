@@ -11,20 +11,27 @@ This keeps the project honest as a practical internal tool while still making it
 
 ## Current Progress
 
-As of 2026-07-15, the project has completed the local POC through Phase 6:
+As of 2026-07-31, the project has completed the local POC through Phase 7B plus Owner import hardening:
 
 - CSV parser
+- Text PDF parser
+- Compressed text PDF parser
+- Scanned/image-only PDF OCR fallback
 - Reconciliation engine
 - Local persistence
 - Kanban UI
 - Import preview
+- Inline import status and error feedback
 - Backup/restore
 - Manual overrides
 - Linked-record effective resolution
 - Import history/auditability
 - GitHub handoff documentation
+- Public Demo / Owner access boundary
+- Public-safe portfolio routes and screenshots
+- Portfolio landing-card integration contract
 
-Current next phase: Phase 7A - browser QA and UX hardening.
+Current next phase: portfolio websuite integration using the locked Public Demo Portfolio View routes. Hosted Owner mode remains deferred until backend auth, protected storage, and per-owner isolation exist.
 
 ## Recommended Access Model
 

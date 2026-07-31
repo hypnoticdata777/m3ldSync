@@ -1514,6 +1514,14 @@ function renderPortfolioHandoffPack() {
         <span>${escapeHtml(handoff.safeSurface)}</span>
       </div>
       <div class="handoff-grid">
+        <article class="handoff-item project">
+          <span>${escapeHtml(handoff.projectCard.category)}</span>
+          <strong>${escapeHtml(handoff.projectCard.name)} - ${escapeHtml(handoff.projectCard.headline)}</strong>
+          <small>${escapeHtml(handoff.projectCard.summary)}</small>
+          <button class="copy-action ${copiedCopyId === "handoff-card" ? "copied" : ""}" data-copy-id="handoff-card">
+            ${copiedCopyId === "handoff-card" ? "Copied" : "Copy"}
+          </button>
+        </article>
         <article class="handoff-item hero">
           <span>Hero Asset</span>
           <strong>${escapeHtml(handoff.heroScreenshot)}</strong>
@@ -1555,6 +1563,18 @@ function getCopyItem(copyId) {
   }
 
   const handoff = getPortfolioHandoff(currentRouteBase());
+  if (copyId === "handoff-card") {
+    return {
+      id: copyId,
+      text: [
+        handoff.projectCard.name,
+        handoff.projectCard.headline,
+        handoff.projectCard.summary,
+        handoff.projectCard.primaryRoute
+      ].join("\n")
+    };
+  }
+
   if (copyId === "handoff-hero") {
     return {
       id: copyId,
