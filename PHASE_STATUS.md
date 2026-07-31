@@ -30,6 +30,7 @@ Status: Complete
 - Owner import now accepts CSV plus text-based PDFs that expose the same Property Meld table columns, including Flate-compressed text streams.
 - Owner import now falls back to browser OCR for scanned/image-only PDFs.
 - Owner import now shows inline progress/error feedback during PDF text extraction and OCR.
+- Owner toolbar now explains accepted import types, locks during pending decisions, and uses compact mobile controls.
 
 ### Phase 2 - Reconciliation Engine
 
@@ -212,6 +213,7 @@ Completed:
 - Owner mode can review all current manual/import conflicts through the verification queue.
 - Owner mode has browser-verified private/local QA coverage for synthetic private CSV import, refresh persistence, idempotent re-import, stale marking, manual override retention, and exported backup restore round-trip.
 - Owner mode shows the full `7/7` walkthrough.
+- UI/UX friction pass confirmed desktop/mobile Owner workflows, scanned-PDF OCR preview, locked public portfolio routes, and handoff copy feedback.
 
 Important limitation:
 

@@ -58,6 +58,8 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Confirm image-only/scanned PDF imports fall back to OCR and normalize readable table text into the same import rows as CSV.
 - [x] Confirm rendered scans with no readable text fail with clear OCR guidance.
 - [x] Confirm slower PDF/OCR imports show inline progress or error status instead of leaving the user guessing.
+- [x] Confirm Owner import helper explains CSV, text PDF, compressed PDF, and scanned PDF support before upload.
+- [x] Confirm toolbar actions are disabled while an import/restore/reset decision is pending.
 
 ## Reconciliation Behavior
 
@@ -109,6 +111,8 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Check mobile-width browser.
 - [x] Confirm no obvious desktop text overlaps from screenshot review.
 - [x] Confirm no page-level horizontal desktop overflow.
+- [x] Confirm mobile toolbar actions use a compact two-column layout.
+- [x] Confirm checkbox controls render at normal checkbox size on mobile and desktop.
 - [x] Confirm board remains scrollable.
 - [x] Confirm detail panel remains usable.
 
@@ -117,6 +121,7 @@ These are covered by `src/qa.js` and `tests/qa.test.mjs`.
 - [x] Demo mode contains synthetic data only.
 - [x] Public Demo hides private CSV/PDF import.
 - [x] Public Demo hides PDF/OCR import progress and error status.
+- [x] Locked public portfolio routes hide the Owner switch while retaining the Public Demo lock.
 - [x] Public Demo hides backup, restore, and reset controls.
 - [x] Public Demo hides internal QA panel.
 - [x] Public Demo shows visitor-safe walkthrough steps only.

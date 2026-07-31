@@ -229,6 +229,8 @@ This log records terminal commands used during the build, why they were run, and
 | OCR import UX | `node scripts\validate.mjs` | Validate byte-preserving PDF decoding, OCR parser hardening, inline import status, and server syntax. | Passed syntax checks and 22 tests. |
 | Public demo safety | Browser check on `http://localhost:4174/` | Verify Public Demo still hides private import controls and import status. | Public Demo showed no `Import CSV/PDF`, no import status strip, and no console warnings/errors. |
 | Portfolio websuite contract | `node scripts\validate.mjs` | Validate landing-card handoff metadata, manifest sync, and updated portfolio tests. | Passed after adding project-card/copy/integration assertions. |
+| UI/UX friction pass | Browser QA on `http://localhost:4174/` | Audit Public Demo, Owner toolbar, CSV import preview, scanned-PDF OCR preview, mobile Owner, tablet portfolio route, and handoff copy feedback. | Found and fixed oversized checkbox styling, over-prominent Owner demo actions, stale CSV-only copy, missing accepted-import helper, and unlocked toolbar during pending decisions. |
+| UI/UX friction pass | `node scripts\validate.mjs` | Validate after Owner import helper, toolbar locking, checkbox/mobile CSS, and documentation updates. | Passed syntax checks and 22 tests. |
 
 ## Command Logging Rule
 

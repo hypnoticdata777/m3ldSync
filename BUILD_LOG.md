@@ -420,6 +420,43 @@ Resolution path:
 
 - `node scripts/validate.mjs` passed.
 
+## 2026-07-31 - UI/UX Friction Pass
+
+### Goal
+
+Run an end-to-end UI/UX pass and remove obvious friction from the Owner and Public Demo workflows.
+
+### Built
+
+- Updated Owner copy to mention CSV/PDF imports, OCR, and local-only backup restore behavior.
+- Added a compact accepted-import helper before upload.
+- De-emphasized demo-only actions in Owner mode so real import/backup actions read more clearly.
+- Disabled toolbar actions while import, restore, or reset decisions are pending.
+- Fixed checkbox styling so `Hide closed` renders as a normal checkbox instead of a text-field-sized control.
+- Added a mobile two-column toolbar layout to reduce first-screen friction on narrow viewports.
+
+### Good
+
+- Desktop Owner mode has clearer hierarchy and no horizontal overflow.
+- Mobile Owner mode has no horizontal overflow, normal checkbox sizing, and compact two-column toolbar actions.
+- CSV upload still opens Import Preview.
+- Scanned/image-only PDF OCR upload still opens Import Preview.
+- Locked Public Demo Portfolio View still hides owner controls and the Owner switch.
+- Websuite Handoff copy feedback changes to `Copied`.
+
+### Bad / Risks
+
+- OCR work can still take noticeable time on real scanned PDFs; current UX explains this, but future tuning may add progress percentages if needed.
+
+### Outcome
+
+The local POC now feels less ambiguous for Owner users and safer during import decisions, while the public portfolio surface remains locked down.
+
+### Validation
+
+- `node scripts/validate.mjs` passed with 22 tests.
+- Browser QA covered desktop Owner, mobile Owner at `390x844`, tablet Public Demo Portfolio View at `820x900`, CSV import preview, scanned-PDF OCR preview, and handoff copy feedback.
+
 ## 2026-07-31 - Owner CSV/PDF/OCR Import Compatibility
 
 ### Goal

@@ -210,6 +210,7 @@ function render() {
   selectedRecordId = selectedRecord?.id || "";
   const modeState = modeBadgeState();
   const isPortfolioView = accessMode === "public" && portfolioView;
+  const toolbarDisabled = toolbarLocked();
 
   app.innerHTML = `
     <header class="app-header">
@@ -229,11 +230,11 @@ function render() {
     <main class="workspace">
       ${isPortfolioView ? "" : `<section class="toolbar" aria-label="Import and filters">
         <div class="button-row">
-          <button id="demoBaseline">Load Demo Baseline</button>
-          <button id="demoFollowUp">Run Demo Follow-Up Import</button>
-          ${accessMode === "owner" ? renderOwnerControls() : ""}
+          <button id="demoBaseline" class="${accessMode === "owner" ? "ghost demo-action" : ""}" ${toolbarDisabled ? "disabled" : ""}>Load Demo Baseline</button>
+          <button id="demoFollowUp" class="${accessMode === "owner" ? "ghost demo-action" : ""}" ${toolbarDisabled ? "disabled" : ""}>Run Demo Follow-Up Import</button>
+          ${accessMode === "owner" ? renderOwnerControls(toolbarDisabled) : ""}
         </div>
-        ${accessMode === "owner" ? renderImportStatus() : ""}
+        ${accessMode === "owner" ? renderImportAssist() : ""}
         <div class="filter-row">
           <input id="search" type="search" value="${escapeAttr(filters.search)}" placeholder="Search ID, property, unit, description" />
           <select id="propertyFilter">${propertyOptions()}</select>
@@ -380,7 +381,7 @@ function renderAccessNotice() {
   return `
     <section class="access-notice owner" aria-label="Owner workspace data notice">
       <strong>Local owner workspace</strong>
-      <span>CSV imports and backup restores stay in this browser on this machine unless you export a backup file.</span>
+      <span>CSV/PDF imports, OCR, and backup restores stay in this browser on this machine unless you export a backup file.</span>
     </section>
   `;
 }
@@ -395,7 +396,7 @@ function renderProductionGate() {
     {
       label: "Owner Data",
       value: "Local only",
-      detail: "CSV imports, backup restore, notes, manual edits, and links stay in this browser."
+      detail: "CSV/PDF imports, OCR, backup restore, notes, manual edits, and links stay in this browser."
     },
     {
       label: "Public Demo",
@@ -813,19 +814,38 @@ function bindEvents() {
   }
 }
 
-function renderOwnerControls() {
+function renderOwnerControls(disabled = false) {
+  const disabledAttr = disabled ? "disabled" : "";
+  const disabledClass = disabled ? "disabled" : "";
   return `
     <span class="owner-divider"></span>
-    <label class="file-button">
-      Import CSV/PDF
-      <input id="csvInput" type="file" accept=".csv,text/csv,.pdf,application/pdf" />
+    <label class="file-button ${disabledClass}">
+      Import CSV or PDF
+      <input id="csvInput" type="file" accept=".csv,text/csv,.pdf,application/pdf" ${disabledAttr} />
     </label>
-    <button class="ghost" id="exportBackup">Export Backup</button>
-    <label class="file-button ghost-file">
+    <button class="ghost" id="exportBackup" ${disabledAttr}>Export Backup</button>
+    <label class="file-button ghost-file ${disabledClass}">
       Restore Backup
-      <input id="restoreInput" type="file" accept=".json,application/json" />
+      <input id="restoreInput" type="file" accept=".json,application/json" ${disabledAttr} />
     </label>
-    <button class="ghost" id="resetData">Reset Local Data</button>
+    <button class="ghost" id="resetData" ${disabledAttr}>Reset Local Data</button>
+  `;
+}
+
+function renderImportAssist() {
+  if (importStatus) {
+    return renderImportStatus();
+  }
+
+  if (pendingImport || pendingRestore || resetConfirmOpen) {
+    return "";
+  }
+
+  return `
+    <div class="import-hint">
+      <strong>Accepted imports</strong>
+      <span>CSV, text PDFs, compressed PDFs, and clear scanned PDFs. OCR runs locally and may take a moment.</span>
+    </div>
   `;
 }
 
@@ -841,6 +861,14 @@ function renderImportStatus() {
       <small>${escapeHtml(importStatus.detail)}</small>
     </div>
   `;
+}
+
+function importBusy() {
+  return Boolean(importStatus && importStatus.type !== "error");
+}
+
+function toolbarLocked() {
+  return importBusy() || Boolean(pendingImport || pendingRestore || resetConfirmOpen);
 }
 
 function renderImportPreview() {
