@@ -141,6 +141,7 @@ docs/portfolio              Synthetic portfolio screenshot assets and manifest
 
 ## Documentation
 
+- `docs/USER_WORKFLOW.md` - quickstart workflow and user-facing operational guide
 - `ROADMAP.md` - build phases and product direction
 - `PHASE_STATUS.md` - current completed phase and next blockers
 - `ARCHITECTURE.md` - data flow and domain model notes
@@ -155,4 +156,156 @@ docs/portfolio              Synthetic portfolio screenshot assets and manifest
 
 ## Current Status
 
-Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B public demo packaging is complete for now: use locked public preset routes such as `?surface=public&view=portfolio&preset=followup` plus `docs/portfolio` assets for the portfolio websuite. Owner mode supports CSV imports, text-based PDF imports, Flate-compressed text PDFs, and scanned/image-only PDF OCR fallback locally. Owner imports now show inline progress/error feedback while PDF text extraction or OCR is running. OCR quality depends on scan clarity and whether OCR can recover the expected Property Meld table columns. Owner mode remains local-only until real backend auth and protected storage exist.
+Phase 7A browser QA and UX hardening are complete for the local POC. Phase 7B public demo packaging is complete for now: use locked public preset routes such as `?surface=public&view=portfolio&preset=baseline` for the safe demo surface.
+
+## User Workflow Quickstart
+
+For a practical walkthrough of how the app is meant to be used, see `docs/USER_WORKFLOW.md`.
+
+This guide is intentionally written as the first stop for new users, contributors, and reviewers so they can understand the product flow before diving into architecture or build history.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
